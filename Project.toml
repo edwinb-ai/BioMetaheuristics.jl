@@ -3,9 +3,6 @@ uuid = "5da234d8-f532-44c9-a21d-453082011132"
 authors = ["Edwin Bedolla"]
 version = "0.1.0"
 
-[deps]
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
-
 [compat]
 julia = "1"
 
