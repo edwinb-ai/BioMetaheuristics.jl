@@ -1,6 +1,9 @@
-using Newtman
+import Newtman
 using Test
 
 @testset "Newtman.jl" begin
-    # Write your own tests here.
+    # Array version
+    @test Newtman.sphere(zeros(4)) ≈ 0.0
+    # Scalar version
+    @test Newtman.sphere(0.0) ≈ 0.0
 end

@@ -1,5 +1,5 @@
 module Newtman
 
-greet() = print("Hello World!")
+include("test-functions/functions.jl")
 
-end # module
+end
