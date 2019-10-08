@@ -1,13 +1,15 @@
-struct Sphere <: GlobalFunctions
+export Sphere
+
+struct Sphere <: UncGlobal
     cost
 end
 
-function sphere(x::AbstractArray)
+function _sphere(x::AbstractArray)
     return sum(x .^ 2)
 end
 
-function sphere(x::Real)
+function _sphere(x::Real)
     return sum(x ^ 2)
 end
 
-Sphere(x) = sphere(x)
+Sphere(x) = _sphere(x)
