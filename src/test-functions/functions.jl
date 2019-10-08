@@ -1,7 +1,3 @@
-function sphere(x::AbstractArray)
-    return sum(x .^ 2)
-end
+abstract type TestFunctions end
 
-function sphere(x::Real)
-    return sum(x ^ 2)
-end
+abstract type GlobalFunctions <: TestFunctions end
