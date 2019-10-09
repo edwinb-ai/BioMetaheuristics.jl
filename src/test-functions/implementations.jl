@@ -1,6 +1,6 @@
 export Sphere
 
-struct Sphere{T<:AbstractFloat} <: UnconstrainedGlobal
+struct Sphere{T<:AbstractFloat} <: Unconstrained
     cost::T
     Sphere{T}(cost) where {T<:AbstractFloat} = new(cost)
 end
