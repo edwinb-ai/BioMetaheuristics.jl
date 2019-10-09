@@ -1,8 +1,8 @@
 export Sphere
 
-struct Sphere <: UnconstrainedGlobal
-    cost::Real
-    Sphere() = new(0.0)
+struct Sphere{T<:AbstractFloat} <: UnconstrainedGlobal
+    cost::T
+    Sphere{T}(cost) where {T<:AbstractFloat} = new(cost)
 end
 
 function _sphere(x)
