@@ -6,7 +6,8 @@ abstract type UnconstrainedGlobal <: Unconstrained end
 
 export evaluate
 
-function evaluate(f::UnconstrainedGlobal, x)
-    val = f(x)
+function evaluate(f::Symbol, x)
+    @eval val = $f($x)
+    println(typeof(val))
     return val
 end

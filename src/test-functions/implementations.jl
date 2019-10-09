@@ -10,5 +10,3 @@ function _sphere(x)
 end
 
 Sphere(x::T) where T = _sphere(x)
-
-(::Sphere)(x::T) where T = _sphere(x)
