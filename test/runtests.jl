@@ -6,4 +6,11 @@ using Test
     @test Sphere(zeros(4)) ≈ 0.0
     # Scalar version
     @test Sphere(0.0) ≈ 0.0
+    # Default value
+    @test x = begin
+                val = Sphere()
+                val.cost == 0.0
+    end
+    # Evaluate the function
+    @test evaluate(Sphere(), 0.0) == 0.0
 end

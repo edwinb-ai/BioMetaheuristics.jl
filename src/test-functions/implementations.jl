@@ -2,8 +2,13 @@ export Sphere
 
 struct Sphere <: UnconstrainedGlobal
     cost::Real
+    Sphere() = new(0.0)
 end
 
-Sphere(x::Real) = sum(x ^ 2)
+function _sphere(x)
+    return sum(x .^ 2)
+end
 
-Sphere(x::AbstractArray) = sum(x .^ 2)
+Sphere(x::T) where T = _sphere(x)
+
+(::Sphere)(x::T) where T = _sphere(x)
