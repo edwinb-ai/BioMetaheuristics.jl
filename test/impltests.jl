@@ -9,8 +9,8 @@
 end
 
 @testset "Easom" begin
-    @test Easom(fill(3.0, 2)) ≈ -0.94156415
     @test_throws AssertionError Easom(zeros(4))
+    @test Easom(fill(3.0, 2)) ≈ -0.94156415
     @test Easom((π, π)) ≈ -1.0 # Check for minimum
     @test isa(evaluate(Easom(), (2.0, 4.0)), Number)
 end
