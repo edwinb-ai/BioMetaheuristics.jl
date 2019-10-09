@@ -8,8 +8,8 @@ using Test
     # Scalar version
     @test Sphere(0.0) ≈ 0.0
     @test Sphere(5.0) ≈ 25.0
-    # # Evaluate the function with a scalar
-    # @test evaluate(Sphere(), 0.0) == 0.0
-    # # Evaluate the function with an array
-    # @test evaluate(Sphere(), zeros(10)) == 0.0
+    # Evaluate the function with a scalar
+    @test evaluate(Sphere(), 0.0) == 0.0
+    # Evaluate the function with an array
+    @test evaluate(Sphere(), zeros(10)) == 0.0
 end
