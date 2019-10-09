@@ -1,6 +1,6 @@
 export Sphere
 
-struct Sphere <: UncGlobal
+struct Sphere <: UnconstrainedGlobal
     cost::Real
 end
 
