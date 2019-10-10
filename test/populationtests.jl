@@ -5,6 +5,7 @@
         actual_type = typeof(Vector{Particle}(undef, 20))
         pops ≡ actual_type
     end
+    @test_throws AssertionError Population(-1, 1.0, 1.0)
 end
 
 @testset "Particle" begin

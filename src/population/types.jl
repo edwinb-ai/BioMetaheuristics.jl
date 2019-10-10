@@ -35,9 +35,8 @@ function _particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
     x = a .+ (rand(T, n) * (b - a))
     v = a .+ (rand(T, n) * (b - a))
     x_best = rand(T, n)
-    new_particle = Particle(x, v, x_best, a, b)
 
-    return new_particle
+    return Particle(x, v, x_best, a, b)
 end
 
 """
@@ -47,9 +46,12 @@ mutable struct Population end
 """
 """
 function Population(dim, a, b)
+    @assert dim > 0 "Dimension is always positive"
+
     container = Vector{Particle}(undef, dim)
     for idx in eachindex(container)
         container[idx] = _particle(a, b, dim)
     end
+
     return container
 end
