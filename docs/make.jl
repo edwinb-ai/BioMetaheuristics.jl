@@ -10,7 +10,6 @@ makedocs(;
     repo="https://gitlab.com/developEdwin/Newtman.jl/blob/{commit}{path}#L{line}",
     sitename="Newtman.jl",
     authors="Edwin Bedolla",
-    assets=String[],
 )
 
 deploydocs(
