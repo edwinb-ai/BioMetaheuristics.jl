@@ -50,7 +50,7 @@ end
 function PSO(f::Function, population::AbstractArray, k_max::Int;
     w=1.0, c1=1.0, c2=1.0)
 
-    _pso!(f, population, k_max; w=w, c1=c1, c2=2)
+    _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
 
 """
@@ -58,5 +58,5 @@ end
 function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
     w=1.0, c1=1.0, c2=1.0)
 
-    _pso!(f, population, k_max; w=w, c1=c1, c2=2)
+    _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
