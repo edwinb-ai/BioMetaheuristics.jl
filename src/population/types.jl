@@ -45,10 +45,24 @@ mutable struct Population end
 
 """
 """
-function Population(num_particles, dim, a, b)
+function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
+    @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
     container = Vector{Particle}(undef, num_particles)
+    for idx in eachindex(container)
+        container[idx] = _particle(a, b, dim)
+    end
+
+    return container
+end
+
+"""
+"""
+function Population(dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
+    @assert dim > 0 "Dimension is always positive"
+
+    container = Vector{Particle}(undef, 5)
     for idx in eachindex(container)
         container[idx] = _particle(a, b, dim)
     end
