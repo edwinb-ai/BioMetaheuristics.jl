@@ -16,7 +16,7 @@ include("implementations.jl")
 
 export evaluate
 
-test_functions = Dict([(:Sphere, :_sphere), (:Easom, :_easom)])
+test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom])
 
 function _create_methods(d::Dict)
     for (k, v) in d
