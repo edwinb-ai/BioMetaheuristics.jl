@@ -16,7 +16,7 @@ function _pso!(f, population::AbstractArray, k_max::Int;
         end
     end
 
-    for k in 1:k_max
+    @inbounds for k in 1:k_max
         for P in population
             r1 = rand(n)
             r2 = rand(n)
