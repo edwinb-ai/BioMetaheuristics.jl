@@ -8,15 +8,15 @@ pages:
   image: julia:1.2
   stage: deploy
   script:
-    - julia --project=docs -e "
+    - julia --project=docs -e '
           using Pkg;
           Pkg.develop(PackageSpec(path=pwd()));
           Pkg.instantiate();
-          include("docs/make.jl");"
+          include("docs/make.jl");'
     - mkdir -p public
     - mv docs/build public/dev
   artifacts:
     paths:
-      - public
+      - dev
   only:
     - pages
