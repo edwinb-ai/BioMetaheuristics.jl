@@ -12,6 +12,6 @@ makedocs(;
     authors="Edwin Bedolla",
 )
 
-deploydocs(
-    repo="https://gitlab.com/developEdwin/newtman.jl.git"
-)
+# deploydocs(
+#     repo="https://gitlab.com/developEdwin/newtman.jl.git"
+# )
