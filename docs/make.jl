@@ -14,6 +14,5 @@ makedocs(;
 )
 
 deploydocs(
-    repo="https://gitlab.com/developEdwin/newtman.jl.git",
-    branch="pages",
+    repo="https://gitlab.com/developEdwin/newtman.jl.git"
 )
