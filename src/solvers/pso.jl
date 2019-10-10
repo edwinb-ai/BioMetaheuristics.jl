@@ -2,14 +2,6 @@
 """
 struct PSO <: PopulationBase end
 
-function _evaluate_cost(f::TestFunctions, population::T) where {T<:AbstractArray}
-    return evaluate(f, population)
-end
-
-function _evaluate_cost(f::Function, population::T) where {T<:AbstractArray}
-    return f(population)
-end
-
 function _pso!(f, population::AbstractArray, k_max::Int;
     w=1.0, c1=1.0, c2=1.0)
 
@@ -49,6 +41,7 @@ function _pso!(f, population::AbstractArray, k_max::Int;
             end
         end
     end
+
     return population[1].x_best
 end
 
@@ -57,7 +50,7 @@ end
 function PSO(f::Function, population::AbstractArray, k_max::Int;
     w=1.0, c1=1.0, c2=1.0)
 
-    return _pso!(f, population, k_max; w=w, c1=c1, c2=2)
+    _pso!(f, population, k_max; w=w, c1=c1, c2=2)
 end
 
 """
