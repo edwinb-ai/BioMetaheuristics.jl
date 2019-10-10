@@ -9,9 +9,13 @@ mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
     min_dim::V
     max_dim::V
 
-    Particle{T, V}(x::T, v::T, x_best::T, a::V, b::V) where
-        {T<:AbstractArray, V<:AbstractFloat} =
-        new(x, v, x_best, a, b)
+    function Particle{T, V}(x::T, v::T, x_best::T, a::V, b::V) where
+        {T<:AbstractArray, V<:AbstractFloat}
+
+        @assert length(x) == length(v) == length(x_best) "Dimension must be unique"
+
+        return new(x, v, x_best, a, b)
+    end
 end
 
 Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:AbstractFloat} =
