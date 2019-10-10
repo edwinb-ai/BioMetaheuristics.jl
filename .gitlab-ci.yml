@@ -15,8 +15,7 @@ pages:
     Pkg.develop(PackageSpec(path=pwd()));
     Pkg.instantiate();
     include("docs/make.jl");'
-  - mkdir -p public
-  - mv docs/build public
+  - cp -r docs/build public
   artifacts:
     paths:
       - public
