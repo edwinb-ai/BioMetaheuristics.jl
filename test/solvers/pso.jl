@@ -1,7 +1,8 @@
 @testset "PSO" begin
-    @test result = begin
-        pops = Vector{Individual}(undef, 20)
-        construct = Population(20, -10.0, 10.0)
-        return pops ≡ construct
+    # Check that type and dimension are correct
+    @test let
+        pops = typeof(Population(20, -10.0, 10.0))
+        actual_type = typeof(Vector{Particle}(undef, 20))
+        pops ≡ actual_type
     end
 end

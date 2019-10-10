@@ -1,15 +1,16 @@
 abstract type Individual end
 
-export Individual, Particle, Population
+export Particle, Population
 
-mutable struct Particle{T<:AbstractArray, V<:Real} <: Individual
+mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
     x::T
     v::T
     x_best::T
     min_dim::V
     max_dim::V
 
-    Particle{T, V}(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:Real} =
+    Particle{T, V}(x::T, v::T, x_best::T, a::V, b::V) where
+        {T<:AbstractArray, V<:AbstractFloat} =
         new(x, v, x_best, a, b)
 end
 
@@ -30,7 +31,7 @@ end
 mutable struct Population end
 
 function Population(dim, a, b)
-    container = Vector{Individual}(undef, dim)
+    container = Vector{Particle}(undef, dim)
     for idx in eachindex(container)
         container[idx] = _particle(a, b, dim)
     end
