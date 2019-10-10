@@ -5,3 +5,5 @@ abstract type Metaheuristic <: Solver end
 abstract type PopulationBase <: Metaheuristic end
 
 include("pso.jl")
+
+export PSO

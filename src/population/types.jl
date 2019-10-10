@@ -45,10 +45,10 @@ mutable struct Population end
 
 """
 """
-function Population(dim, a, b)
+function Population(num_particles, dim, a, b)
     @assert dim > 0 "Dimension is always positive"
 
-    container = Vector{Particle}(undef, dim)
+    container = Vector{Particle}(undef, num_particles)
     for idx in eachindex(container)
         container[idx] = _particle(a, b, dim)
     end
