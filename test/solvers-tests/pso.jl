@@ -8,4 +8,11 @@
         end
         all(assert_results)
     end
+
+    @test let
+        val = PSO(Easom(), Population(25, 2, -100.0, 100.0), 80;
+            w=0.5, c1=0.25, c2=1.5)
+        design = [π, π]
+        val ≈ design
+    end
 end
