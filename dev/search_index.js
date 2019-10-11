@@ -1,0 +1,3 @@
+var documenterSearchIndex = {"docs":
+[{"location":"benchmarks/#","page":"Types","title":"Types","text":"Modules = [Newtman]\nPages = [\"functions.jl\"]","category":"page"},{"location":"benchmarks/#Newtman.TestFunctions","page":"Types","title":"Newtman.TestFunctions","text":"TestFunctions\n\nAbstract supertype for all benchmark functions.\n\n\n\n\n\n","category":"type"},{"location":"benchmarks/#Newtman.Unconstrained","page":"Types","title":"Newtman.Unconstrained","text":"Unconstrained\n\nAbstract supertype for all unconstrained benchmark functions.\n\n\n\n\n\n","category":"type"},{"location":"#Newtman.jl-1","page":"Home","title":"Newtman.jl","text":"","category":"section"},{"location":"#","page":"Home","title":"Home","text":"","category":"page"}]
+}
