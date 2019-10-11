@@ -7,11 +7,11 @@ makedocs(;
         "Home" => "index.md",
         "Types" => "benchmarks.md",
     ],
-    repo="https://gitlab.com/developEdwin/Newtman.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/developEdwin/Newtman.jl/blob/{commit}{path}#{line}",
     sitename="Newtman.jl",
     authors="Edwin Bedolla",
 )
 
-# deploydocs(
-#     repo="https://gitlab.com/developEdwin/newtman.jl.git"
-# )
+deploydocs(
+    repo="https://github.com/edwinb-ai/Newtman.jl.git"
+)
