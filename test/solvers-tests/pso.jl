@@ -8,8 +8,9 @@
                 push!(assert_results, ≈(val, zeros(i), atol=0.1))
             end
         end
-        # if at least 97/100 pass, the it has converged
-        if count(assert_results) >= 97
+        # if at least 97% of the time converges, the test passes
+        # 900 * .97 = 873
+        if count(assert_results) >= 873
             true
         end
     end
