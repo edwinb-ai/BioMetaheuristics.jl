@@ -1,11 +1,12 @@
 """
+    Individual
+
+Abstract super-type for types that contain their own information.
 """
 abstract type Individual end
 
 export Particle, Population
 
-"""
-"""
 mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
     x::T
     v::T
@@ -23,13 +24,45 @@ mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
 end
 
 """
+    Particle(x::T, v::T, x_best::T, a::V, b::V)
+        where {T<:AbstractArray, V<:AbstractFloat}
+
+A type that can hold information about current position, current velocity,
+the _best_ candidate to a solution, as well as defining the bounds.
+The dimensions of the `Particle` are inferred from the length of the arrays.
+
+# Arguments
+- `x`: Array that holds the **positions** of possible solutions.
+- `v`: Array that holds **velocities** related to `x`.
+- `x_best`: An element of `x` that determines the best position for the particle.
+- `a`: lower bound for `x`
+- `b`: upper bound for `v`
+
+# Example
+```julia
+p = Particle(zeros(3), rand(3), zeros(3), -1.0, 1.0)
+```
 """
 Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:AbstractFloat} =
     Particle{T, V}(x, v, x_best, a, b)
 
 """
+    Particle(a::T, b::T, n::V)
+        where {T<:AbstractFloat, V<:Int}
+
+`Particle` that can be created randomly using the bounds and the dimension needed.
+
+# Arguments
+- `a`: lower bound for `x`
+- `b`: upper bound for `v`
+- `n`: dimension for `x`, `v`, and `x_best`.
+
+# Example
+```julia
+p = Particle(-1.0, 1.0, 3)
+```
 """
-function _particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
+function Particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
     @assert n > 0 "Dimension is always positive"
 
     x = a .+ (rand(T, n) * (b - a))
@@ -39,11 +72,25 @@ function _particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
     return Particle(x, v, x_best, a, b)
 end
 
-"""
-"""
 mutable struct Population end
 
 """
+    Population(num_particles::T, dim::T, a::V, b::V)
+        where {T<:Int, V<:AbstractFloat} -> Vector{Particle}(undef, num_particles)
+
+An array of `Particle`s where each of them are bounded and are given a dimension. This is
+essentially a multi-dimensional array. It makes handling `Particle`s much easier.
+
+# Arguments
+- `num_particles`: Number of particles in the `Population`.
+- `dim`: Dimension for every `Particle`.
+- `a`: Lower bound for every `Particle`, this is shared across every instance.
+- `b`: Upper bound for every `Particle`, this is shared across every instance.
+
+# Example
+```julia
+pop = Population(35, 4, -1.0, 1.0)
+```
 """
 function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
@@ -51,20 +98,34 @@ function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:Abst
 
     container = Vector{Particle}(undef, num_particles)
     for idx in eachindex(container)
-        container[idx] = _particle(a, b, dim)
+        container[idx] = Particle(a, b, dim)
     end
 
     return container
 end
 
 """
+    Population(dim::T, a::V, b::V)
+        where {T<:Int, V<:AbstractFloat} -> Vector{Particle}(undef, num_particles)
+
+If `num_particles` is not provided, it defaults to 5 `Particle`s in the `Population`.
+
+# Arguments
+- `dim`: Dimension for every `Particle`.
+- `a`: Lower bound for every `Particle`, this is shared across every instance.
+- `b`: Upper bound for every `Particle`, this is shared across every instance.
+
+# Example
+```julia
+pop = Population(4, -1.0, 1.0) # The same as Population(5, 4, -1.0, 1.0)
+```
 """
 function Population(dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
 
     container = Vector{Particle}(undef, 5)
     for idx in eachindex(container)
-        container[idx] = _particle(a, b, dim)
+        container[idx] = Particle(a, b, dim)
     end
 
     return container
