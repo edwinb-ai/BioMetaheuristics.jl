@@ -1,4 +1,4 @@
 ```@autodocs
 Modules = [Newtman]
-Pages = ["functions.jl"]
+Pages = ["functions.jl", "implementations.jl"]
 ```

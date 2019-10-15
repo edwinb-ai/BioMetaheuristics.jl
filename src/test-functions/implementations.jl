@@ -1,5 +1,16 @@
 export Sphere, Easom
 
+@doc raw"""
+    Sphere
+
+An unconstrained implementation of the Sphere function defined as
+
+```math
+f(\mathbf{x}) = \sum_{i=1}^{d} x_i^2
+```
+
+where ``d`` is the dimension of the input vector ``\mathbf{x}``.
+"""
 struct Sphere <: Unconstrained end
 
 function _sphere(x)
