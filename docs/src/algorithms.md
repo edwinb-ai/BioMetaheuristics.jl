@@ -1,4 +1,4 @@
 ```@autodocs
 Modules = [Newtman]
-Pages = ["solvers/pso.jl"]
+Pages = ["solvers/pso.jl", "solvers/solvers.jl"]
 ```
