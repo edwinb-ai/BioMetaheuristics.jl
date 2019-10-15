@@ -1,10 +1,12 @@
 """
+    Individual
 """
 abstract type Individual end
 
 export Particle, Population
 
 """
+    Particle
 """
 mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
     x::T
@@ -23,12 +25,11 @@ mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
 end
 
 """
+    Particle
 """
 Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:AbstractFloat} =
     Particle{T, V}(x, v, x_best, a, b)
 
-"""
-"""
 function _particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
     @assert n > 0 "Dimension is always positive"
 
@@ -40,10 +41,12 @@ function _particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
 end
 
 """
+    Population
 """
 mutable struct Population end
 
 """
+    Population
 """
 function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
@@ -58,6 +61,7 @@ function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:Abst
 end
 
 """
+    Population
 """
 function Population(dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
