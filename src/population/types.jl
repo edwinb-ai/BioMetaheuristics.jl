@@ -24,7 +24,8 @@ mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
 end
 
 """
-    Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:AbstractFloat}
+    Particle(x::T, v::T, x_best::T, a::V, b::V)
+        where {T<:AbstractArray, V<:AbstractFloat}
 
 A type that can hold information about current position, current velocity,
 the _best_ candidate to a solution, as well as defining the bounds.
@@ -46,7 +47,8 @@ Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:Abstract
     Particle{T, V}(x, v, x_best, a, b)
 
 """
-    Particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
+    Particle(a::T, b::T, n::V)
+        where {T<:AbstractFloat, V<:Int}
 
 `Particle` that can be created randomly using the bounds and the dimension needed.
 
@@ -73,7 +75,22 @@ end
 mutable struct Population end
 
 """
-    Population
+    Population(num_particles::T, dim::T, a::V, b::V)
+        where {T<:Int, V<:AbstractFloat} -> Vector{Particle}(undef, num_particles)
+
+An array of `Particle`s where each of them are bounded and are given a dimension. This is
+essentially a multi-dimensional array. It makes handling `Particle`s much easier.
+
+# Arguments
+- `num_particles`: Number of particles in the `Population`.
+- `dim`: Dimension for every `Particle`.
+- `a`: Lower bound for every `Particle`, this is shared across every instance.
+- `b`: Upper bound for every `Particle`, this is shared across every instance.
+
+# Example
+```julia
+pop = Population(35, 4, -1.0, 1.0)
+```
 """
 function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
@@ -88,7 +105,20 @@ function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:Abst
 end
 
 """
-    Population
+    Population(dim::T, a::V, b::V)
+        where {T<:Int, V<:AbstractFloat} -> Vector{Particle}(undef, num_particles)
+
+If `num_particles` is not provided, it defaults to 5 `Particle`s in the `Population`.
+
+# Arguments
+- `dim`: Dimension for every `Particle`.
+- `a`: Lower bound for every `Particle`, this is shared across every instance.
+- `b`: Upper bound for every `Particle`, this is shared across every instance.
+
+# Example
+```julia
+pop = Population(4, -1.0, 1.0) # The same as Population(5, 4, -1.0, 1.0)
+```
 """
 function Population(dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
