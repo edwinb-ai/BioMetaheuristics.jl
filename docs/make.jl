@@ -6,6 +6,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Types" => "benchmarks.md",
+        "Algorithms" => "algorithms.md",
     ],
     sitename="Newtman.jl",
     authors="Edwin Bedolla",

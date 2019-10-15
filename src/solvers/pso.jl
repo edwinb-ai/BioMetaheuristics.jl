@@ -1,8 +1,37 @@
 """
+    PSO
+
+`PSO` is the type associated with the implementation for the
+Particle Swarm Optimization as implemented in the
+[Algorithms for Optimization](Kochenderfer, M. J., & Wheeler, T. A. (2019). Algorithms for optimization. MIT Press.
+) book.
 """
 struct PSO <: PopulationBase end
 
 """
+    PSO
+
+Method that implements `PSO` for a `Function` type.
+
+# Examples
+```jldoctest
+using Newtman
+
+# Define the Sphere function
+function f_sphere(x)
+    return sum(x .^ 2)
+end
+
+# Implement PSO for a 3-dimensional Sphere function, with
+# 100 iterations and 30 particles in the population.
+val = PSO(f_sphere, Population(30, 3, -5.0, 5.0), 100;
+    w=0.5, c1=0.25, c2=1.5)
+
+val ≈ zeros(3)
+
+# output
+true
+```
 """
 function PSO(f::Function, population::AbstractArray, k_max::Int;
     w=1.0, c1=1.0, c2=1.0)

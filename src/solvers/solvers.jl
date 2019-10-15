@@ -1,7 +1,13 @@
+"""
+"""
 abstract type Solver end
 
+"""
+"""
 abstract type Metaheuristic <: Solver end
 
+"""
+"""
 abstract type PopulationBase <: Metaheuristic end
 
 function _evaluate_cost(f::TestFunctions, population::T) where {T<:AbstractArray}
