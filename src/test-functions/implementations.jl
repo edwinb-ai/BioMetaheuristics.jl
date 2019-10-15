@@ -3,7 +3,7 @@ export Sphere, Easom
 @doc raw"""
     Sphere
 
-An unconstrained implementation of the Sphere function defined as
+An unconstrained implementation of the Sphere function defined as:
 
 ```math
 f(\mathbf{x}) = \sum_{i=1}^{d} x_i^2
@@ -17,6 +17,19 @@ function _sphere(x)
     return sum(x .^ 2)
 end
 
+@doc raw"""
+    Easom
+
+An unconstrained implementation of the 2-dimensional
+Easom function defined as:
+
+```math
+f(\mathbf{x}) = -\cos{(x_1)} \cos{(x_2)} \exp{[-(x_1 - \pi)^2 - (x_2 - \pi)^2]}
+```
+
+where ``x_1`` and ``x_2`` refer to the first and second element of the
+input vector ``\mathbf{x}``.
+"""
 struct Easom <: Unconstrained end
 
 function _easom(x)
