@@ -5,9 +5,7 @@
 Particle Swarm Optimization as implemented in the original paper
 by Kennedy and Eberhart.[^1]
 
-[^1]: Eberhart, R., & Kennedy, J. (1995, November).
-Particle swarm optimization. In Proceedings of the IEEE
-international conference on neural networks (Vol. 4, pp. 1942-1948).
+[^1]: Eberhart, R., & Kennedy, J. (1995, November). Particle swarm optimization. In Proceedings of the IEEE international conference on neural networks (Vol. 4, pp. 1942-1948).
 """
 struct PSO <: PopulationBase end
 
