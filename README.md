@@ -13,9 +13,9 @@ This is an example of using [Particle Swarm Optimization](https://en.wikipedia.o
 to solve an unconstrained problem, namely, the [Sphere function](https://www.sfu.ca/~ssurjano/spheref.html) defined
 as
 
-$$ f(\mathcal{x}) = \sum_{i=1}^{d} x_i^2 $$
+> <a href="https://www.codecogs.com/eqnedit.php?latex=\large&space;f(\mathbf{x})&space;=&space;\sum_{i=1}^{d}&space;x_i^2" target="_blank"><img src="https://latex.codecogs.com/png.latex?\large&space;f(\mathbf{x})&space;=&space;\sum_{i=1}^{d}&space;x_i^2" title="\large f(\mathbf{x}) = \sum_{i=1}^{d} x_i^2" /></a>
 
-where $d \in \mathbb{R}$ is the dimension of the problem.
+where `d` is any integer, i.e. the dimension of the problem.
 ```julia
 using Newtman
 
