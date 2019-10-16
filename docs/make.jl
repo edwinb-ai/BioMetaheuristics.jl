@@ -5,7 +5,9 @@ makedocs(;
     format=Documenter.HTML(),
     pages=[
         "Home" => "index.md",
-        "Refence" => "reference.md",
+        "Guide" => "guide.md",
+        "Reference" => "reference.md",
+        "License" => "license.md",
     ],
     sitename="Newtman.jl",
     authors="Edwin Bedolla",
