@@ -60,14 +60,14 @@ applied to the given problem. [^5]
 In scientific computing, the [Julia programming language](https://julialang.org) has been an excellent tool to get rid of the
 two language problem, i.e. when there is a need for high perfomance calculations but with low level manipulation, problems
 can be harder to code and even harder to solve.
-`Julia` is a great candidate to solve this problem, and this package attempts to prove that by high perfomant code and
+`Julia` is a great candidate to solve this problem, and this package attempts to prove that by providing high perfomant code and
 implementations.
 
 ## Contents of `Newtman.jl`
 
 The following **algorithms** are implemented:
 
-- Particle Swarm Optimization[^4]
+- Particle Swarm Optimization [^4]
 
 Also, the following **benchmark functions** are implemented:
 
