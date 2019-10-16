@@ -1,8 +1,3 @@
-# Newtman.jl
-
-This is `Newtman.jl`, an stochastic optimization package that implements
-a number of metaheuristic algorithms, mostly nature-inspired and bio-inspired.
-
 ## On Metaheuristics
 
 The term _metaheuristic_ has a some history behind it, and a large span of definitions
@@ -57,7 +52,7 @@ applied to the given problem. [^5]
 
 ### About using `Julia`
 
-In scientific computing, the [Julia programming language](https://julialang.org) has been an excellent tool to get rid of the
+In scientific computing, the [Julia programming language](www.julialang.org) has been an excellent tool to get rid of the
 two language problem, i.e. when there is a need for high perfomance calculations but with low level manipulation, problems
 can be harder to code and even harder to solve.
 `Julia` is a great candidate to solve this problem, and this package attempts to prove that by high perfomant code and
