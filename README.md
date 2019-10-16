@@ -41,3 +41,19 @@ this **will** change every time):
  1.0513231280505062e-5]
 ```
 which is reasonably the _true global minima_ within a certain tolerance.
+
+## Installation
+
+`Newtman.jl` is _not_ in the official Registry yet; instead, you can install by one of the following
+```julia
+using Pkg
+
+Pkg.add("https://github.com/edwinb-ai/Newtman.jl.git")
+```
+
+or in the Julia REPL
+```julia
+julia>]     # Type ] to enter Pkg
+
+pkg> add https://github.com/edwinb-ai/Newtman.jl.git
+```
