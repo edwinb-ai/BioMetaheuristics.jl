@@ -2,10 +2,10 @@
     PSO
 
 `PSO` is the type associated with the implementation for the
-Particle Swarm Optimization as implemented in the original paper
-by Kennedy and Eberhart.[^1]
+Particle Swarm Optimization with momentum as implemented in the book by
+Eberhart, Shi & Kennedy.[^1]
 
-[^1]: Eberhart, R., & Kennedy, J. (1995, November). Particle swarm optimization. In Proceedings of the IEEE international conference on neural networks (Vol. 4, pp. 1942-1948).
+[^1]: Eberhart, R. C., Shi, Y., & Kennedy, J. (2001). Swarm intelligence. Elsevier.
 """
 struct PSO <: PopulationBase end
 
