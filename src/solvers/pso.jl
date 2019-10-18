@@ -11,7 +11,7 @@ struct PSO <: PopulationBase end
 
 """
     PSO(f::Function, population::AbstractArray, k_max::Int;
-        w=1.0, c1=1.0, c2=1.0)
+        w=0.9, c1=2.0, c2=2.0)
 
 Method that implements `PSO` for a function `f` of type `Function`.
 
@@ -45,14 +45,14 @@ val = PSO(f_sphere, Population(25, 3, -15.0, 15.0), 45;
 ```
 """
 function PSO(f::Function, population::AbstractArray, k_max::Int;
-    w=1.0, c1=1.0, c2=1.0)
+    w=0.9, c1=2.0, c2=2.0)
 
     _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
 
 """
     PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
-        w=1.0, c1=1.0, c2=1.0)
+        w=0.9, c1=2.0, c2=2.0)
 
 Method that implements `PSO` for a function `f` of type `TestFunctions`.
 
@@ -82,7 +82,7 @@ val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 45;
 ```
 """
 function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
-    w=1.0, c1=1.0, c2=1.0)
+    w=0.9, c1=2.0, c2=2.0)
 
     _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
@@ -96,12 +96,10 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best)
         # Evaluate velocity
         P.v = (w * P.v) + (c1 * r1 .* (P.x_best - P.x)) +
             (c2 * r2 .* (x_best - P.x))
-        # Clip upper bound
-        broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.x, P.x)
-        # Clip lower bound
-        broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.x, P.x)
+        # Apply boundary values
+        _clip_positions_velocities!(P)
+        # Update values if they give lower cost
         y = _evaluate_cost(f, P.x)
-
         if y < y_best
             x_best[:] = P.x
             y_best = y
@@ -114,7 +112,10 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best)
 end
 
 function _pso!(f, population::AbstractArray, k_max::Int;
-    w=1.0, c1=1.0, c2=1.0)
+    w=0.9, c1=2.0, c2=2.0)
+
+    # Weight decay rate
+    η = _weight_decay(w, k_max)
 
     n = length(population[1].x) # dimension
     x_best = similar(population[1].x_best)
@@ -127,9 +128,31 @@ function _pso!(f, population::AbstractArray, k_max::Int;
         end
     end
 
-    @inbounds for k in 1:k_max
+    for k in 1:k_max
         _update!(f, population, w, c1, c2, n, x_best, y_best)
+        # Make the inertia weight decay over time
+        w -= η
     end
 
     return population[1].x_best
+
+end
+
+function _weight_decay(initial, itr_max)
+    # Following the references, the minimum is 0.4
+    stop = 0.4
+    step_size = (initial - stop) / itr_max
+
+    return step_size
+end
+
+function _clip_positions_velocities!(P)
+    # Clip upper bound
+    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.x, P.x)
+    # Clip lower bound
+    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.x, P.x)
+    # Clip upper bound
+    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.v, P.v)
+    # Clip lower bound
+    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
