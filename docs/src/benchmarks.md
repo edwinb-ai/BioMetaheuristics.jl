@@ -6,27 +6,28 @@ review[^1]:
 - [`Sphere`](@ref)
   
   The `Sphere` function is defined as:
-
-  $$f(\mathbf{x}) = \sum_{i=1}^{d} x_i^2 $$
-
-  with $d$ the dimension of the _design_ vector $\mathbf{x}$,
-  subject to $0 \leq x_i \leq 10$.
+  ```math
+  f(\mathbf{x}) = \sum_{i=1}^{d} x_i^2
+  ```
+  with ``d`` the dimension of the _design_ vector ``\mathbf{x}``,
+  subject to ``0 \leq x_i \leq 10``.
 
   - The **minimum** is
-
-    $$f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)$$
-
+    ```math
+    f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)
+    ```
 - [`Easom`](@ref)
   
   The `Easom` function is defined as:
-
-  $$ f(\mathbf{x}) = -\cos{(x_1)} \cos{(x_2)} \exp{[-(x_1 - \pi)^2 - (x_2 - \pi)^2]}$$
-
-  where the _design_ vector is a 2-D vector only, subject to $-100 \leq x_i \leq 100$.
+  ```math
+  f(\mathbf{x}) = -\cos{(x_1)} \cos{(x_2)} \exp{[-(x_1 - \pi)^2 - (x_2 - \pi)^2]}
+  ```
+  where the _design_ vector is a 2-D vector only, subject to ``-100 \leq x_i \leq 100``.
 
   - The function has the following **minimum**:
-
-    $$f(\mathbf{x^*}) = -1, \quad \mathbf{x^*} = (\pi, \pi)$$
+    ```math
+    f(\mathbf{x^*}) = -1, \quad \mathbf{x^*} = (\pi, \pi)
+    ```
 
 ### References
 
