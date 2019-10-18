@@ -131,6 +131,10 @@ If, on the other hand, we rely on the number of **maximum iterations** then we c
 for the number of _maximum iterations_ then it has converged. Is that so? At least, in the realm of [approximation algorithms](https://en.wikipedia.org/wiki/Approximation_algorithm)
 we can safely claim that this is true.
 
+But don't take my word for it, in reality this is a very serious mathematical topic and should not be taken so slightly. Actually, every algorithm
+ever implemented must have a **convergence analysis** carried out for it, to ensure that either it will stop at some time or that it will
+given the desired result.
+
 ### References
 [^1]: https://en.wikipedia.org/wiki/Mathematical_optimization#History
 [^2]: https://web.stanford.edu/group/sisl/k12/optimization/MO-unit1-pdfs/1.1optimization.pdf
