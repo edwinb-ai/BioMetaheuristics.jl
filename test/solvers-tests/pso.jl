@@ -8,7 +8,7 @@ end
         assert_results = []
         for k = 1:50
             val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000)
-            push!(assert_results, ≈(val, zeros(30), atol=1e-13))
+            push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
@@ -35,7 +35,7 @@ end
         assert_results = []
         for k = 1:50
             val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000)
-            push!(assert_results, ≈(val, zeros(30), atol=1e-13))
+            push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
