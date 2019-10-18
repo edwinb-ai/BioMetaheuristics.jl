@@ -5,7 +5,7 @@ end
 @testset "PSO" begin
 
     @test let
-        val = PSO(Sphere(), Population(30, 30, 0.0, 10.0), 10000)
+        val = PSO(Sphere(), Population(30, 30, -100.0, 100.0), 20000)
         println(val)
         println((f_sphere(val)))
     end

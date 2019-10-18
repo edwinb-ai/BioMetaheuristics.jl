@@ -91,12 +91,12 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best)
     for P in population
         r1 = rand(n)
         r2 = rand(n)
-        # Update position
-        P.x += P.v
         # Evaluate velocity
         P.v = (w * P.v) + (c1 * r1 .* (P.x_best - P.x)) +
             (c2 * r2 .* (x_best - P.x))
-        # Apply boundary values
+        # Update position
+        P.x += P.v
+        # Apply boundary values to positions and velocities
         _clip_positions_velocities!(P)
         # Update values if they give lower cost
         y = _evaluate_cost(f, P.x)
