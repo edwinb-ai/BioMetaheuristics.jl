@@ -4,8 +4,9 @@ The following **algorithms** are implemented:
 
 - `Particle Swarm Optimization` [^1]
   This implementation is the modified Particle Swarm Optimization where it employs an inertia weight ``\omega``
-  that controls convergence. This implementation **does not** use _linear decay_ for the inertia weight, but may be included in the future.
-  The update rules for the particles are the following:
+  that controls convergence. This implementation uses _linear decay_ for the inertia weight, which lowers the value of 
+  ``\omega`` until it reaches the default minimum of ``\omega = 0.4``.
+  The **update rules** for the particles are the following:
 
   ```math
   x_{i+1} = x_i + v_{i+1} \\
