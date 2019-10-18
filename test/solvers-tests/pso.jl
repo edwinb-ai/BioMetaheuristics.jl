@@ -5,26 +5,19 @@ end
 @testset "PSO" begin
 
     @test let
-        val = PSO(Sphere(), Population(30, 30, -100.0, 100.0), 20000)
-        println(val)
-        println((f_sphere(val)))
+        assert_results = []
+        for k = 1:50
+            for i = 2:30
+                val = PSO(Sphere(), Population(30, i, -10.0, 10.0), 20000)
+                push!(assert_results, ≈(val, zeros(i), atol=1e-13))
+            end
+        end
+        # if at least 97% of the time converges, the test passes
+        # 150 * .97 = 145
+        if count(assert_results) >= 145
+            true
+        end
     end
-
-    # @test let
-    #     assert_results = []
-    #     for k = 1:1
-    #         for i = 2:2
-    #             val = PSO(Sphere(), Population(30, i, -5.0, 5.0), 100)
-    #             println(val)
-    #             push!(assert_results, ≈(val, zeros(i), atol=0.1))
-    #         end
-    #     end
-    #     # if at least 97% of the time converges, the test passes
-    #     # 900 * .97 = 873
-    #     if count(assert_results) >= 873
-    #         true
-    #     end
-    # end
 
     # @test let
     #     assert_results = []
