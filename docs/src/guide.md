@@ -9,3 +9,8 @@ This package should/could be used by:
 - **Researchers**: who want to employ different algorithms at once, test them or use them
   as comparison for their own developed algorithms.
 
+TODO
+- Examples
+- Basic optimization theory
+- basics of metaheuristics
+- Convergence
