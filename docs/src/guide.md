@@ -119,7 +119,17 @@ This is a very, very small space to talk about optimization, but the following r
 
 ## On Convergence
 
-**Convergence**
+**Convergence** is a very strong word in mathematics, and it actually has lots of definitions depending on the specific branch of mathametics
+it is used. Here we shall use the _numerical analysis_ definition, which is simply stated as a limit. We wish to obtain a value, whatever it is,
+in a finite time.
+
+We may employ _tolerance_ values where we argue that a given solution is **close to** the real value that I know of. We can see this in the example
+above, where we know that the true value is a _vector_ filled with zeros, but we don't actually obtain zeros, instead we get _close_ values to zeros
+within a certain _tolerance_: in this scenario we can say that the optimization algorithm **has converged**.
+
+If, on the other hand, we rely on the number of **maximum iterations** then we can safely claim that when the algorithm has run
+for the number of _maximum iterations_ then it has converged. Is that so? At least, in the realm of [approximation algorithms](https://en.wikipedia.org/wiki/Approximation_algorithm)
+we can safely claim that this is true.
 
 ### References
 [^1]: https://en.wikipedia.org/wiki/Mathematical_optimization#History
@@ -128,4 +138,3 @@ This is a very, very small space to talk about optimization, but the following r
 
 TODO
 - basics of metaheuristics
-- Convergence
