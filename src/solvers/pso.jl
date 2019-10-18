@@ -115,7 +115,7 @@ end
 function _pso!(f, population::AbstractArray, k_max::Int;
     w=0.9, c1=2.0, c2=2.0)
 
-    # Weight decay rate
+    # Obtain weight decay rate
     η = _weight_decay(w, k_max)
 
     n = length(population[1].x) # dimension
