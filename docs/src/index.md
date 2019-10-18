@@ -65,14 +65,9 @@ implementations.
 
 ## Contents of `Newtman.jl`
 
-The following **algorithms** are implemented:
-
-- Particle Swarm Optimization [^4]
-
-Also, the following **benchmark functions** are implemented:
-
-- [`Sphere`](@ref)
-- [`Easom`](@ref)
+```@contents
+Pages = ["algorithms.md", "benchmarks.md"]
+```
 
 ## The Evolutionary Computation Bestiary
 
