@@ -1,4 +1,4 @@
-## Algorithms
+## [Algorithms](@id implementations-docs)
  
 The following **algorithms** are implemented:
 

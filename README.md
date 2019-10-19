@@ -22,25 +22,24 @@ using Newtman
 sphere(x) = sum( x .^ 2)
 
 # Choose d = 10 in this case
-PSO(sphere, Population(30, 10, -5.0, 5.0), 100;
-    w=0.5, c1=0.25, c2=1.5)
+PSO(sphere, Population(30, 10, -5.0, 5.0), 10000)
 ```
 
 The output is just the minima found (note that this is just a single run, and because of randomness
 this **will** change every time):
 ```julia
-[0.0005382790884110001,
--0.0006403872223652838,
- 0.0017884733637705066,
- 0.0003215948050234845,
--0.00015816973315573588,
- 0.0006939763675548503,
--0.0012632337893056552,
--0.0003439393687106131,
--0.0013398480490333878,
- 1.0513231280505062e-5]
+[1.4133633848603616e-8,
+ 5.269529873035152e-8,
+-6.817589802491161e-8,
+ 8.439376030727941e-8,
+ 1.6808091823666365e-8,
+ 2.1992538496794947e-8,
+-1.435877272853963e-7,
+ 2.6145972639285076e-9,
+ 2.1692613064163623e-9,
+-9.597041588846402e-9]
 ```
-which is reasonably the _true global minima_ within a certain tolerance.
+which is reasonably the _true global minima_, within a certain tolerance.
 
 ## Installation
 

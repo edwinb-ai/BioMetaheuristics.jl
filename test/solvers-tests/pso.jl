@@ -12,7 +12,7 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 48
+        if count(assert_results) >= 45
             true
         end
     end
@@ -39,7 +39,7 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 48
+        if count(assert_results) >= 45
             true
         end
     end

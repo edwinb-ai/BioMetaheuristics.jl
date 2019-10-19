@@ -1,7 +1,7 @@
 ## Benchmark test functions
 
-The following **benchmark functions** are implemented, every one is defined in the
-review[^1]:
+The following **benchmark functions** are implemented, each function is defined in the
+survey[^1]:
 
 - [`Sphere`](@ref)
   

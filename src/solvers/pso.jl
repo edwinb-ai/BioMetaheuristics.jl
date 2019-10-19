@@ -2,7 +2,7 @@
     PSO
 
 `PSO` is the type associated with the implementation for the
-Particle Swarm Optimization with momentum. See [`Algorithms`](@ref)
+Particle Swarm Optimization with momentum. See [`Algorithms`](@ref implementations-docs)
 for more information.
 """
 struct PSO <: PopulationBase end
