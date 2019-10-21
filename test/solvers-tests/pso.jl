@@ -12,12 +12,7 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 45
-            true
-        else
-            println(count(assert_results))
-            false
-        end
+        @assert count(assert_results) >= 45 "Not enough good results"
     end
 
     @test let
@@ -29,12 +24,7 @@ end
             push!(assert_results, result)
         end
         # if at least 97/100 pass, the it has converged
-        if count(assert_results) >= 48
-            true
-        else
-            println(count(assert_results))
-            false
-        end
+        @assert count(assert_results) >= 48 "Not enough good results"
     end
 
     @test let
@@ -45,12 +35,7 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 45
-            true
-        else
-            println(count(assert_results))
-            false
-        end
+        @assert count(assert_results) >= 45 "Not enough good results"
     end
 
     # Test that a seed always gives the same results
