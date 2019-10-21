@@ -14,6 +14,9 @@ end
         # 50 * .97 = 48
         if count(assert_results) >= 45
             true
+        else
+            println(count(assert_results))
+            false
         end
     end
 
@@ -28,6 +31,9 @@ end
         # if at least 97/100 pass, the it has converged
         if count(assert_results) >= 48
             true
+        else
+            println(count(assert_results))
+            false
         end
     end
 
@@ -41,6 +47,16 @@ end
         # 50 * .97 = 48
         if count(assert_results) >= 45
             true
+        else
+            println(count(assert_results))
+            false
         end
+    end
+
+    # Test that a seed always gives the same results
+    @test let
+        val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000, 10)
+        same_val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000, 10)
+        val ≡ same_val
     end
 end
