@@ -40,11 +40,11 @@ mutable struct OptimizationResults{T, U, V, W} <: Results
 end
 
 function Base.show(io::IO, r::OptimizationResults)
-    println("==== RESULTS ====")
-    Printf.@printf io "Algorithm: %s\n" r.impl
-    Printf.@printf io "Design: [%s]\n" join(r.x, ", ")
-    Printf.@printf io "Minimum: %f\n" r.minimum_val
-    Printf.@printf io "Maximum iterations: %d\n" r.iterations
+    println("Results from Optimization")
+    Printf.@printf io "\tAlgorithm: %s\n" r.impl
+    Printf.@printf io "\tDesign: [%s]\n" join(r.x, ", ")
+    Printf.@printf io "\tMinimum: %f\n" r.minimum_val
+    Printf.@printf io "\tMaximum iterations: %d\n" r.iterations
 end
 
 include("pso.jl")
