@@ -8,9 +8,9 @@
             val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000)
             push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
-        # if at least 97% of the time converges, the test passes
-        # 50 * .97 = 48
-        if count(assert_results) >= 48
+        # if at least 90% of the time converges, the test passes
+        # 50 * .90 = 45
+        if count(assert_results) >= 45
             true
         else
             println(count(assert_results))
@@ -41,9 +41,9 @@
             val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000)
             push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
-        # if at least 97% of the time converges, the test passes
-        # 50 * .97 = 48
-        if count(assert_results) >= 48
+        # if at least 90% of the time converges, the test passes
+        # 50 * .90 = 45
+        if count(assert_results) >= 45
             true
         else
             println(count(assert_results))
