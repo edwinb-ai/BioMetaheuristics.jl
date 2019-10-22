@@ -87,7 +87,13 @@ val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 10000)
 function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
     w=0.9, c1=2.0, c2=2.0)
 
-    _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
+    val = _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
+
+    optim_res = OptimizationResults(val,
+                _evaluate_cost(f, val),
+                summary(PSO()),
+                k_max)
+    return optim_res
 end
 
 """

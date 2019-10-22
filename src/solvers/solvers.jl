@@ -30,6 +30,23 @@ function _evaluate_cost(f::Function, population::T) where {T<:AbstractArray}
     return f(population)
 end
 
+abstract type Results end
+
+mutable struct OptimizationResults{T, U, V, W} <: Results
+    x::T
+    minimum_val::U
+    impl::V
+    iterations::W
+end
+
+function Base.show(io::IO, r::OptimizationResults)
+    println("==== RESULTS ====")
+    Printf.@printf io "Algorithm: %s\n" r.impl
+    Printf.@printf io "Design: [%s]\n" join(r.x, ", ")
+    Printf.@printf io "Minimum: %f\n" r.minimum_val
+    Printf.@printf io "Maximum iterations: %d\n" r.iterations
+end
+
 include("pso.jl")
 
 export PSO
