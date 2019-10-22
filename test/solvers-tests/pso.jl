@@ -1,8 +1,6 @@
-function f_sphere(x)
-    return sum(x .^ 2)
-end
-
 @testset "PSO" begin
+
+    f_sphere(x) = sum(x .^ 2)
 
     @test let
         assert_results = []
@@ -12,7 +10,7 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 45
+        if count(assert_results) >= 48
             true
         else
             println(count(assert_results))
@@ -45,20 +43,11 @@ end
         end
         # if at least 97% of the time converges, the test passes
         # 50 * .97 = 48
-        if count(assert_results) >= 45
+        if count(assert_results) >= 48
             true
         else
             println(count(assert_results))
             false
         end
     end
-
-    # Test that a seed always gives the same results
-    # @test let
-    #     val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 1, 150150)
-    #     println(val)
-    #     same_val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 1, 150150)
-    #     println(same_val)
-    #     val ≡ same_val
-    # end
 end
