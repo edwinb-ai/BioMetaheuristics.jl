@@ -21,7 +21,7 @@
     @test let
         assert_results = []
         for k = 1:50
-            val = PSO(Easom(), Population(35, 2, -100.0, 100.0), 10000)
+            val = PSO(Easom(), Population(35, 2, -100.0, 100.0), 20000)
             design = [π, π]
             result = ≈(val, design, atol=1e-8)
             push!(assert_results, result)
