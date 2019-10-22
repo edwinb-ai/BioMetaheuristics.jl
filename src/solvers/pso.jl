@@ -88,6 +88,17 @@ function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
     _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
 
+function PSO(f::TestFunctions, population::AbstractArray,
+    k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
+    results = Array{Array{Float64}}(undef, total_iter, length(population[1].x))
+    @sync Threads.@threads for i = 1:total_iter
+        results[i] = _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+    end
+    # println(size(results))
+    # println(mean(results, dims=1))
+    return results
+end
+
 function _pso!(f, population::AbstractArray, k_max::Int;
     w=0.9, c1=2.0, c2=2.0)
 

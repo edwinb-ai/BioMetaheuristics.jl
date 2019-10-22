@@ -2,15 +2,25 @@
 
     f_sphere(x) = sum(x .^ 2)
 
+    @time @test let
+        total_runs = 2
+        val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000, total_runs)
+        assert_results = []
+        for i = 1:total_runs
+            push!(assert_results, ≈(val[i], zeros(30), atol=1e-11))
+        end
+        println(count(assert_results))
+        true
+    end
+
     @test let
         assert_results = []
-        for k = 1:50
+        for k = 1:30
             val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000)
             push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
-        # if at least 90% of the time converges, the test passes
-        # 50 * .90 = 45
-        if count(assert_results) >= 45
+        # if at least 50% of the time converges, the test passes
+        if count(assert_results) >= 15
             true
         else
             println(count(assert_results))
@@ -37,13 +47,12 @@
 
     @test let
         assert_results = []
-        for k = 1:50
+        for k = 1:30
             val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000)
             push!(assert_results, ≈(val, zeros(30), atol=1e-11))
         end
-        # if at least 90% of the time converges, the test passes
-        # 50 * .90 = 45
-        if count(assert_results) >= 45
+        # if at least 50% of the time converges, the test passes
+        if count(assert_results) >= 15
             true
         else
             println(count(assert_results))
