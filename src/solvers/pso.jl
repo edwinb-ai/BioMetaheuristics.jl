@@ -9,9 +9,10 @@ struct PSO <: PopulationBase end
 
 """
     PSO(f::Function, population::AbstractArray, k_max::Int;
-        w=0.9, c1=2.0, c2=2.0)
+        w=0.9, c1=2.0, c2=2.0) -> Array{Float64, N}
 
 Method that implements `PSO` for a function `f` of type `Function`.
+Returns an `Array{Float64, N}` with `N` the dimension of the problem.
 
 # Arguments
 
@@ -50,9 +51,10 @@ end
 
 """
     PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
-        w=0.9, c1=2.0, c2=2.0)
+        w=0.9, c1=2.0, c2=2.0) -> Array{Float64, N}
 
 Method that implements `PSO` for a function `f` of type `TestFunctions`.
+Returns an `Array{Float64, N}` with `N` the dimension of the problem.
 
 # Arguments
 
@@ -134,7 +136,8 @@ end
 
 """
     PSO(f::Function, population::AbstractArray,
-        k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
+        k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)->
+        Array{Array{Float64}, total_iter}
 
 Method that implements `PSO` for a function `f` of type `Function`
 with multiple runs enabled in parallel. Using `@threads` to make an
