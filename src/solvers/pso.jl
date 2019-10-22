@@ -88,10 +88,42 @@ function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
     _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
 end
 
-function _update!(f, population, w, c1, c2, n, x_best, y_best)
+function _pso!(f, population::AbstractArray, k_max::Int;
+    w=0.9, c1=2.0, c2=2.0)
+
+    # Create the RNGs, statistically independent
+    rng_list = _create_rng()
+
+    # Obtain weight decay rate
+    η = _weight_decay(w, k_max)
+
+    # Evaluate initial costs
+    dimension = length(population[1].x)
+    x_best = similar(population[1].x_best)
+    y_best = Inf
     for P in population
-        r1 = rand(n)
-        r2 = rand(n)
+        y = _evaluate_cost(f, P.x)
+        if y < y_best
+            x_best[:] = P.x
+            y_best = y
+        end
+    end
+
+    # PSO main loop
+    for k in 1:k_max
+        _update!(f, population, w, c1, c2, dimension, x_best, y_best, rng_list)
+        # Make the inertia weight decay over time
+        w -= η
+    end
+
+    return population[1].x_best
+end
+
+function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
+
+    for P in population
+        r1 = rand(rng[1], n)
+        r2 = rand(rng[2], n)
         # Evaluate velocity
         P.v = (w * P.v) + (c1 * r1 .* (P.x_best - P.x)) +
             (c2 * r2 .* (x_best - P.x))
@@ -105,38 +137,10 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best)
             x_best[:] = P.x
             y_best = y
         end
-
         if y < _evaluate_cost(f, P.x_best)
             P.x_best[:] = P.x
         end
     end
-end
-
-function _pso!(f, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0)
-
-    # Obtain weight decay rate
-    η = _weight_decay(w, k_max)
-
-    n = length(population[1].x) # dimension
-    x_best = similar(population[1].x_best)
-    y_best = Inf
-    for P in population
-        y = _evaluate_cost(f, P.x)
-        if y < y_best
-            x_best[:] = P.x
-            y_best = y
-        end
-    end
-
-    for k in 1:k_max
-        _update!(f, population, w, c1, c2, n, x_best, y_best)
-        # Make the inertia weight decay over time
-        w -= η
-    end
-
-    return population[1].x_best
-
 end
 
 function _weight_decay(initial, itr_max)
@@ -158,4 +162,12 @@ function _clip_positions_velocities!(P)
     broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.v, P.v)
     # lower bound
     broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.v, P.v)
+end
+
+function _create_rng()
+    # Create the RNG to create seeds
+    rng_master = PCG.PCGStateOneseq()
+    seed_list = [rand(rng_master, UInt64) for i = 1:2]
+    rng_list = map(x -> Xorshifts.Xorshift1024Star(x), seed_list)
+    return rng_list
 end
