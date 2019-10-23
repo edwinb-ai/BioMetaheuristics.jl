@@ -28,16 +28,20 @@ PSO(sphere, Population(30, 10, -5.0, 5.0), 10000)
 The output is just the minima found (note that this is just a single run, and because of randomness
 this **will** change every time):
 ```julia
-[1.4133633848603616e-8,
- 5.269529873035152e-8,
--6.817589802491161e-8,
- 8.439376030727941e-8,
- 1.6808091823666365e-8,
- 2.1992538496794947e-8,
--1.435877272853963e-7,
- 2.6145972639285076e-9,
- 2.1692613064163623e-9,
--9.597041588846402e-9]
+Results from Optimization
+        Algorithm: PSO
+        Design: [-1.1432079031913648e-5,
+        1.352972945622438e-5,
+        4.742502848659406e-6,
+        -5.083026649804803e-6,
+        5.141294995573471e-6,
+        -3.1052005156276046e-6,
+        -1.0881776634323023e-6,
+        8.724810317708652e-7,
+        -8.989714033331939e-7,
+        -1.0482490091894153e-5]
+        Minimum: 0.0000
+        Maximum iterations: 10000
 ```
 which is reasonably the _true global minima_, within a certain tolerance.
 

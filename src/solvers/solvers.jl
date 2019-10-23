@@ -78,6 +78,7 @@ of [`Solver`](@ref) to get better information from it.
 - `impl::AbstractString`: Stores the name of the `Solver` used, i.e. the name or identifier of the
     optimization algorithm.
 - `iterations::Integer`: Stores the number of maximum iterations that the solver was run.
+- `runs::Integer`: Stores the number of independent runs that were executed.
 """
 mutable struct OptimizationResultsParallel{T, U} <: Results
     x::T
@@ -85,6 +86,7 @@ mutable struct OptimizationResultsParallel{T, U} <: Results
     min::U
     impl::AbstractString
     iterations::Integer
+    runs::Integer
 end
 
 function Base.show(io::IO, r::OptimizationResultsParallel)
@@ -93,6 +95,7 @@ function Base.show(io::IO, r::OptimizationResultsParallel)
     Printf.@printf io "\tDesign: [%s] ± %e\n" join(r.x, ", ") r.err
     Printf.@printf io "\tMinimum: %.4f\n" r.min
     Printf.@printf io "\tMaximum iterations: %d\n" r.iterations
+    Printf.@printf io "\tTotal independent runs: %d\n" r.runs
 end
 
 include("pso.jl")

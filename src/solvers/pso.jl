@@ -83,10 +83,10 @@ end
 """
     PSO(f::Function, population::AbstractArray,
         k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0) ->
-        Array{Array{Float64, N}, total_iter}
+        OptimizationResultsParallel
     PSO(f::TestFunctions, population::AbstractArray,
         k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0) ->
-        Array{Array{Float64, N}, total_iter}
+        OptimizationResultsParallel
 
 Method that implements `PSO` for a function `f` of type `TestFunctions`
 with multiple runs enabled in parallel. Using `@threads` to make an
@@ -147,7 +147,9 @@ function PSO(f::TestFunctions, population::AbstractArray,
                 std_value,
                 _evaluate_cost(f, mean_value),
                 "PSO",
-                k_max)
+                k_max,
+                total_iter)
+
     return optim_res
 end
 
@@ -165,7 +167,9 @@ function PSO(f::Function, population::AbstractArray,
                 std_value,
                 _evaluate_cost(f, mean_value),
                 "PSO",
-                k_max)
+                k_max,
+                total_iter)
+
     return optim_res
 end
 
