@@ -156,9 +156,11 @@ end
 function PSO(f::Function, population::AbstractArray,
     k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
 
-    results = zeros(length(population[1].x))
+    # results = zeros(length(population[1].x))
+    results = [zeros(length(population[1].x)) for i = 1:total_iter]
     @sync Threads.@threads for i = 1:total_iter
-        results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        # results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        results[i] = _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
     end
 
     mean_value, std_value = _mean_std_results(results, total_iter)
@@ -257,9 +259,25 @@ function _create_rng()
     return rng_list
 end
 
+# function _mean_std_results(values, num_max)
+#     mean_value = values / num_max
+#     std_value = sqrt(sum((values .- mean_value) .^ 2) / num_max)
+#
+#     return mean_value, std_value
+# end
+
 function _mean_std_results(values, num_max)
-    mean_value = values / num_max
-    std_value = sqrt(sum((values .- mean_value) .^ 2) / num_max)
+    mean_value = zeros(length(values[1]))
+    for i in eachindex(values)
+        mean_value .+= values[i]
+    end
+    mean_value /= num_max
+
+    std_value = 0.0
+    for i in eachindex(values)
+        std_value = (values[i] .- mean_value) .^ 2
+    end
+    std_value = sqrt(sum(std_value) / num_max)
 
     return mean_value, std_value
 end

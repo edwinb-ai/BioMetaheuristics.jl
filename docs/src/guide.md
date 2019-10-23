@@ -1,29 +1,23 @@
-## Reach
+# Reach
 
 This package should/could be used by:
 
-- **Practitioners**: people in need of a _black box optimization_ framework
-  for when they know very little about the problem at hand.
-- **Students**: wanting to learn about nature-inspired algorithms, stochastic optimization
-  or want a general survey of the current literature.
-- **Researchers**: who want to employ different algorithms at once, test them or use them
-  as comparison for their own developed algorithms.
+- **Practitioners**: people in need of a _black box optimization_ framework for when they know very little about the problem at hand.
+- **Students**: wanting to learn about nature-inspired algorithms, stochastic optimization or want a general survey of the current literature.
+- **Researchers**: who want to employ different algorithms at once, test them or use them as comparison for their own developed algorithms.
 
-## Examples
+# Examples
 
-Using `Newtman.jl` is fairly straightforward, first you define your own
-function to minimize, in this case we will use a popular function, the
-[Griewank function](http://mathworld.wolfram.com/GriewankFunction.html)
-defined as
+Using `Newtman.jl` is fairly straightforward, first you define your own function to minimize, in this case we will use a popular function, the [Griewank function](http://mathworld.wolfram.com/GriewankFunction.html) defined as
 
 ```math
 f(\mathbf{x}) = \sum_{i=1}^d \frac{x_i^2}{4000} - \prod_{i=1}^d \cos{\left( \frac{x_i}{\sqrt{i}}\right)} + 1
 ```
-where ``d`` is the dimension of the problem. It's mostly evaluated within the boundaries
-``-100 \leq x_i \leq 100``, and it has a **minimum** at ``\mathbf{x^*} = (0, \cdots, 0)``, and it evaluates to
-``f(\mathbf{x^*}) = 0``.
+
+where `d` is the dimension of the problem. It's mostly evaluated within the boundaries `-100 \leq x_i \leq 100`, and it has a **minimum** at `\mathbf{x^*} = (0, \cdots, 0)`, and it evaluates to `f(\mathbf{x^*}) = 0`.
 
 We define the function in `Julia` like this
+
 ```julia
 function griewank(x)
     first_term = sum(x .^ 2) / 4000
@@ -38,19 +32,18 @@ function griewank(x)
 end
 ```
 
-Now, we wish to find the minimum of this function, and fortunately we know the true value so we can compare it later,
-we can use some of the implementations from `Newtman.jl`, for example, [`PSO`](@ref):
+Now, we wish to find the minimum of this function, and fortunately we know the true value so we can compare it later, we can use some of the implementations from `Newtman.jl`, for example, [`PSO`](@ref):
+
 ```julia
 using Newtman
 
 val = PSO(griewank, Population(30, 20, -100.0, 100.0), 20000)
 ```
 
-In this script we have chosen 30 particles within the population, ``d`` is equal to 20,
-next we define the boundaries and finally we declare that the algorithm will run for
-20000 maximum iterations until it stops, having _converged_.
+In this script we have chosen 30 particles within the population, `d` is equal to 20, next we define the boundaries and finally we declare that the algorithm will run for 20000 maximum iterations until it stops, having _converged_.
 
 When run, the above script will output something similar, but **not equal** to the following
+
 ```julia
 Results from Optimization
         Algorithm: PSO
@@ -65,94 +58,117 @@ Results from Optimization
         Maximum iterations: 20000
 ```
 
-Within a certain tolerance of about ``\epsilon`` = 1e-8 we have found the _true_ minimum of the function. We can actually check
-the value with the evaluation, notice that it actually returns ``0``, as expected.
+Within a certain tolerance of about `\epsilon` = 1e-8 we have found the _true_ minimum of the function. We can actually check the value with the evaluation, notice that it actually returns `0`, as expected.
 
-## A primer on numerical optimization
+## Embarrassingly parallel runs
 
-**Optimization** is a huge subject, and I don't think Newton even realized this when discovering Calculus, where optimization
-has its roots. Basically, in optimization we are trying to find **the best** possible solution to a given problem. Worded in this way
-it seems that optimization is actually everywhere we look around, which is so very true, optimization is everywhere!
+`Newtman.jl` also provides an API to execute simultaneous, independent runs for the algorithms presented, for exaple, take the same function as before, the `Griewank` function, but let's now evaluate 10 runs of `PSO`, we call the function as before but we add a new parameter, the number of runs we would like to execute, and this looks like the following
 
-Say you like to run, and you look at your milage, timings and so on; you start to wonder, what _is the best_ way to **improve** my
-timings? How can I **maximize** it?
+```julia
+using Newtman
 
-Now imagine that you have some money to spare and you wish to invest it. What type of investment will return the **largest** profit
-and will also **minimize** the possible risk of losing money?
+# Here the number 10 represents the number of independent runs
+val = PSO(griewank, Population(30, 20, -100.0, 100.0), 20000, 10)
+```
 
-_Optimization_ has been a major subject within _analysis_, the major branch of mathematics where most of its arguments come from.
-In mathematical language, we define an **optimization problem** like follows
+Now this code will execute 10 different `PSO` instances in your computer using `Julia`'s built-in multi-threading tools. In order for this to work as intended you must specify the number of threads you can use in your system by running a new `Julia` session with the following exported _environment variable._
+
+```shell
+JULIA_NUM_THREADS=4 julia
+```
+
+This will tell `Julia` to start with 4 threads enabled in your system, you can actually verify this by running the following in the REPL
+
+```julia
+julia> using Base.Threads
+julia> Threads.nthreads()
+
+# output
+4
+```
+
+After waiting for a few seconds, the results **might be** similar to this
+
+```julia
+Results from Optimization
+        Algorithm: PSO
+        Design: [-1.0817024888063792e-10, -2.6749621634017217e-9, 1.1040223452331079e-11,
+        9.735685165578326e-9, 1.0439021918597697e-9, -6.85965962370804e-9,
+        3.0345711112735914e-9, 2.551747398298418e-9, -9.549261142961494e-10,
+        -2.589502577867808e-9, 3.175953614831133e-10, -9.060555883133757e-9,
+        -5.188415197135356e-9, -8.101253245179797e-10, 6.318476828318098e-9,
+        -7.805498095457974e-9, -8.69896704003609e-9, -4.112411937330503e-9,
+        -1.673467124313779e-10, -7.363579041517219e-9] ± 6.557577e-08
+        Minimum: 0.0000
+        Maximum iterations: 20000
+        Total independent runs: 10
+```
+
+This output is telling us that the result from 10 independent runs is that vector defined as _design_, which is actually the mean value from the 10 runs, and it has a standard deviation. Note that this error is quite high because of the few runs executed, but as we increase the number of runs we might get better results.
+
+# A primer on numerical optimization
+
+**Optimization** is a huge subject, and I don't think Newton even realized this when discovering Calculus, where optimization has its roots. Basically, in optimization we are trying to find **the best** possible solution to a given problem. Worded in this way it seems that optimization is actually everywhere we look around, which is so very true, optimization is everywhere!
+
+Say you like to run, and you look at your milage, timings and so on; you start to wonder, what _is the best_ way to **improve** my timings? How can I **maximize** it?
+
+Now imagine that you have some money to spare and you wish to invest it. What type of investment will return the **largest** profit and will also **minimize** the possible risk of losing money?
+
+_Optimization_ has been a major subject within _analysis_, the major branch of mathematics where most of its arguments come from. In mathematical language, we define an **optimization problem** like follows
+
 ```math
 \text{minimize} f(\mathbf{x}), \quad \mathbf{x} \in \mathbb{R} \\
 \text{subject to } h(\mathbf{x}) = 0, \\
 \text{and }g(\mathbf{x}) \leq 0 .
+`
+`
+`
 ```
-``h`` and ``g`` are referred to as **constraint functions**, and the full expressions with their equalities and inequalities
-are simply called **constraints**. When we have a problem like this, we call this a **constrained optimization problem**.
+
+`h` and `g` are referred to as **constraint functions**, and the full expressions with their equalities and inequalities are simply called **constraints**. When we have a problem like this, we call this a **constrained optimization problem**.
 
 On the other hand, if we only define the problem as
+
 ```math
 \text{minimize} f(\mathbf{x}),\quad \mathbf{x} \in \mathbb{R}
 ```
+
 we are talking about an **unconstrained optimization problem**.
 
-The goal of optimization is to find the _vector_ ``\mathbf{x}`` that gives the **lowest** possible value for ``f`` given
-all the constraints, if any. The classic ways to achieve this are by using _derivatives_ and _derivative tests_, and throughout
-the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses
-_derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
+The goal of optimization is to find the _vector_ `\mathbf{x}` that gives the **lowest** possible value for `f` given all the constraints, if any. The classic ways to achieve this are by using _derivatives_ and _derivative tests_, and throughout the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses _derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
 
-This is a very, very small space to talk about optimization, but the following references should get you started right away.
-[^1], [^2] and [^3].
+This is a very, very small space to talk about optimization, but the following references should get you started right away. [^1], [^2] and [^3].
 
-## On Convergence
+# On Convergence
 
-**Convergence** is a very strong word in mathematics, and it actually has lots of definitions depending on the specific branch of mathametics
-it is used. Here we shall use the _numerical analysis_ definition, which is simply stated as a limit. We wish to obtain a value, whatever it is,
-in a finite time.
+**Convergence** is a very strong word in mathematics, and it actually has lots of definitions depending on the specific branch of mathametics it is used. Here we shall use the _numerical analysis_ definition, which is simply stated as a limit. We wish to obtain a value, whatever it is, in a finite time.
 
-We may employ _tolerance_ values where we argue that a given solution is **close to** the real value that I know of. We can see this in the example
-above, where we know that the true value is a _vector_ filled with zeros, but we don't actually obtain zeros, instead we get _close_ values to zeros
-within a certain _tolerance_: in this scenario we can say that the optimization algorithm **has converged**.
+We may employ _tolerance_ values where we argue that a given solution is **close to** the real value that I know of. We can see this in the example above, where we know that the true value is a _vector_ filled with zeros, but we don't actually obtain zeros, instead we get _close_ values to zeros within a certain _tolerance_: in this scenario we can say that the optimization algorithm **has converged**.
 
-If, on the other hand, we rely on the number of **maximum iterations** then we can safely claim that when the algorithm has run
-for the number of _maximum iterations_ then it has converged. Is that so? At least, in the realm of [approximation algorithms](https://en.wikipedia.org/wiki/Approximation_algorithm)
-we can safely claim that this is true.
+If, on the other hand, we rely on the number of **maximum iterations** then we can safely claim that when the algorithm has run for the number of _maximum iterations_ then it has converged. Is that so? At least, in the realm of [approximation algorithms](https://en.wikipedia.org/wiki/Approximation_algorithm) we can safely claim that this is true.
 
-But don't take my word for it, in reality this is a very serious mathematical topic and should not be taken so slightly. Actually, every algorithm
-ever implemented must have a **convergence analysis** carried out for it, to ensure that either it will stop at some time or that it will
-given the desired result.
+But don't take my word for it, in reality this is a very serious mathematical topic and should not be taken so slightly. Actually, every algorithm ever implemented must have a **convergence analysis** carried out for it, to ensure that either it will stop at some time or that it will given the desired result.
 
-## The basics of nature and bio-inspired metaheuristics
+# The basics of nature and bio-inspired metaheuristics
 
 **Nature and bio-inspired metaheuristics** work by means of two fundamental _heuristics_: **exploration** and **exploitation**.
 
-First, **exploration** is leveraged through the use of _random numbers_, these are created to try to cover most of the _search space_, i.e.
-the set of possible values that can be considered the solution to a given optimization problem. When _exploring_ the _search space_, metaheuristics
-try to search as efficiently as possible, and most algorithms use _uniform sampling_ to try and cover most, if not all, of the search space.
+First, **exploration** is leveraged through the use of _random numbers_, these are created to try to cover most of the _search space_, i.e. the set of possible values that can be considered the solution to a given optimization problem. When _exploring_ the _search space_, metaheuristics try to search as efficiently as possible, and most algorithms use _uniform sampling_ to try and cover most, if not all, of the search space.
 
-Once the _search space_ has been explored, the algorithm tries to identify, by means of some update rule, which of these proposed solutions are
-actually valid. In _swarm intelligence_ algorithms such as [`Particle Swarm Optimization`](@ref implementations-docs) the different particles
-are ranked and checked against each other to see which has the most promising value. Then, **exploitation** kicks in, trying to take advantage
-of this information and trying to pull most of the swarm towards it.
+Once the _search space_ has been explored, the algorithm tries to identify, by means of some update rule, which of these proposed solutions are actually valid. In _swarm intelligence_ algorithms such as [`Particle Swarm Optimization`](@ref implementations-docs) the different particles are ranked and checked against each other to see which has the most promising value. Then, **exploitation** kicks in, trying to take advantage of this information and trying to pull most of the swarm towards it.
 
-In the topic of optimization algorithms, _nature and bio-inspired metaheuristics_ have a special place when talking about _convergence_, _stability_,
-and _significance._
+In the topic of optimization algorithms, _nature and bio-inspired metaheuristics_ have a special place when talking about _convergence_, _stability_, and _significance._
 
 First, _convergence_ is usually measured as described in the section above, by means of a _tolerance_ or a _maximum number_ of iterations.
 
-_Stability_ is a harder topic in this matter, because of the random aspect of most, if not all, of the current popular _nature and bio-inspired metaheuristics._
-Reproduciblity is a big factor, and almost always algorithms need to be run independently _at least_ 30 different times, with 30 statistically
-independent random number generators. But even this won't guarantee that every single run will give a good solution to the problem.
+_Stability_ is a harder topic in this matter, because of the random aspect of most, if not all, of the current popular _nature and bio-inspired metaheuristics._ Reproduciblity is a big factor, and almost always algorithms need to be run independently _at least_ 30 different times, with 30 statistically independent random number generators. But even this won't guarantee that every single run will give a good solution to the problem.
 
-At last, _statistical significance_ is almost mandatory if one wants to have a solution that has an actual mathematical and statistical _meaning._
-Because of randomness, the actual mechanism by which _nature and bio-inspired metaheuristics_ are Markov Chains [^4] which provide statistical
-tools to guarantee and promise that the values found are, indeed, the real ones. _Hypothesis tests_ like the parametric _t-test_,
-the _Mann-Whitney-Wilcoxon_ non-parametric test, and some others are the most popular statistical tests to prove _significance_ of the values obtained
-from applying _nature and bio-inspired metaheuristics._
+At last, _statistical significance_ is almost mandatory if one wants to have a solution that has an actual mathematical and statistical _meaning._ Because of randomness, the actual mechanism by which _nature and bio-inspired metaheuristics_ are Markov Chains [^4] which provide statistical tools to guarantee and promise that the values found are, indeed, the real ones. _Hypothesis tests_ like the parametric _t-test_, the _Mann-Whitney-Wilcoxon_ non-parametric test, and some others are the most popular statistical tests to prove _significance_ of the values obtained from applying _nature and bio-inspired metaheuristics._
 
-### References
+## References
+
+[^4]: Yang, X.-S. (2014). Nature-inspired optimization algorithms. In Elsevier Insights. <https://doi.org/10.1007/978-981-10-6689-4_8>
 
 [^1]: https://en.wikipedia.org/wiki/Mathematical_optimization#History
 [^2]: https://web.stanford.edu/group/sisl/k12/optimization/MO-unit1-pdfs/1.1optimization.pdf
 [^3]: https://sites.math.northwestern.edu/~clark/publications/opti.pdf
-[^4]: Yang, X.-S. (2014). Nature-inspired optimization algorithms. In Elsevier Insights. https://doi.org/10.1007/978-981-10-6689-4_8
