@@ -32,9 +32,12 @@ end
 
 abstract type Results end
 
+"""
+    OptimizationResults{T, U, V, W}
+"""
 mutable struct OptimizationResults{T, U, V, W} <: Results
     x::T
-    minimum_val::U
+    min::U
     impl::V
     iterations::W
 end
@@ -43,7 +46,7 @@ function Base.show(io::IO, r::OptimizationResults)
     println("Results from Optimization")
     Printf.@printf io "\tAlgorithm: %s\n" r.impl
     Printf.@printf io "\tDesign: [%s]\n" join(r.x, ", ")
-    Printf.@printf io "\tMinimum: %f\n" r.minimum_val
+    Printf.@printf io "\tMinimum: %f\n" r.min
     Printf.@printf io "\tMaximum iterations: %d\n" r.iterations
 end
 
