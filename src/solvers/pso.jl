@@ -136,23 +136,37 @@ val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000, 50)
 function PSO(f::TestFunctions, population::AbstractArray,
     k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
 
-    results = Array{Array{Float64}}(undef, total_iter, length(population[1].x))
+    results = zeros(length(population[1].x))
     @sync Threads.@threads for i = 1:total_iter
-        results[i] = _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
     end
 
-    println(mean(results, dims=1))
+    mean_value, std_value = _mean_std_results(results, total_iter)
 
-    return results
+    optim_res = OptimizationResultsParallel(mean_value,
+                std_value,
+                _evaluate_cost(f, mean_value),
+                "PSO",
+                k_max)
+    return optim_res
 end
 
 function PSO(f::Function, population::AbstractArray,
     k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
-    results = Array{Array{Float64}}(undef, total_iter, length(population[1].x))
+
+    results = zeros(length(population[1].x))
     @sync Threads.@threads for i = 1:total_iter
-        results[i] = _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
     end
-    return results
+
+    mean_value, std_value = _mean_std_results(results, total_iter)
+
+    optim_res = OptimizationResultsParallel(mean_value,
+                std_value,
+                _evaluate_cost(f, mean_value),
+                "PSO",
+                k_max)
+    return optim_res
 end
 
 function _pso!(f, population::AbstractArray, k_max::Int;
@@ -237,4 +251,11 @@ function _create_rng()
     seed_list = [rand(rng_master, UInt64) for i = 1:2]
     rng_list = map(x -> Xorshifts.Xorshift1024Star(x), seed_list)
     return rng_list
+end
+
+function _mean_std_results(values, num_max)
+    mean_value = values / num_max
+    std_value = sqrt(sum((values .- mean_value) .^ 2) / num_max)
+
+    return mean_value, std_value
 end
