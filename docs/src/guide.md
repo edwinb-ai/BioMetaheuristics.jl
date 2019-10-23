@@ -44,9 +44,6 @@ we can use some of the implementations from `Newtman.jl`, for example, [`PSO`](@
 using Newtman
 
 val = PSO(griewank, Population(30, 20, -100.0, 100.0), 20000)
-println("The minimum is located at: $val")
-evaluation = griewank(val)
-println("The minimum found is: $evaluation")
 ```
 
 In this script we have chosen 30 particles within the population, ``d`` is equal to 20,
@@ -55,27 +52,17 @@ next we define the boundaries and finally we declare that the algorithm will run
 
 When run, the above script will output something similar, but **not equal** to the following
 ```julia
-The minimum is located at: [-4.917577504199913e-9,
--6.330030904044292e-9,
-1.3873059483127891e-8,
-1.990010126964934e-10,
--7.557797889209866e-9,
-1.419769038062995e-8,
-2.496436871899069e-8,
-8.804753850761231e-9,
--1.8548632048540488e-8,
--2.7123021782721856e-8,
-1.8334065350891433e-8,
--2.9056057778454154e-9,
-1.6970421809599717e-8,
-2.4908425003071914e-8,
--2.6288593326664073e-9,
-3.191274332613467e-8,
--2.745352987902211e-8,
--3.1305326101664176e-8,
--1.805272411452161e-8,
-4.5660334299426855e-10]
-The minimum found is: 0.0
+Results from Optimization
+        Algorithm: PSO
+        Design: [-3.0934433331801374e-9, -9.001706531841356e-9, 6.040569693490043e-9,
+        3.651856870710123e-9, 1.7717846067288837e-8, -9.72251672565314e-9,
+        -8.67994652424922e-10, -1.3340012700350453e-8, -6.538523861855145e-9,
+        1.1096356317905482e-8, -3.0867381867588525e-8, 2.2709162725331985e-8,
+        -2.359195570178852e-8, 1.2443005116661222e-8, 7.034134730754994e-10,
+        2.6289422248296343e-8, -1.6855112446841584e-8, 2.5996179394073387e-8,
+        -3.470098659476618e-8, 1.380018538766239e-8]
+        Minimum: 0.0000
+        Maximum iterations: 20000
 ```
 
 Within a certain tolerance of about ``\epsilon`` = 1e-8 we have found the _true_ minimum of the function. We can actually check
