@@ -2,10 +2,10 @@
 
 Nature-inspired and bio-inspired algorithms for unconstrained optimization.
 
-| Style | Documentation| Build Status | Coverage |
-| :-----: | :------------: | :------------: | :--------: |
-| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev)|[![Build Status](https://travis-ci.org/edwinb-ai/Newtman.jl.svg?branch=master)](https://travis-ci.org/edwinb-ai/Newtman.jl)|[![Codecov](https://codecov.io/gh/edwinb-ai/Newtman.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/edwinb-ai/Newtman.jl)|
-| | |[![Build Status](https://ci.appveyor.com/api/projects/status/github/edwinb-ai/Newtman.jl?svg=true)](https://ci.appveyor.com/project/edwinb-ai/Newtman-jl)|[![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master)|
+|                                                         Style                                                          |                                            Documentation                                             |                                                                       Build Status                                                                        |                                                                               Coverage                                                                               |
+| :--------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle) | [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev) |                [![Build Status](https://travis-ci.org/edwinb-ai/Newtman.jl.svg?branch=master)](https://travis-ci.org/edwinb-ai/Newtman.jl)                |                  [![Codecov](https://codecov.io/gh/edwinb-ai/Newtman.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/edwinb-ai/Newtman.jl)                  |
+|                                                                                                                        |                                                                                                      | [![Build Status](https://ci.appveyor.com/api/projects/status/github/edwinb-ai/Newtman.jl?svg=true)](https://ci.appveyor.com/project/edwinb-ai/Newtman-jl) | [![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master) |
 
 ## Demo
 
@@ -30,16 +30,16 @@ this **will** change every time):
 ```julia
 Results from Optimization
         Algorithm: PSO
-        Design: [-1.1432079031913648e-5,
-        1.352972945622438e-5,
-        4.742502848659406e-6,
-        -5.083026649804803e-6,
-        5.141294995573471e-6,
-        -3.1052005156276046e-6,
-        -1.0881776634323023e-6,
-        8.724810317708652e-7,
-        -8.989714033331939e-7,
-        -1.0482490091894153e-5]
+        Design: [-3.220020802639494e-7,
+        3.118659374482604e-8,
+        -2.7717025968666597e-7,
+        6.477139501167253e-7,
+        -6.67931252980814e-7,
+        -1.1770668643176808e-6,
+        5.340014665165223e-7,
+        -3.192366063246642e-7,
+        -7.09970790506219e-7,
+        1.5849761437386237e-7]
         Minimum: 0.0000
         Maximum iterations: 10000
 ```
