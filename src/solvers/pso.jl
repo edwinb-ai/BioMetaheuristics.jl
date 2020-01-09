@@ -68,17 +68,17 @@ function PSO(f::Function, population::AbstractArray, k_max::Int;
     return optim_res
 end
 
-function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0)
+# function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
+#     w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
+#     val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
 
-    optim_res = OptimizationResults(val,
-                _evaluate_cost(f, val),
-                "PSO",
-                k_max)
-    return optim_res
-end
+#     optim_res = OptimizationResults(val,
+#                 _evaluate_cost(f, val),
+#                 "PSO",
+#                 k_max)
+#     return optim_res
+# end
 
 """
     PSO(f::Function, population::AbstractArray,
@@ -133,25 +133,25 @@ f_sphere(x) = sum(x .^ 2)
 val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000, 50)
 ```
 """
-function PSO(f::TestFunctions, population::AbstractArray,
-    k_max::Int, total_iter::Int;w = 0.9, c1 = 2.0, c2 = 2.0)
+# function PSO(f::TestFunctions, population::AbstractArray,
+#     k_max::Int, total_iter::Int;w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    results = [zeros(length(population[1].x)) for i = 1:total_iter]
-    @sync Threads.@threads for i = 1:total_iter
-        results[i] = _pso!(f, deepcopy(population), k_max; w = copy(w), c1 = c1, c2 = c2)
-    end
+#     results = [zeros(length(population[1].x)) for i = 1:total_iter]
+#     @sync Threads.@threads for i = 1:total_iter
+#         results[i] = _pso!(f, deepcopy(population), k_max; w = copy(w), c1 = c1, c2 = c2)
+#     end
 
-    mean_value, std_value = _mean_std_results(results, total_iter)
+#     mean_value, std_value = _mean_std_results(results, total_iter)
 
-    optim_res = OptimizationResultsParallel(mean_value,
-                std_value,
-                _evaluate_cost(f, mean_value),
-                "PSO",
-                k_max,
-                total_iter)
+#     optim_res = OptimizationResultsParallel(mean_value,
+#                 std_value,
+#                 _evaluate_cost(f, mean_value),
+#                 "PSO",
+#                 k_max,
+#                 total_iter)
 
-    return optim_res
-end
+#     return optim_res
+# end
 
 function PSO(f::Function, population::AbstractArray,
     k_max::Int, total_iter::Int;w = 0.9, c1 = 2.0, c2 = 2.0)

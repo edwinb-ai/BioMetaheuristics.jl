@@ -3,7 +3,7 @@
 
 Abstract supertype for all benchmark functions.
 """
-abstract type TestFunctions end
+abstract type TestFunctions <: Function end
 
 """
     Unconstrained
