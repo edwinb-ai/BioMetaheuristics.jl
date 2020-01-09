@@ -192,6 +192,9 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
     end
 end
 
+""" Compute the corresponding weight decay depending the maximum
+number of iterations and the initial value for it.
+"""
 function _weight_decay(initial, itr_max)
     # Following the references, the minimum is 0.4
     stop = 0.4
@@ -200,12 +203,15 @@ function _weight_decay(initial, itr_max)
     return step_size
 end
 
+""" 
+"""
 function _clip_positions_velocities!(P)
     # First the positions
     # upper bound
     broadcast!(x->x > P.max_dim ? P.max_dim : x, P.x, P.x)
     # lower bound
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.x, P.x)
+
     # Then the velocities
     # upper bound
     broadcast!(x->x > P.max_dim ? P.max_dim : x, P.v, P.v)
@@ -213,22 +219,39 @@ function _clip_positions_velocities!(P)
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
 
-function _create_rng()
+""" Returns `num_rngs` number of statistically independent pseudo-random
+number generators by creating a master RNG and drawing numbers from it,
+these numbers will serve as seeds for the number of RNG's returned in the form
+of an `AbstractArray`.
+"""
+function _create_rng(;num_rngs = 2)
     # Create the RNG to create seeds
     rng_master = PCG.PCGStateOneseq()
-    seed_list = [rand(rng_master, UInt64) for i = 1:2]
+    # From this RNG, create two seeds
+    seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
+    # With these seeds, seed two new RNG's
     rng_list = map(x->Xorshifts.Xorshift1024Star(x), seed_list)
+
     return rng_list
 end
 
+""" Receives an array of `values` and a `num_max` number, and
+returns the mean and standard deviation of them.
+"""
 function _mean_std_results(values, num_max)
+
+    # Create empty array of the right size
     mean_value = zeros(length(values[1]))
+    # Loop over it to store value of mean
     for i in eachindex(values)
         mean_value .+= values[i]
     end
+    # Normalize the result
     mean_value /= num_max
 
+    # Create empty variable for storing the standard deviation
     std_value = 0.0
+    # Compute it and store it
     for i in eachindex(values)
         std_value = (values[i] .- mean_value).^2
     end
