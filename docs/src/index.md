@@ -5,7 +5,7 @@ a number of metaheuristic algorithms, mostly nature-inspired and bio-inspired.
 
 ## On Metaheuristics
 
-The term _metaheuristic_ has a some history behind it, and a large span of definitions
+The term _metaheuristic_ has some history behind it, and a large span of definitions
 within the scientific community. In `Newtman.jl`, _metaheuristic_ is defined as follows
 
 >A _metaheuristic_ is a **black box** optimization framework that employs

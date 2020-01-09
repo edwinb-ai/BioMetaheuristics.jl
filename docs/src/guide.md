@@ -114,7 +114,7 @@ Say you like to run, and you look at your milage, timings and so on; you start t
 
 Now imagine that you have some money to spare and you wish to invest it. What type of investment will return the **largest** profit and will also **minimize** the possible risk of losing money?
 
-_Optimization_ has been a major subject within _analysis_, the major branch of mathematics where most of its arguments come from. In mathematical language, we define an **optimization problem** like follows
+_Optimization_ has been a major subject within _analysis_, the major branch of mathematics where most of its arguments come from. In mathematical language, we define an **optimization problem** as follows
 
 ```math
 \text{minimize} f(\mathbf{x}), \quad \mathbf{x} \in \mathbb{R} \\
@@ -135,7 +135,7 @@ On the other hand, if we only define the problem as
 
 we are talking about an **unconstrained optimization problem**.
 
-The goal of optimization is to find the _vector_ `\mathbf{x}` that gives the **lowest** possible value for `f` given all the constraints, if any. The classic ways to achieve this are by using _derivatives_ and _derivative tests_, and throughout the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses _derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
+The goal of optimization is to find the _vector_ `\mathbf{x}` that gives the **lowest** possible value for `f` given all the constraints, if any. The classic way to achieve this is by using _derivatives_ and _derivative tests_, and throughout the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses _derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
 
 This is a very, very small space to talk about optimization, but the following references should get you started right away. [^1], [^2] and [^3].
 
