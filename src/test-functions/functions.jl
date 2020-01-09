@@ -24,6 +24,8 @@ function _create_methods(d::Dict)
     return nothing
 end
 
+# TODO: Document these methods!
+
 _create_methods(test_functions)
 
 export evaluate

@@ -203,7 +203,8 @@ function _weight_decay(initial, itr_max)
     return step_size
 end
 
-""" 
+""" Apply boundary conditions to both position and velocity for
+every `Particle` type object `P`.
 """
 function _clip_positions_velocities!(P)
     # First the positions
