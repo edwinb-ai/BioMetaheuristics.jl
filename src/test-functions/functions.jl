@@ -14,8 +14,6 @@ abstract type Unconstrained <: TestFunctions end
 
 include("implementations.jl")
 
-export evaluate
-
 test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom])
 
 function _create_methods(d::Dict)
@@ -27,3 +25,5 @@ function _create_methods(d::Dict)
 end
 
 _create_methods(test_functions)
+
+export evaluate

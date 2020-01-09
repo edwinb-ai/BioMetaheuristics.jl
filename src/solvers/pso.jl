@@ -57,9 +57,9 @@ val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 10000)
 ```
 """
 function PSO(f::Function, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    val = _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
+    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
 
     optim_res = OptimizationResults(val,
                 _evaluate_cost(f, val),
@@ -69,9 +69,9 @@ function PSO(f::Function, population::AbstractArray, k_max::Int;
 end
 
 function PSO(f::TestFunctions, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    val = _pso!(f, population, k_max; w=w, c1=c1, c2=c2)
+    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
 
     optim_res = OptimizationResults(val,
                 _evaluate_cost(f, val),
@@ -134,11 +134,13 @@ val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000, 50)
 ```
 """
 function PSO(f::TestFunctions, population::AbstractArray,
-    k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
+    k_max::Int, total_iter::Int;w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    results = zeros(length(population[1].x))
+    # results = zeros(length(population[1].x))
+    results = [zeros(length(population[1].x)) for i = 1:total_iter]
     @sync Threads.@threads for i = 1:total_iter
-        results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        # results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        results[i] = _pso!(f, deepcopy(population), k_max; w = copy(w), c1 = c1, c2 = c2)
     end
 
     mean_value, std_value = _mean_std_results(results, total_iter)
@@ -154,13 +156,13 @@ function PSO(f::TestFunctions, population::AbstractArray,
 end
 
 function PSO(f::Function, population::AbstractArray,
-    k_max::Int, total_iter::Int;w=0.9, c1=2.0, c2=2.0)
+    k_max::Int, total_iter::Int;w = 0.9, c1 = 2.0, c2 = 2.0)
 
     # results = zeros(length(population[1].x))
     results = [zeros(length(population[1].x)) for i = 1:total_iter]
     @sync Threads.@threads for i = 1:total_iter
         # results .+= _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
-        results[i] = _pso!(f, deepcopy(population), k_max; w=copy(w), c1=c1, c2=c2)
+        results[i] = _pso!(f, deepcopy(population), k_max; w = copy(w), c1 = c1, c2 = c2)
     end
 
     mean_value, std_value = _mean_std_results(results, total_iter)
@@ -176,7 +178,7 @@ function PSO(f::Function, population::AbstractArray,
 end
 
 function _pso!(f, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0)
 
     # Create the RNGs, statistically independent
     rng_list = _create_rng()
@@ -241,21 +243,21 @@ end
 function _clip_positions_velocities!(P)
     # First the positions
     # upper bound
-    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.x, P.x)
+    broadcast!(x->x > P.max_dim ? P.max_dim : x, P.x, P.x)
     # lower bound
-    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.x, P.x)
+    broadcast!(x->x < P.min_dim ? P.min_dim : x, P.x, P.x)
     # Then the velocities
     # upper bound
-    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.v, P.v)
+    broadcast!(x->x > P.max_dim ? P.max_dim : x, P.v, P.v)
     # lower bound
-    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.v, P.v)
+    broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
 
 function _create_rng()
     # Create the RNG to create seeds
     rng_master = PCG.PCGStateOneseq()
     seed_list = [rand(rng_master, UInt64) for i = 1:2]
-    rng_list = map(x -> Xorshifts.Xorshift1024Star(x), seed_list)
+    rng_list = map(x->Xorshifts.Xorshift1024Star(x), seed_list)
     return rng_list
 end
 
@@ -275,7 +277,7 @@ function _mean_std_results(values, num_max)
 
     std_value = 0.0
     for i in eachindex(values)
-        std_value = (values[i] .- mean_value) .^ 2
+        std_value = (values[i] .- mean_value).^2
     end
     std_value = sqrt(sum(std_value) / num_max)
 

@@ -1,45 +1,27 @@
 @testset "PSO" begin
 
-    f_sphere(x) = sum(x .^ 2)
+    f_sphere(x) = sum(x.^2)
 
-    @test begin
+    @test "Parallel TestFunctions" begin
         total_runs = 2
         val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000, total_runs)
-        assert_results = []
-        for i = 1:total_runs
-            push!(assert_results, ≈(val[i], zeros(30), atol=1e-11))
-        end
-        if count(assert_results) >= 1
-            true
-        else
-            println(count(assert_results))
-            false
-        end
+        ≈(val.x, zeros(30), atol = 1e-11)
     end
 
-    @test begin
+    @test "Parallel user-defined functions" begin
         total_runs = 2
         val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000, total_runs)
-        assert_results = []
-        for i = 1:total_runs
-            push!(assert_results, ≈(val[i], zeros(30), atol=1e-11))
-        end
-        if count(assert_results) >= 1
-            true
-        else
-            println(count(assert_results))
-            false
-        end
+        ≈(val.x, zeros(30), atol = 1e-11)
     end
 
     @test begin
         assert_results = []
-        for k = 1:30
+        for k = 1:10
             val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000)
-            push!(assert_results, ≈(val, zeros(30), atol=1e-11))
+            push!(assert_results, ≈(val.x, zeros(30), atol = 1e-11))
         end
-        # if at least 50% of the time converges, the test passes
-        if count(assert_results) >= 15
+        # if at least 80% of the time converges, the test passes
+        if count(assert_results) >= 8
             true
         else
             println(count(assert_results))
@@ -49,14 +31,14 @@
 
     @test begin
         assert_results = []
-        for k = 1:50
+        for k = 1:10
             val = PSO(Easom(), Population(35, 2, -100.0, 100.0), 20000)
             design = [π, π]
-            result = ≈(val, design, atol=1e-8)
+            result = ≈(val.x, design, atol = 1e-8)
             push!(assert_results, result)
         end
-        # if at least 50% of the time converges, the test passes
-        if count(assert_results) >= 25
+        # if at least 80% of the time converges, the test passes
+        if count(assert_results) >= 8
             true
         else
             println(count(assert_results))
@@ -66,12 +48,12 @@
 
     @test begin
         assert_results = []
-        for k = 1:30
+        for k = 1:10
             val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000)
-            push!(assert_results, ≈(val, zeros(30), atol=1e-11))
+            push!(assert_results, ≈(val.x, zeros(30), atol = 1e-11))
         end
-        # if at least 50% of the time converges, the test passes
-        if count(assert_results) >= 15
+        # if at least 80% of the time converges, the test passes
+        if count(assert_results) >= 8
             true
         else
             println(count(assert_results))
