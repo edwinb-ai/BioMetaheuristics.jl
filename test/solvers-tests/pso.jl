@@ -2,18 +2,19 @@
 
     f_sphere(x) = sum(x.^2)
 
-    @test "Parallel TestFunctions" begin
+    # * Parallel tests for TestFunctions
+    @test begin
         total_runs = 2
         val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000, total_runs)
         ≈(val.x, zeros(30), atol = 1e-11)
     end
-
-    @test "Parallel user-defined functions" begin
+    # * Parallel tests for user-defined functions
+    @test begin
         total_runs = 2
         val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000, total_runs)
         ≈(val.x, zeros(30), atol = 1e-11)
     end
-
+    # * Single-run tests for TestFunctions, Sphere
     @test begin
         assert_results = []
         for k = 1:10
@@ -28,7 +29,7 @@
             false
         end
     end
-
+    # * Single-run tests for TestFunctions, Easom
     @test begin
         assert_results = []
         for k = 1:10
@@ -45,7 +46,7 @@
             false
         end
     end
-
+    # * Single-run tests for user-defined functions
     @test begin
         assert_results = []
         for k = 1:10
