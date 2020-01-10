@@ -14,7 +14,7 @@ abstract type Unconstrained <: TestFunctions end
 
 include("implementations.jl")
 
-test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom])
+test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley])
 
 function _create_methods(d::Dict)
     for (k, v) in d

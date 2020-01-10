@@ -34,7 +34,7 @@ f(\mathbf{x^*}) = -1, \quad \mathbf{x^*} = (\pi, \pi)
 
 The `Ackley` function is defined as:
 ```math
-f(\mathbf{x}) = -20 \e^{ -0.02 \sqrt{\frac{1}{d}\sum_{i=1}^{d}{x_i^2}}} - \e^{\frac{1}{d}\sum_{i=1}^{d}{\cos{(2 \pi x_i)}}} + 20 + e
+f(\mathbf{x}) = -20 e^{ -0.02 \sqrt{\frac{1}{d}\sum_{i=1}^{d}{x_i^2}}} - e^{\frac{1}{d}\sum_{i=1}^{d}{\cos{(2 \pi x_i)}}} + 20 + e
 ```
 where the _design_ vector is a d-dimensional vector, subject to ``-35 \leq x_i \leq 35``.
 
