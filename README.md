@@ -2,10 +2,10 @@
 
 Nature-inspired and bio-inspired algorithms for unconstrained optimization.
 
-| Style | Documentation| Build Status | Coverage |
-| :-----: | :------------: | :------------: | :--------: |
-| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)|[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev)|[![Build Status](https://travis-ci.org/edwinb-ai/Newtman.jl.svg?branch=master)](https://travis-ci.org/edwinb-ai/Newtman.jl)|[![Codecov](https://codecov.io/gh/edwinb-ai/Newtman.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/edwinb-ai/Newtman.jl)|
-| | |[![Build Status](https://ci.appveyor.com/api/projects/status/github/edwinb-ai/Newtman.jl?svg=true)](https://ci.appveyor.com/project/edwinb-ai/Newtman-jl)|[![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master)|
+|                                                         Style                                                          |                                            Documentation                                             |                                                                       Build Status                                                                        |                                                                               Coverage                                                                               |
+| :--------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle) | [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev) |                [![Build Status](https://travis-ci.org/edwinb-ai/Newtman.jl.svg?branch=master)](https://travis-ci.org/edwinb-ai/Newtman.jl)                |                  [![Codecov](https://codecov.io/gh/edwinb-ai/Newtman.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/edwinb-ai/Newtman.jl)                  |
+|                                                                                                                        |                                                                                                      | [![Build Status](https://ci.appveyor.com/api/projects/status/github/edwinb-ai/Newtman.jl?svg=true)](https://ci.appveyor.com/project/edwinb-ai/Newtman-jl) | [![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master) |
 
 ## Demo
 
@@ -28,16 +28,20 @@ PSO(sphere, Population(30, 10, -5.0, 5.0), 10000)
 The output is just the minima found (note that this is just a single run, and because of randomness
 this **will** change every time):
 ```julia
-[1.4133633848603616e-8,
- 5.269529873035152e-8,
--6.817589802491161e-8,
- 8.439376030727941e-8,
- 1.6808091823666365e-8,
- 2.1992538496794947e-8,
--1.435877272853963e-7,
- 2.6145972639285076e-9,
- 2.1692613064163623e-9,
--9.597041588846402e-9]
+Results from Optimization
+        Algorithm: PSO
+        Design: [-3.220020802639494e-7,
+        3.118659374482604e-8,
+        -2.7717025968666597e-7,
+        6.477139501167253e-7,
+        -6.67931252980814e-7,
+        -1.1770668643176808e-6,
+        5.340014665165223e-7,
+        -3.192366063246642e-7,
+        -7.09970790506219e-7,
+        1.5849761437386237e-7]
+        Minimum: 0.0000
+        Maximum iterations: 10000
 ```
 which is reasonably the _true global minima_, within a certain tolerance.
 
