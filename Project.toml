@@ -4,6 +4,7 @@ authors = ["Edwin Bedolla"]
 version = "0.3.0"
 
 [deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 RandomNumbers = "e6cf234a-135c-5ec9-84dd-332b85af5143"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
