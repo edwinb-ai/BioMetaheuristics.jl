@@ -38,7 +38,7 @@
             Population(35, 30, -10.0, 10.0),
             total_iterations,
             2)
-        @test isapprox(val.x, zeros(30), atol = 1e-11)
+        @test isapprox(val.x, zeros(30), atol = 1e-10)
         @test isapprox(val.min, 0.0, atol = 1e-20)
         @test val.impl ≡ "PSO"
         @test val.iterations ≡ total_iterations
