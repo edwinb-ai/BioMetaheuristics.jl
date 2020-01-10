@@ -2,7 +2,7 @@
 
     f_sphere(x) = sum(x.^2)
 
-    # * Parallel tests for TestFunctions
+    # * Parallel tests for TestFunctions, Sphere
     @test begin
         total_runs = 2
         val = PSO(Sphere(), Population(30, 30, -10.0, 10.0), 20000, total_runs)
