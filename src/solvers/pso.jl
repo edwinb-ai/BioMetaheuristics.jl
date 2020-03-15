@@ -231,7 +231,7 @@ function _create_rng(;num_rngs = 2)
     # From this RNG, create two seeds
     seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
     # With these seeds, seed two new RNG's
-    rng_list = map(x->Xorshifts.Xorshift1024Star(x), seed_list)
+    rng_list = map(Xorshifts.Xorshift1024Star, seed_list)
 
     return rng_list
 end

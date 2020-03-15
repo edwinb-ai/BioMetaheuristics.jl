@@ -5,7 +5,8 @@
     @testset "Benchmarks" begin
         total_iterations = 20000
         val = PSO(Easom(), Population(35, 2, -100.0, 100.0), total_iterations)
-        @test isapprox(val.x, [π, π], atol = 1e-8)
+        ground_truth = @SVector [π, π]
+        @test isapprox(val.x, ground_truth, atol = 1e-8)
         @test isapprox(val.min, -1.0)
         @test val.impl ≡ "PSO"
         @test val.iterations ≡ total_iterations

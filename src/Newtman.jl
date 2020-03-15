@@ -1,6 +1,7 @@
 module Newtman
 
-using RandomNumbers
+using RandomNumbers.Xorshifts
+using RandomNumbers.PCG
 using Base.Threads
 using Statistics
 using Base.Printf
