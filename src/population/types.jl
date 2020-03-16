@@ -5,17 +5,15 @@ Abstract super-type for types that contain their own information.
 """
 abstract type Individual end
 
-export Particle, Population
-
-mutable struct Particle{T<:AbstractArray, V<:AbstractFloat} <: Individual
+mutable struct Particle{T <: AbstractArray,V <: AbstractFloat} <: Individual
     x::T
     v::T
     x_best::T
     min_dim::V
     max_dim::V
 
-    function Particle{T, V}(x::T, v::T, x_best::T, a::V, b::V) where
-        {T<:AbstractArray, V<:AbstractFloat}
+    function Particle{T,V}(x::T, v::T, x_best::T, a::V, b::V) where
+        {T <: AbstractArray,V <: AbstractFloat}
 
         @assert length(x) == length(v) == length(x_best) "Dimension must be unique"
 
@@ -43,8 +41,8 @@ The dimensions of the `Particle` are inferred from the length of the arrays.
 p = Particle(zeros(3), rand(3), zeros(3), -1.0, 1.0)
 ```
 """
-Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:AbstractFloat} =
-    Particle{T, V}(x, v, x_best, a, b)
+Particle(x::T, v::T, x_best::T, a::V, b::V) where {T <: AbstractArray,V <: AbstractFloat} =
+    Particle{T,V}(x, v, x_best, a, b)
 
 """
     Particle(a::T, b::T, n::V)
@@ -62,12 +60,14 @@ Particle(x::T, v::T, x_best::T, a::V, b::V) where {T<:AbstractArray, V<:Abstract
 p = Particle(-1.0, 1.0, 3)
 ```
 """
-function Particle(a::T, b::T, n::V) where {T<:AbstractFloat, V<:Int}
+function Particle(a::T, b::T, n::V) where {T <: AbstractFloat,V <: Int}
     @assert n > 0 "Dimension is always positive"
 
-    x = a .+ (rand(T, n) * (b - a))
-    v = a .+ (rand(T, n) * (b - a))
-    x_best = rand(T, n)
+    rng = Xorshift128Star()
+
+    x = a .+ (rand(rng, T, n) * (b - a))
+    v = a .+ (rand(rng, T, n) * (b - a))
+    x_best = rand(rng, T, n)
 
     return Particle(x, v, x_best, a, b)
 end
@@ -92,7 +92,7 @@ essentially a multi-dimensional array. It makes handling `Particle`s much easier
 pop = Population(35, 4, -1.0, 1.0)
 ```
 """
-function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
+function Population(num_particles::T, dim::T, a::V, b::V) where {T <: Int,V <: AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
@@ -105,27 +105,35 @@ function Population(num_particles::T, dim::T, a::V, b::V) where {T<:Int, V<:Abst
 end
 
 """
-    Population(dim::T, a::V, b::V)
-        where {T<:Int, V<:AbstractFloat} -> Vector{Particle}(undef, num_particles)
+    Population(num_particles::Integer, dim::Integer, x...)
+        -> Vector{Particle}(undef, num_particles)
 
-If `num_particles` is not provided, it defaults to 5 `Particle`s in the `Population`.
+An array of `Particle`'s where each of them are bounded and are given a dimension.
+`x` is a tuple of ranges for each *dimension* for the `Particle`'s specified.
 
 # Arguments
+- `num_particles`: Number of particles in the `Population`.
 - `dim`: Dimension for every `Particle`.
-- `a`: Lower bound for every `Particle`, this is shared across every instance.
-- `b`: Upper bound for every `Particle`, this is shared across every instance.
+- `x`: Tuple of ranges for each dimension.
 
 # Example
 ```julia
-pop = Population(4, -1.0, 1.0) # The same as Population(5, 4, -1.0, 1.0)
+# Two ranges, one for each dimension
+range_a = SVector(-10.0, 10.0)
+range_b = SVector(-2.5, 2.0)
+pops = Population(2, 20, ranges_a, range_b)
 ```
 """
-function Population(dim::T, a::V, b::V) where {T<:Int, V<:AbstractFloat}
+function Population(num_particles::Integer, dim::Integer, x...)
     @assert dim > 0 "Dimension is always positive"
+    @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
-    container = Vector{Particle}(undef, 5)
-    for idx in eachindex(container)
-        container[idx] = Particle(a, b, dim)
+    container = Vector{Particle}(undef, num_particles)
+
+    # Loop over each number of particles and dimension
+    for (idx, jdx) in zip(eachindex(container), 1:dim)
+        # Splat the ranges, considering they're AbstractArray's
+        container[idx] = Particle(x[jdx]..., dim)
     end
 
     return container

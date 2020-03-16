@@ -11,7 +11,8 @@ end
 @testset "Easom" begin
     @test_throws AssertionError Easom(zeros(4))
     @test Easom(fill(3.0, 2)) ≈ -0.94156415
-    @test Easom((π, π)) ≈ -1.0 # Check for minimum
+    minimum_val = @SVector [π, π]
+    @test Easom(minimum_val) ≈ -1.0 # Check for minimum
     @test isa(evaluate(Easom(), [2.0, 4.0]), Number)
 end
 

@@ -60,51 +60,6 @@ Results from Optimization
 
 Within a certain tolerance of about `\epsilon` = 1e-8 we have found the _true_ minimum of the function. We can actually check the value with the evaluation, notice that it actually returns `0`, as expected.
 
-## Embarrassingly parallel runs
-
-`Newtman.jl` also provides an API to execute simultaneous, independent runs for the algorithms presented, for exaple, take the same function as before, the `Griewank` function, but let's now evaluate 10 runs of `PSO`, we call the function as before but we add a new parameter, the number of runs we would like to execute, and this looks like the following
-
-```julia
-using Newtman
-
-# Here the number 10 represents the number of independent runs
-val = PSO(griewank, Population(30, 20, -100.0, 100.0), 20000, 10)
-```
-
-Now this code will execute 10 different `PSO` instances in your computer using `Julia`'s built-in multi-threading tools. In order for this to work as intended you must specify the number of threads you can use in your system by running a new `Julia` session with the following exported _environment variable._
-
-```shell
-JULIA_NUM_THREADS=4 julia
-```
-
-This will tell `Julia` to start with 4 threads enabled in your system, you can actually verify this by running the following in the REPL
-
-```julia
-julia> using Base.Threads
-julia> Threads.nthreads()
-
-# output
-4
-```
-
-After waiting for a few seconds, the results **might be** similar to this
-
-```julia
-Results from Optimization
-        Algorithm: PSO
-        Design: [-1.0817024888063792e-10, -2.6749621634017217e-9, 1.1040223452331079e-11,
-        9.735685165578326e-9, 1.0439021918597697e-9, -6.85965962370804e-9,
-        3.0345711112735914e-9, 2.551747398298418e-9, -9.549261142961494e-10,
-        -2.589502577867808e-9, 3.175953614831133e-10, -9.060555883133757e-9,
-        -5.188415197135356e-9, -8.101253245179797e-10, 6.318476828318098e-9,
-        -7.805498095457974e-9, -8.69896704003609e-9, -4.112411937330503e-9,
-        -1.673467124313779e-10, -7.363579041517219e-9] ± 6.557577e-08
-        Minimum: 0.0000
-        Maximum iterations: 20000
-        Total independent runs: 10
-```
-
-This output is telling us that the result from 10 independent runs is that vector defined as _design_, which is actually the mean value from the 10 runs, and it has a standard deviation. Note that this error is quite high because of the few runs executed, but as we increase the number of runs we might get better results.
 
 # A primer on numerical optimization
 

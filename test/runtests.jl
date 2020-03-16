@@ -1,6 +1,7 @@
 using Newtman
 using Test
 using Base.Threads
+using StaticArrays
 
 @testset "Newtman.jl" begin
     include("functests.jl")

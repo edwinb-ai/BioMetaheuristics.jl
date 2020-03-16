@@ -4,10 +4,15 @@
         actual_type = typeof(Vector{Particle}(undef, 15))
         pops ≡ actual_type
     end
+
+    # Test multiple ranges
     @test let
-        pops = typeof(Population(20, -10.0, 10.0))
-        actual_type = typeof(Vector{Particle}(undef, 5))
-        pops ≡ actual_type
+        range_a = SVector(-10.0, 10.0)
+        range_b = SVector(-2.5, 2.0)
+        pops = Population(2, 20, range_a, range_b)
+        type_pops = typeof(pops)
+        actual_type = typeof(Vector{Particle}(undef, 2))
+        type_pops ≡ actual_type
     end
     @test_throws AssertionError Population(15, -1, 1.0, 1.0)
     @test_throws AssertionError Population(0, 5, 1.0, 1.0)
