@@ -14,7 +14,7 @@ Using `Newtman.jl` is fairly straightforward, first you define your own function
 f(\mathbf{x}) = \sum_{i=1}^d \frac{x_i^2}{4000} - \prod_{i=1}^d \cos{\left( \frac{x_i}{\sqrt{i}}\right)} + 1
 ```
 
-where `d` is the dimension of the problem. It's mostly evaluated within the boundaries `-100 \leq x_i \leq 100`, and it has a **minimum** at `\mathbf{x^*} = (0, \cdots, 0)`, and it evaluates to `f(\mathbf{x^*}) = 0`.
+where ``d`` is the dimension of the problem. It's mostly evaluated within the boundaries ``-100 \leq x_i \leq 100``, and it has a **minimum** at ``\mathbf{x^*} = (0, \cdots, 0)``, and it evaluates to ``f(\mathbf{x^*}) = 0``.
 
 We define the function in `Julia` like this
 
