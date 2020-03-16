@@ -5,8 +5,6 @@ Abstract super-type for types that contain their own information.
 """
 abstract type Individual end
 
-export Particle, Population
-
 mutable struct Particle{T <: AbstractArray,V <: AbstractFloat} <: Individual
     x::T
     v::T
@@ -65,7 +63,7 @@ p = Particle(-1.0, 1.0, 3)
 function Particle(a::T, b::T, n::V) where {T <: AbstractFloat,V <: Int}
     @assert n > 0 "Dimension is always positive"
 
-    rng = Xoroshiro128Plus()
+    rng = Xorshift128Star()
 
     x = a .+ (rand(rng, T, n) * (b - a))
     v = a .+ (rand(rng, T, n) * (b - a))

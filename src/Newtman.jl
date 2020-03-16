@@ -8,6 +8,10 @@ using Base.Printf
 
 include("test-functions/functions.jl")
 include("population/types.jl")
+export Particle, Population
 include("solvers/solvers.jl")
+export OptimizationResults, PopulationBase
+include("solvers/pso.jl")
+export PSO
 
 end
