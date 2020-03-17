@@ -14,18 +14,14 @@ abstract type Unconstrained <: TestFunctions end
 
 include("implementations.jl")
 
+# Build a dictionary of test functions and their implementations
 test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley])
 
-function _create_methods(d::Dict)
-    for (k, v) in d
-        @eval $k(x::T) where T = $v(x)
-        @eval evaluate(b::$k, x::T) where T = $v(x)
-    end
-    return nothing
+for (k, v) in test_functions
+    # Create the methods for the given test functions
+    @eval $k(x::T) where T = $v(x)
+    # Create a special method for the `TestFunction` type
+    @eval evaluate(b::$k, x::T) where T = $v(x)
 end
-
-# TODO: Document these methods!
-
-_create_methods(test_functions)
 
 export evaluate
