@@ -8,8 +8,10 @@ include("test-functions/functions.jl")
 include("population/types.jl")
 export Particle, Population
 include("solvers/solvers.jl")
-export OptimizationResults, PopulationBase
+export OptimizationResults, PopulationBase, Metaheuristic
 include("solvers/pso.jl")
 export PSO
+include("solvers/simulated_annealing.jl")
+export SimulatedAnnealing
 
 end
