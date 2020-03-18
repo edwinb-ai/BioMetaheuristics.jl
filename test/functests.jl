@@ -21,3 +21,8 @@ end
     @test isapprox(Ackley(zeros(5)), 0.0, atol = 1e-15) # Check for minimum
     @test isa(evaluate(Ackley(), [2.0, 4.0]), Number)
 end
+
+@testset "Rosenbrock" begin
+    @test_throws AssertionError Rosenbrock(zeros(1))
+    @test isapprox(Rosenbrock(fill(1.0, 4)), 0.0, atol = 1e-15) # Check for minimum
+end

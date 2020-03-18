@@ -1,9 +1,9 @@
-## Benchmark test functions
+# Benchmark test functions
 
 The following **benchmark functions** are implemented, each function is defined in the
 survey[^1]:
 
-- [`Sphere`](@ref)
+## [`Sphere`](@ref)
 
 The `Sphere` function is defined as:
 ```math
@@ -17,7 +17,7 @@ subject to ``0 \leq x_i \leq 10``.
 f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)
 ```
 
-- [`Easom`](@ref)
+## [`Easom`](@ref)
 
 The `Easom` function is defined as:
 ```math
@@ -30,17 +30,31 @@ where the _design_ vector is a 2-D vector only, subject to ``-100 \leq x_i \leq 
 f(\mathbf{x^*}) = -1, \quad \mathbf{x^*} = (\pi, \pi)
 ```
 
-- [`Ackley`](@ref)
+## [`Ackley`](@ref)
 
 The `Ackley` function is defined as:
 ```math
-f(\mathbf{x}) = -20 e^{ -0.02 \sqrt{\frac{1}{d}\sum_{i=1}^{d}{x_i^2}}} - e^{\frac{1}{d}\sum_{i=1}^{d}{\cos{(2 \pi x_i)}}} + 20 + e
+f(\mathbf{x}) = -20 \exp{\left[ -0.02 \sqrt{\frac{1}{d}\sum_{i=1}^{d}{x_i^2}} \right]}
+- \exp{\left[\frac{1}{d}\sum_{i=1}^{d}{\cos{(2 \pi x_i)}}\right]} + 20 + e
 ```
 where the _design_ vector is a d-dimensional vector, subject to ``-35 \leq x_i \leq 35``.
 
 - The function has the following **minimum**:
 ```math
 f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)
+```
+
+## [`Rosenbrock`](@ref)
+
+The famous `Rosenbrock` function is defined as:
+```math
+f(\mathbf{x}) = \sum_{i=1}^{N-1} \left[100(x_{i-1}-x_i^2)^2 +(1-x_i)^2 \right]
+```
+where the _design_ vector is a N-dimensional vector, subject to ``-\infty \leq x_i \leq \infty``.
+
+- The function has the following **minimum**:
+```math
+f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (1, \cdots, 1)
 ```
 
 ### References

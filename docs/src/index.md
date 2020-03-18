@@ -63,12 +63,6 @@ can be harder to code and even harder to solve.
 `Julia` is a great candidate to solve this problem, and this package attempts to prove that by providing high perfomant code and
 implementations.
 
-## Contents of `Newtman.jl`
-
-```@contents
-Pages = ["algorithms.md", "benchmarks.md"]
-```
-
 ## The Evolutionary Computation Bestiary
 
 There is a _hidden_ goal for `Newtman.jl` and that is to implement _all_ of the algorithms proposed in the
