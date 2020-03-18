@@ -1,20 +1,29 @@
-## [Algorithms](@id implementations-docs)
- 
+# [Algorithms](@id implementations-docs)
+
 The following **algorithms** are implemented:
 
-- `Particle Swarm Optimization` [^1]
-  This implementation is the modified Particle Swarm Optimization where it employs an inertia weight ``\omega``
-  that controls convergence. This implementation uses _linear decay_ for the inertia weight, which lowers the value of 
-  ``\omega`` until it reaches the default minimum of ``\omega = 0.4``.
-  The **update rules** for the particles are the following:
+## Particle Swarm Optimization
+This implementation is the modified Particle Swarm Optimization [^1] where it employs an inertia weight ``\omega``
+that controls convergence. This implementation uses _linear decay_ for the inertia weight, which lowers the value of 
+``\omega`` iteratively until it reaches the default minimum of ``\omega = 0.4``.
 
-  ```math
-  x_{i+1} = x_i + v_{i+1} \\
-  v_{i+1} = \omega v_i + \varphi_1 \beta_1 (p_i - x_i) + \varphi_2 \beta_2 (p_g - x_i)
-  ```
+The **update rules** for the particles are the following:
 
-  where ``\beta_1`` and ``\beta_2`` are uniformly distributed random numbers; ``\varphi_1`` and ``\varphi_2`` are the momentum coefficients;
-  ``p_i`` is the previous individual best position and ``p_g`` is the privious global best position of the population.
+```math
+x_{i+1} = x_i + v_{i+1} \\
+v_{i+1} = \omega v_i + \varphi_1 \beta_1 (p_i - x_i) + \varphi_2 \beta_2 (p_g - x_i) \\
+\omega = \omega - \eta
+```
+
+where ``\beta_1`` and ``\beta_2`` are uniformly distributed random numbers; ``\varphi_1`` and ``\varphi_2`` are the momentum coefficients;
+``p_i`` is the previous individual best position and ``p_g`` is the privious global best position of the population; finally
+``\eta`` is the weight decay, currently implemented as
+
+```math
+\eta = \frac{(0.9 - 0.4)}{n}
+```
+where ``0.9`` is the original default value for ``\omega``, ``0.4`` is the default minimum as explained before and ``n`` is the
+total number of iterations the algorithm is run. This guarantees that the weight decays linearly.
 
 ### References
 

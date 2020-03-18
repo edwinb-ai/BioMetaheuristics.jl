@@ -6,6 +6,8 @@ makedocs(;
     pages = [
         "Home" => "index.md",
         "Guide" => "guide.md",
+        "Implementations" => "algorithms.md",
+        "Benchmark functions" => "benchmarks.md",
         "Reference" => "reference.md",
         "License" => "license.md",
     ],

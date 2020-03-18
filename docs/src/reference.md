@@ -10,7 +10,7 @@ Pages = ["functions.jl",
 ## Algorithms
 ```@autodocs
 Modules = [Newtman]
-Pages = ["solvers/pso.jl", "solvers/solvers.jl"]
+Pages = ["solvers/solvers.jl", "solvers/pso.jl", "solvers/simulated_annealing.jl"]
 ```
 
 ## Population

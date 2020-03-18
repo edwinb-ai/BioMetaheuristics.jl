@@ -1,9 +1,9 @@
-## Benchmark test functions
+# Benchmark test functions
 
 The following **benchmark functions** are implemented, each function is defined in the
 survey[^1]:
 
-- [`Sphere`](@ref)
+## [`Sphere`](@ref)
 
 The `Sphere` function is defined as:
 ```math
@@ -17,7 +17,7 @@ subject to ``0 \leq x_i \leq 10``.
 f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)
 ```
 
-- [`Easom`](@ref)
+## [`Easom`](@ref)
 
 The `Easom` function is defined as:
 ```math
@@ -30,7 +30,7 @@ where the _design_ vector is a 2-D vector only, subject to ``-100 \leq x_i \leq 
 f(\mathbf{x^*}) = -1, \quad \mathbf{x^*} = (\pi, \pi)
 ```
 
-- [`Ackley`](@ref)
+## [`Ackley`](@ref)
 
 The `Ackley` function is defined as:
 ```math
