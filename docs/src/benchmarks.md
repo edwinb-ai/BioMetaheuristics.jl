@@ -43,6 +43,19 @@ where the _design_ vector is a d-dimensional vector, subject to ``-35 \leq x_i \
 f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (0, \cdots, 0)
 ```
 
+## [`Rosenbrock`](@ref)
+
+The famous `Rosenbrock` function is defined as:
+```math
+f(\mathbf{x}) = \sum_{i=1}^{N-1} \left[100(x_{i-1}-x_i^2)^2 +(1-x_i)^2 \right]
+```
+where the _design_ vector is a N-dimensional vector, subject to ``-\infty \leq x_i \leq \infty``.
+
+- The function has the following **minimum**:
+```math
+f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (1, \cdots, 1)
+```
+
 ### References
 
 [^1]: Jamil, M., & Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150–194. https://doi.org/10.1504/IJMMNO.2013.055204
