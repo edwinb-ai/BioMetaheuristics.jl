@@ -79,7 +79,7 @@ where ``N`` is the dimension of the input vector ``\mathbf{x}``.
 """
 struct Rosenbrock <: Unconstrained end
 
-function _rosenbrock(x)
+@inline function _rosenbrock(x)
     dimension = length(x)
     @assert dimension >= 2 "Must be at least 2D"
 
