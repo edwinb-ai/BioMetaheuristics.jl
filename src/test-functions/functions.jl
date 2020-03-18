@@ -15,7 +15,8 @@ abstract type Unconstrained <: TestFunctions end
 include("implementations.jl")
 
 # Build a dictionary of test functions and their implementations
-test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley])
+test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley,
+:Rosenbrock => :_rosenbrock])
 
 for (k, v) in test_functions
     # Create the methods for the given test functions
