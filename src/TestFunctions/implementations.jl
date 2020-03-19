@@ -87,6 +87,16 @@ struct Rosenbrock <: Unconstrained end
     return total
 end  # function _rosenbrock
 
+@doc raw"""
+    Goldstein-Price
+
+An unconstrained implementation of the d-dimensional
+Goldstein-Price function defined as:
+
+```math
+f(x,y)=[1 + (x + y + 1)^2(19 − 14x+3x^2− 14y + 6xy + 3y^2)][30 + (2x − 3y)^2(18 − 32x + 12x^2 + 4y − 36xy + 27y^2)]
+```
+"""
 struct GoldsteinPrice <: Unconstrained end
 
 @inline function _goldprice(x)

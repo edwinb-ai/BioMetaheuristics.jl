@@ -57,6 +57,19 @@ where the _design_ vector is a N-dimensional vector, subject to ``-\infty \leq x
 f(\mathbf{x^*}) = 0, \quad \mathbf{x^*} = (1, \cdots, 1)
 ```
 
+## [`GoldsteinPrice`](@ref)
+
+The `Goldstein-Price` function is defined as:
+```math
+f(x,y)=[1 + (x + y + 1)^2(19 − 14x+3x^2− 14y + 6xy + 3y^2)][30 + (2x − 3y)^2(18 − 32x + 12x^2 + 4y − 36xy + 27y^2)]
+```
+where ``x`` and ``y`` are the elements of a ``2D`` _design_ vector.
+
+- The function has the following **minimum**:
+```math
+f(\mathbf{x^*}) = 3, \quad \mathbf{x^*} = (0, -1)
+```
+
 ### References
 
 [^1]: Jamil, M., & Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150–194. https://doi.org/10.1504/IJMMNO.2013.055204
