@@ -2,8 +2,8 @@
 
 ## Benchmarks
 ```@autodocs
-Modules = [Newtman]
-Pages = ["functions.jl",
+Modules = [Newtman.TestFunctions]
+Pages = ["TestFunctions.jl",
         "implementations.jl"]
 ```
 

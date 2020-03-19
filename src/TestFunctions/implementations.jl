@@ -1,5 +1,3 @@
-export Sphere, Easom, Ackley, Rosenbrock
-
 @doc raw"""
     Sphere
 
@@ -13,9 +11,7 @@ where ``d`` is the dimension of the input vector ``\mathbf{x}``.
 """
 struct Sphere <: Unconstrained end
 
-@inline function _sphere(x)
-    return sum(x.^2)
-end
+_sphere(x) = sum(x.^2)
 
 @doc raw"""
     Easom
@@ -90,3 +86,14 @@ struct Rosenbrock <: Unconstrained end
 
     return total
 end  # function _rosenbrock
+
+# Build a dictionary of test functions and their implementations
+test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley,
+:Rosenbrock => :_rosenbrock])
+
+for (k, v) in test_functions
+    # Create the methods for the given test functions
+    @eval $k(x::T) where T = $v(x)
+    # Create a special method for the `TestFunction` type
+    @eval evaluate(b::$k, x::T) where T = $v(x)
+end

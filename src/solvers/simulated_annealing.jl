@@ -1,13 +1,15 @@
+import Newtman.TestFunctions: Benchmark, evaluate
+
 const ln2 = log(2.0)
 
 struct SimulatedAnnealing <: Metaheuristic end
 
 """
-    SimulatedAnnealing(f::TestFunctions, a::T, b::T, dim::Integer;
+    SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
         t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat} -> OptimizationResults
 
 Same implementation as the one for [`SimulatedAnnealing`](@ref) except that this one
-can accept `TestFunctions` functions implemented within `Newtman`.
+can accept `Benchmark` functions implemented within `Newtman.TestFunctions`.
 
 # Examples
 
@@ -19,7 +21,7 @@ using Newtman
 val = SimulatedAnnealing(Rosenbrock(), -5.0, 5.0, 3; low_temp = 10000)
 ```
 """
-function SimulatedAnnealing(f::TestFunctions, a::T, b::T, dim::Integer;
+function SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
     t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat}
     return SimulatedAnnealing(x->evaluate(f, x), a, b, dim;
         t0 = t0, low_temp = low_temp)

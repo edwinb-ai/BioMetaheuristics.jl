@@ -1,7 +1,7 @@
-using Documenter, Newtman
+using Documenter, Newtman, Newtman.TestFunctions
 
 makedocs(;
-    modules = [Newtman],
+    modules = [Newtman, Newtman.TestFunctions],
     format = Documenter.HTML(),
     pages = [
         "Home" => "index.md",

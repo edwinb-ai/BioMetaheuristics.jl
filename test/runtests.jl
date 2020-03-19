@@ -1,4 +1,5 @@
 using Newtman
+using Newtman.TestFunctions
 using Test
 using Base.Threads
 using StaticArrays
