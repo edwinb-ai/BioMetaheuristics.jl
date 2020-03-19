@@ -87,9 +87,24 @@ struct Rosenbrock <: Unconstrained end
     return total
 end  # function _rosenbrock
 
+struct GoldsteinPrice <: Unconstrained end
+
+@inline function _goldprice(x)
+    @assert length(x) == 2 "Exactly 2D"
+
+    term_1 = (x[1] + x[2] + 1.0)^2
+    term_1 *= 19.0 - 14.0 * x[1] + 3.0 * x[1]^2 - 14.0 * x[2] + 6.0 * x[1] * x[2] + 3.0 * x[2]^2
+    term_1 += 1.0
+    term_2 = (2.0 * x[1] - 3.0 * x[2])^2
+    term_2 *= 18.0 - 32.0 * x[1] + 12.0 * x[1]^2 + 48.0 * x[2] - 36.0 * x[1] * x[2] + 27.0 * x[2]^2
+    term_2 += 30.0
+
+    return term_1 * term_2
+end  # function _goldprice
+
 # Build a dictionary of test functions and their implementations
 test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley,
-:Rosenbrock => :_rosenbrock])
+:Rosenbrock => :_rosenbrock, :GoldsteinPrice => :_goldprice])
 
 for (k, v) in test_functions
     # Create the methods for the given test functions

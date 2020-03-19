@@ -26,3 +26,11 @@ end
     @test_throws AssertionError Rosenbrock(zeros(1))
     @test isapprox(Rosenbrock(fill(1.0, 4)), 0.0, atol = 1e-15) # Check for minimum
 end
+
+@testset "GoldsteinPrice" begin
+    ground_truth = 3.0
+    true_vector = @SVector [0.0, -1.0]
+    @test_throws AssertionError GoldsteinPrice(zeros(3))
+    # Check for minimum
+    @test isapprox(GoldsteinPrice(true_vector), ground_truth, atol = 1e-15)
+end
