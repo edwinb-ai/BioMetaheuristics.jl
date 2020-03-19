@@ -29,4 +29,12 @@ end
         @show val
         isapprox(val.min, ground_truth, atol = 1e-2)
     end
+
+    @test begin
+        dimension = 2
+        ground_truth = 0.0
+        val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, dimension; low_temp = 20000, qv = 2.0, qa = 1.1)
+        @show val
+        isapprox(val.min, ground_truth, atol = 1e-2)
+    end
 end
