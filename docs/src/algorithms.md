@@ -79,6 +79,22 @@ P_{q_a}(x_{sol} \leftarrow x_{old}) = \frac{1}{[1+(q_a-1)\Delta / T_{new}(t)]^{(
 ```
 there is a lot to unpack here, so we will go step by step.
 
+Firstly, the **cooling schedule** is now defined as
+
+```math
+T_{q_v}^V (t) = \frac{2^{q_v-1}-1}{(1+t)^{q_v-1}-1}
+```
+```math
+T_{new}(t) = T_0\ T_{q_v}^V (t)
+```
+where ``T_0`` is the initial temperature.
+
+Then we have the neighbor sampling distribution defined as
+
+```math
+g_{q_v}(\Delta x) = \left(\frac{q_{v}-1}{\pi}\right)^{D/2} \frac{\Gamma\left(\frac{1}{q_{v}-1}+\frac{D-1}{2}\right)}{\Gamma\left(\frac{1}{q_{v}-1}-\frac{1}{2}\right)}
+```
+
 ## References
 
 [^1]: Eberhart, R. C., & Shi, Y. (2000, July). Comparing inertia weights and constriction factors in particle swarm optimization. In Proceedings of the 2000 congress on evolutionary computation. CEC00 (Cat. No. 00TH8512) (Vol. 1, pp. 84-88). IEEE.
