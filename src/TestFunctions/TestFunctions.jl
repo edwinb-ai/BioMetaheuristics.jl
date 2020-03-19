@@ -16,7 +16,8 @@ Abstract supertype for all unconstrained benchmark functions.
 """
 abstract type Unconstrained <: Benchmark end
 
-export evaluate, Sphere, Ackley, Rosenbrock, Easom, GoldsteinPrice
+export evaluate, Sphere, Ackley, Rosenbrock, Easom, GoldsteinPrice,
+Beale, Levy
 include("implementations.jl")
 
 end

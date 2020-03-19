@@ -94,7 +94,8 @@ An unconstrained implementation of the d-dimensional
 Goldstein-Price function defined as:
 
 ```math
-f(x,y)=[1 + (x + y + 1)^2(19 − 14x+3x^2− 14y + 6xy + 3y^2)][30 + (2x − 3y)^2(18 − 32x + 12x^2 + 4y − 36xy + 27y^2)]
+f(x,y)=[1 + (x + y + 1)^2(19 − 14x+3x^2− 14y + 6xy + 3y^2)] \times \\
+[30 + (2x − 3y)^2(18 − 32x + 12x^2 + 4y − 36xy + 27y^2)]
 ```
 """
 struct GoldsteinPrice <: Unconstrained end
@@ -112,9 +113,66 @@ struct GoldsteinPrice <: Unconstrained end
     return term_1 * term_2
 end  # function _goldprice
 
+@doc raw"""
+    Beale
+
+An unconstrained implementation of the d-dimensional
+Beale function defined as:
+
+```math
+f(x, y) = (1.5-x+xy)^2+(2.25-x+xy^2)^2+(2.625-x+xy^3)^2
+```
+"""
+struct Beale <: Unconstrained end
+
+@inline function _beale(x)
+    @assert length(x) == 2 "Exactly 2D"
+
+    term_1 = (1.5 - x[1] + x[1] * x[2])^2
+    term_2 = (2.25 - x[1] + x[1] * x[2]^2)^2
+    term_3 = (2.625 - x[1] + x[1] * x[2]^3)^2
+
+    return term_1 + term_2 + term_3
+end  # function _beale
+
+@doc raw"""
+    Lévy
+
+An unconstrained implementation of the d-dimensional
+Lévy function defined as:
+
+```math
+f(\mathbf{x}) = \sin^{2}{\pi w_1} + \sum_{i=1}^{d-1} (w_i-1)^2 [1+10\sin^{2}{\pi w_1 + 1}]
++ (w_d-1)^2 [1+\sin^{2}{2\pi w_d}]
+```
+
+where
+
+``w_i = 1 + \frac{x_i-1}{4}`` and ``d`` is the dimension of the vector.
+"""
+struct Levy <: Unconstrained end
+
+@inline function _levy(x)
+    ω = @. 1.0 + (x - 1.0) / 4.0
+
+    term_1 = (sin(π * ω[1]))^2
+
+    term_2 = sum(@. (ω - 1.0)^2 * (1.0 + 10.0 * (sin(π * ω + 1.0))^2))
+    term_3 = (ω[end] - 1.0)^2 * (1.0 + (sin(2.0 * π * ω[end]))^2)
+
+    return term_1 + term_2 + term_3
+end  # function _levy
+
 # Build a dictionary of test functions and their implementations
-test_functions = Dict([:Sphere => :_sphere, :Easom => :_easom, :Ackley => :_ackley,
-:Rosenbrock => :_rosenbrock, :GoldsteinPrice => :_goldprice])
+test_functions = Dict([
+    :Sphere => :_sphere,
+    :Easom => :_easom,
+    :Ackley => :_ackley,
+    :Rosenbrock => :_rosenbrock,
+    :GoldsteinPrice => :_goldprice,
+    :Beale => :_beale,
+    :Levy => :_levy
+])
 
 for (k, v) in test_functions
     # Create the methods for the given test functions
