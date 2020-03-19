@@ -3,6 +3,7 @@ module Newtman
 using RandomNumbers.Xorshifts
 using RandomNumbers.PCG
 using Base.Printf
+using StaticArrays
 
 export TestFunctions
 include(joinpath("TestFunctions", "TestFunctions.jl"))
@@ -16,7 +17,7 @@ include("solvers/solvers.jl")
 export PSO
 include("solvers/pso.jl")
 
-export SimulatedAnnealing
+export SimulatedAnnealing, GeneralSimulatedAnnealing
 include("solvers/simulated_annealing.jl")
 
 end
