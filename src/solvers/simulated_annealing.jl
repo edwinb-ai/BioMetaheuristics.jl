@@ -214,7 +214,7 @@ val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 15000)
 ```
 """
 function GeneralSimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
-    t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0) where {T <: AbstractFloat}
+    t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0) where {T <: AbstractFloat}
 
     rng = Xorshifts.Xorshift1024Star()
 
