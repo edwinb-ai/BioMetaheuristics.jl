@@ -285,7 +285,7 @@ function _general_annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xt
             acceptance = ((q - 1.0) * Δ) / t
             acceptance += 1.0
             if acceptance >= 0
-                if rand(rng) <= acceptance
+                if rand(rng) <= 1.0 / acceptance
                     copyto!(x, xtmp)
                 end
             end

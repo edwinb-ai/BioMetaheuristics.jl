@@ -74,9 +74,11 @@ theory and combining it with Gibbs' ensemble theory (I'm skipping all the develo
 extensive, pun intended), we arrive at a Metropolis-Hastings-like acceptance probability
 
 ```math
-P_{q_a}(x_{sol} \leftarrow x_{old}) = 1 \qqquad f(x_{sol}) < f(x_{old}) \\
+P_{q_a}(x_{sol} \leftarrow x_{old}) = 1 \qquad f(x_{sol}) < f(x_{old}) \\
+
 P_{q_a}(x_{sol} \leftarrow x_{old}) = \frac{1}{[1+(q_a-1)\Delta / T_{new}(t)]^{(1/(q_a-1))}} \qquad f(x_{sol}) \geq f(x_{old})
 ```
+
 there is a lot to unpack here, so we will go step by step.
 
 Firstly, the **cooling schedule** is now defined as
@@ -84,6 +86,7 @@ Firstly, the **cooling schedule** is now defined as
 ```math
 T_{q_v}^V (t) = \frac{2^{q_v-1}-1}{(1+t)^{q_v-1}-1}
 ```
+
 ```math
 T_{new}(t) = T_0\ T_{q_v}^V (t)
 ```
@@ -92,8 +95,34 @@ where ``T_0`` is the initial temperature.
 Then we have the neighbor sampling distribution defined as
 
 ```math
-g_{q_v}(\Delta x) = \left(\frac{q_{v}-1}{\pi}\right)^{D/2} \frac{\Gamma\left(\frac{1}{q_{v}-1}+\frac{D-1}{2}\right)}{\Gamma\left(\frac{1}{q_{v}-1}-\frac{1}{2}\right)}
+g_{q_v}(\Delta x) = \left(\frac{q_{v}-1}{\pi}\right)^{D/2}
+
+\frac{\Gamma\left(\frac{1}{q_{v}-1}+\frac{D-1}{2}\right)}{\Gamma\left(\frac{1}{q_{v}-1}-\frac{1}{2}\right)}
+
+\frac{[T_{q_v}^V (t)]^{-\frac{D}{3-q_v}}}{\left(1+(q_v-1)\frac{(\Delta x)^2}{[T_{q_v}^V (t)]^{\frac{2}{3-q_v}}}\right)^{\frac{1}{q_V+1}+\frac{D-1}{2}}} \\
+
+\forall D, \forall q_V
 ```
+
+where ``\Delta x = x_{sol} - x_{old}``, and ``\Gamma`` denotes the [Gamma function](https://mathworld.wolfram.com/GammaFunction.html). As you can see, this distribution is very complicated, but in the
+original paper [^2] Tsallis & Stariolo provide an algorithm where they approximate this distribution
+as a [Lévy distribution](https://en.wikipedia.org/wiki/L%C3%A9vy_distribution). This algorithm
+is provided in the paper and it's the one used in this implementation.
+
+With this, we update the neighbor solution as before ``x_{sol} = x_{old} + g_{q_v}(\Delta x)``
+and then we employ the Metropolis-Hastings algorithm.
+
+Lastly, an important case is when ``q_A < 0`` because the update rule is now undetermined, so we
+employ the following update rule
+
+```math
+P_{q_a}(x_{sol} \leftarrow x_{old}) = 1 \qquad f(x_{sol}) < f(x_{old}) \\
+
+P_{q_a}(x_{sol} \leftarrow x_{old}) = [1+(q_a-1)\Delta / T_{new}(t)]^{-1} \qquad f(x_{sol}) \geq f(x_{old})
+```
+
+which means that we always reject the solution ``x_{sol}`` whenever the proposition
+``[1+(q_a-1)\Delta / T_{new}(t)] < 0`` is true.
 
 ## References
 
