@@ -3,15 +3,21 @@ module Newtman
 using RandomNumbers.Xorshifts
 using RandomNumbers.PCG
 using Base.Printf
+using StaticArrays
 
-include("test-functions/functions.jl")
-include("population/types.jl")
+export TestFunctions
+include(joinpath("TestFunctions", "TestFunctions.jl"))
+
 export Particle, Population
-include("solvers/solvers.jl")
+include("population/types.jl")
+
 export OptimizationResults, PopulationBase, Metaheuristic
-include("solvers/pso.jl")
+include("solvers/solvers.jl")
+
 export PSO
+include("solvers/pso.jl")
+
+export SimulatedAnnealing, GeneralSimulatedAnnealing
 include("solvers/simulated_annealing.jl")
-export SimulatedAnnealing
 
 end

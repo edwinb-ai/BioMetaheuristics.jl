@@ -1,3 +1,5 @@
+import Newtman.TestFunctions: Benchmark, evaluate
+
 """
     PSO
 
@@ -35,7 +37,6 @@ best inidividual solution so far.
 best global solution so far.
 
 # Examples
-- For `Function`s
 ```julia
 using Newtman
 
@@ -46,7 +47,27 @@ f_sphere(x) = sum(x .^ 2)
 # 10000 iterations and 30 particles in the population.
 val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000)
 ```
-- For `TestFunctions`
+"""
+function PSO(f::Function, population::AbstractArray, k_max::Int;
+    w = 0.9, c1 = 2.0, c2 = 2.0)
+
+    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
+
+    optim_res = OptimizationResults(val,
+                f(val),
+                "PSO",
+                k_max)
+    return optim_res
+end
+
+"""
+    PSO(f::Benchmark, population::AbstractArray, k_max::Int;
+        w=0.9, c1=2.0, c2=2.0) -> OptimizationResults
+
+Method that implements `PSO` for a function `f` of type `Benchmark`.
+Same implementation as the one for `Function`'s.
+
+# Examples
 ```julia
 using Newtman
 
@@ -55,13 +76,13 @@ using Newtman
 val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 10000)
 ```
 """
-function PSO(f::Function, population::AbstractArray, k_max::Int;
+function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
     w = 0.9, c1 = 2.0, c2 = 2.0)
 
-    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
+    val = _pso!(x->evaluate(f, x), population, k_max; w = w, c1 = c1, c2 = c2)
 
     optim_res = OptimizationResults(val,
-                _evaluate_cost(f, val),
+                evaluate(f, val),
                 "PSO",
                 k_max)
     return optim_res
@@ -78,10 +99,12 @@ function _pso!(f, population::AbstractArray, k_max::Int;
 
     # Evaluate initial costs
     dimension = length(population[1].x)
+
+    # Initialize container variables
     x_best = similar(population[1].x_best)
     y_best = Inf
     for P in population
-        y = _evaluate_cost(f, P.x)
+        y = f(P.x)
         if y < y_best
             x_best[:] = P.x
             y_best = y
@@ -95,6 +118,8 @@ function _pso!(f, population::AbstractArray, k_max::Int;
         w -= η
     end
 
+    # Always return the first position as it contains the best possible
+    # solution
     return population[1].x_best
 end
 
@@ -111,12 +136,12 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
         # Apply boundary values to positions and velocities
         _clip_positions_velocities!(P)
         # Update values if they give lower cost
-        y = _evaluate_cost(f, P.x)
+        y = f(P.x)
         if y < y_best
             x_best[:] = P.x
             y_best = y
         end
-        if y < _evaluate_cost(f, P.x_best)
+        if y < f(P.x_best)
             P.x_best[:] = P.x
         end
     end
