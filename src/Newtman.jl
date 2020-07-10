@@ -2,22 +2,22 @@ module Newtman
 
 using RandomNumbers.Xorshifts
 using RandomNumbers.PCG
-using Base.Printf
+using Printf
 using StaticArrays
 
-export TestFunctions
 include(joinpath("TestFunctions", "TestFunctions.jl"))
+export TestFunctions
 
-export Particle, Population
 include("population/types.jl")
+export Particle, Population
 
-export OptimizationResults, PopulationBase, Metaheuristic
 include("solvers/solvers.jl")
+export OptimizationResults, PopulationBase, Metaheuristic
 
-export PSO
 include("solvers/pso.jl")
+export PSO
 
-export SimulatedAnnealing, GeneralSimulatedAnnealing
 include("solvers/simulated_annealing.jl")
+export SimulatedAnnealing, GeneralSimulatedAnnealing
 
 end
