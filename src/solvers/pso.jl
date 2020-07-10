@@ -11,7 +11,8 @@ struct PSO <: PopulationBase end
 
 """
     PSO(f::Function, population::AbstractArray, k_max::Int;
-        w=0.9, c1=2.0, c2=2.0) -> OptimizationResults
+        w=0.9, c1=2.0, c2=2.0, seed = nothing
+        ) -> OptimizationResults
 
 Method that implements `PSO` for a function `f` of type `Function`,
 or of type `TestFunctions`.
@@ -35,6 +36,9 @@ the default miminum value of 0.4.
 best inidividual solution so far.
 - `c2`: balance between the influence of the population's knowledge, i.e. the
 best global solution so far.
+- `seed`: an integer to be used as the seed for the pseudo random number generators.
+If `nothing` is passed (the default), then a random seed will be taken from the
+system.
 
 # Examples
 ```julia
@@ -62,7 +66,8 @@ end
 
 """
     PSO(f::Benchmark, population::AbstractArray, k_max::Int;
-        w=0.9, c1=2.0, c2=2.0) -> OptimizationResults
+        w=0.9, c1=2.0, c2=2.0, seed = nothing
+        ) -> OptimizationResults
 
 Method that implements `PSO` for a function `f` of type `Benchmark`.
 Same implementation as the one for `Function`'s.
@@ -183,10 +188,15 @@ function _clip_positions_velocities!(P)
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
 
-""" Returns `num_rngs` number of statistically independent pseudo-random
+"""
+Returns `num_rngs` number of statistically independent pseudo-random
 number generators by creating a master RNG and drawing numbers from it,
 these numbers will serve as seeds for the number of RNG's returned in the form
 of an `AbstractArray`.
+
+If instead a `seed` is passed, that will be used as a seed for a single
+random number generator, which will then be used to create seed for more
+RNGs.
 """
 function _create_rng(;seed = nothing, num_rngs = 2)
     if isnothing(seed)

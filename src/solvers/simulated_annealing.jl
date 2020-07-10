@@ -39,7 +39,8 @@ end
 
 """
     SimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
-        t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat} -> OptimizationResults
+        t0 = 500.0, low_temp = 5000, seed = nothing
+        ) where {T <: AbstractFloat} -> OptimizationResults
 
 Implementation of the *classical* version of simulated annealing. This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximate Boltzmann distribution,
 drawn as a normal distribution.
@@ -61,6 +62,10 @@ value, but should be changed depending on the optimization problem.
 - `low_temp`: total number of iterations, short for *lowering temperature steps*.
 This also corresponds to the famous *Monte Carlo steps*, which are the total number
 of steps until the algorithm finishes.
+
+- `seed`: an integer to be used as the seed for the pseudo random number generators.
+If `nothing` is passed (the default), then a random seed will be taken from the
+system.
 
 # Examples
 
@@ -193,7 +198,8 @@ end
 @doc raw"""
     GeneralSimulatedAnnealing(
         f::Function, a::T, b::T, dim::Integer;
-        t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0
+        t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0,
+        seed = nothing
         ) where {T <: AbstractFloat} -> OptimizationResults
 
 Implementation of the *generalized* version of simulated annealing. This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the
@@ -227,6 +233,10 @@ neighbor search diverges.
 for the Metropolis-Hastings algorithm and the acceptance probability involved.
 The more negative the value is, the better, but Tsallis & Stariolo report that the
 default value is best.
+
+- `seed`: an integer to be used as the seed for the pseudo random number generators.
+If `nothing` is passed (the default), then a random seed will be taken from the
+system.
 
 # Examples
 
