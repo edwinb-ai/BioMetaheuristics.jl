@@ -1,3 +1,5 @@
+RANDOM_SEED = 809123
+
 @testset "Population" begin
     @test let
         pops = typeof(Population(15, 20, -10.0, 10.0))
@@ -5,7 +7,14 @@
         pops ≡ actual_type
     end
 
-    # Test multiple ranges
+    # * Test random seeds
+    @test let
+        pops = typeof(Population(15, 20, -10.0, 10.0; seed = RANDOM_SEED))
+        actual_type = typeof(Vector{Particle}(undef, 15))
+        pops ≡ actual_type
+    end
+
+    # * Test multiple ranges
     @test let
         range_a = SVector(-10.0, 10.0)
         range_b = SVector(-2.5, 2.0)

@@ -60,7 +60,9 @@ Particle(x::T, v::T, x_best::T, a::V, b::V) where {T <: AbstractArray,V <: Abstr
 p = Particle(-1.0, 1.0, 3)
 ```
 """
-function Particle(a::T, b::T, n::V; seed = nothing) where {T <: AbstractFloat,V <: Int}
+function Particle(
+    a::T, b::T, n::V; seed = nothing
+) where {T <: AbstractFloat, V <: Int}
     @assert n > 0 "Dimension is always positive"
 
     if isnothing(seed)
