@@ -20,9 +20,6 @@ _Optimization_ has been a major subject within _analysis_, the major branch of m
 \text{minimize} f(\mathbf{x}), \quad \mathbf{x} \in \mathbb{R} \\
 \text{subject to } h(\mathbf{x}) = 0, \\
 \text{and }g(\mathbf{x}) \leq 0 .
-`
-`
-`
 ```
 
 `h` and `g` are referred to as **constraint functions**, and the full expressions with their equalities and inequalities are simply called **constraints**. When we have a problem like this, we call this a **constrained optimization problem**.

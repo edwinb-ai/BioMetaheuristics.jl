@@ -1,5 +1,11 @@
 # # Examples
 #
+# Before we start, I will defined a seed to enable reproducibility of the
+# results presented here
+
+RANDOM_SEED = 458012
+
+#
 # ## Nonlinear `n`-dimensional global optimization problem
 #
 # Using `Newtman.jl` is fairly straightforward, first you define your own
@@ -39,7 +45,7 @@ end
 
 using Newtman
 
-val = PSO(griewank, Population(35, 10, -600.0, 600.0), 20000)
+val = PSO(griewank, Population(35, 10, -600.0, 600.0), 20000; seed = RANDOM_SEED)
 println(val)
 
 #md # Within a certain tolerance of about `ϵ = 1e-6` we have found
@@ -62,7 +68,9 @@ griewank(val.x)
 rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
-val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000)
+val = SimulatedAnnealing(
+    rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000, seed = RANDOM_SEED
+)
 println(val)
 
 # Again, within a certain tolerance we find the expected result which is

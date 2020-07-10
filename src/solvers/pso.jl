@@ -49,9 +49,9 @@ val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000)
 ```
 """
 function PSO(f::Function, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
-    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2)
+    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2, seed = seed)
 
     optim_res = OptimizationResults(val,
                 f(val),
@@ -77,9 +77,17 @@ val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 10000)
 ```
 """
 function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
-    val = _pso!(x->evaluate(f, x), population, k_max; w = w, c1 = c1, c2 = c2)
+    val = _pso!(
+        x->evaluate(f, x),
+        population,
+        k_max;
+        w = w,
+        c1 = c1,
+        c2 = c2,
+        seed = seed
+    )
 
     optim_res = OptimizationResults(val,
                 evaluate(f, val),
@@ -89,10 +97,10 @@ function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
 end
 
 function _pso!(f, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0)
+    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
     # Create the RNGs, statistically independent
-    rng_list = _create_rng()
+    rng_list = _create_rng(; seed = seed)
 
     # Obtain weight decay rate
     η = _weight_decay(w, k_max)
@@ -180,11 +188,18 @@ number generators by creating a master RNG and drawing numbers from it,
 these numbers will serve as seeds for the number of RNG's returned in the form
 of an `AbstractArray`.
 """
-function _create_rng(;num_rngs = 2)
-    # Create the RNG to create seeds
-    rng_master = PCG.PCGStateOneseq()
-    # From this RNG, create two seeds
-    seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
+function _create_rng(;seed = nothing, num_rngs = 2)
+    if isnothing(seed)
+        # Create the RNG to create seeds
+        rng_master = PCG.PCGStateOneseq()
+        # From this RNG, create two seeds
+        seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
+    else
+        # From this RNG, create two seeds
+        rng_master = Xorshifts.Xoroshiro128Plus(seed)
+        seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
+    end
+
     # With these seeds, seed two new RNG's
     rng_list = map(Xorshifts.Xorshift1024Star, seed_list)
 

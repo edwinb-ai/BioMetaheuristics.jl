@@ -24,10 +24,17 @@ using Newtman
 val = SimulatedAnnealing(Rosenbrock(), -5.0, 5.0, 3; low_temp = 10000)
 ```
 """
-function SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
-    t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat}
+function SimulatedAnnealing(
+    f::Benchmark,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 5000,
+    seed = nothing,
+) where {T <: AbstractFloat}
     return SimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp)
+        t0 = t0, low_temp = low_temp, seed = seed)
 end
 
 """
@@ -68,10 +75,22 @@ rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000)
 ```
 """
-function SimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
-    t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat}
+function SimulatedAnnealing(
+    f::Function,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 5000,
+    seed = nothing,
+) where {T <: AbstractFloat}
 
-    rng = Xorshifts.Xorshift1024Star()
+    # Use a user specified seed if necessary
+    if isnothing(seed)
+        rng = Xorshifts.Xorshift1024Star()
+    else
+        rng = Xorshifts.Xorshift1024Star(seed)
+    end
 
     # Create the solution with random initial values within the
     # search space bounds
@@ -156,10 +175,19 @@ using Newtman
 val = GeneralSimulatedAnnealing(Rosenbrock(), -5.0, 5.0, 3; low_temp = 10000)
 ```
 """
-function GeneralSimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
-    t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0) where {T <: AbstractFloat}
+function GeneralSimulatedAnnealing(
+    f::Benchmark,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 20000,
+    qv = 2.7,
+    qa = -5.0,
+    seed = nothing,
+) where {T <: AbstractFloat}
     return GeneralSimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp, qv = qv, qa = qa)
+        t0 = t0, low_temp = low_temp, qv = qv, qa = qa, seed = seed)
 end
 
 @doc raw"""
@@ -213,10 +241,24 @@ rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 15000)
 ```
 """
-function GeneralSimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
-    t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0) where {T <: AbstractFloat}
+function GeneralSimulatedAnnealing(
+    f::Function,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 20000,
+    qv = 2.7,
+    qa = -5.0,
+    seed = nothing,
+) where {T <: AbstractFloat}
 
-    rng = Xorshifts.Xorshift1024Star()
+    # Use a user defined seed
+    if isnothing(seed)
+        rng = Xorshifts.Xoroshiro128Plus()
+    else
+        rng = Xorshifts.Xoroshiro128Plus(seed)
+    end
 
     # Create the solution with random initial values within the
     # search space bounds
