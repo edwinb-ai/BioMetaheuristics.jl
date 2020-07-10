@@ -15,6 +15,7 @@ RANDOM_SEED = 809230
         @show val
         isapprox(val.min, ground_truth, atol = 1e-2)
     end
+
     # * Single-run tests for benchmark functions
     @test begin
         dimension = 3
@@ -23,6 +24,18 @@ RANDOM_SEED = 809230
             Rosenbrock(), -5.0, 5.0, dimension;
             low_temp = 20000,
             seed = RANDOM_SEED
+        )
+        @show val
+        isapprox(val.min, ground_truth, atol = 1e-2)
+    end
+
+    # * Tests for random seeds
+    @test begin
+        dimension = 3
+        ground_truth = 0.0
+        val = SimulatedAnnealing(
+            Rosenbrock(), -5.0, 5.0, dimension;
+            low_temp = 20000,
         )
         @show val
         isapprox(val.min, ground_truth, atol = 1e-2)
@@ -72,6 +85,21 @@ end
             dimension;
             low_temp = 10000,
             seed = RANDOM_SEED,
+        )
+        @show val
+        isapprox(val.min, ground_truth, atol = 1e-2)
+    end
+
+    # * Test for random seeds
+    @test begin
+        dimension = 3
+        ground_truth = 0.0
+        val = GeneralSimulatedAnnealing(
+            Ackley(),
+            -3.0,
+            3.0,
+            dimension;
+            low_temp = 10000,
         )
         @show val
         isapprox(val.min, ground_truth, atol = 1e-2)

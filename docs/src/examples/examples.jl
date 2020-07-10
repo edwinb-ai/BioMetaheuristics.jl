@@ -1,15 +1,16 @@
 # # Examples
 #
-# Before we start, I will defined a seed to enable reproducibility of the
+# Before we start, I will define a seed to enable reproducibility of the
 # results presented here
 
 RANDOM_SEED = 458012;
 
 #
-# ## Nonlinear `n`-dimensional global optimization problem
+# ## Nonlinear ``d``-dimensional global optimization problem
 #
-# Using `Newtman.jl` is fairly straightforward, first you define your own
-# function to minimize, in this case we will use a popular function, the
+# Using `Newtman.jl` is fairly straightforward, we will start by defining
+# an d-dimensional nonlinear function to minimize,
+# in this case we will use a popular function, the
 # [Griewank function](http://mathworld.wolfram.com/GriewankFunction.html)
 # defined as
 #
@@ -53,7 +54,7 @@ val = PSO(
 )
 println(val)
 
-#md # Within a certain tolerance of about `ϵ = 1e-6` we have found
+# Within a certain tolerance of about ``\epsilon = 1 \times 10^{-6}`` we have found
 # the _global_ minimum of the function. We can actually check the value with the
 # evaluation, notice that it actually returns `0`, as expected.
 
@@ -61,15 +62,15 @@ griewank(val.x)
 
 # ## Nonlinear 2-dimensional global optimization problem
 #
-
 # Let us now tackle one of the most common optimization problems, which is
 # finding the minimum of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
 # which is a non-convex function, meaning that is does not have just one minimum
 # or stationary point, it has several, so it is a difficult problem for classical
-# optimization algorithms. In this examples we will try to solve it using
-# [`SimulatedAnnealing`](@ref).
+# optimization algorithms. In this example we will try to solve it using the
+# [`SimulatedAnnealing`](@ref) implementation from `Newtman.jl`.
 #
 # First, we define the Rosenbrock function in `Julia`
+
 rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
@@ -86,14 +87,3 @@ println(val)
 #
 # and if we account for rounding errors and floating-point arithmetic, we
 # can safely take this result as the best.
-
-# ## Multiple runs to ensure statistical significance
-#
-# Recall that most metaheuristics are actually stochastic optimization algorithms,
-# but most importantly they only _estimate_ or _approximate_ a solution.
-# These algorithms are not meant to be taken for _granted_, so multiple runs
-# with different seeds and starting points are very useful in order to obtain a
-# statistically meaningful result.
-#
-# In this section we will implement a distributed solution in order to build
-# a confidence interval around the solution for the [McCormick function](https://www.sfu.ca/~ssurjano/mccorm.html).

@@ -46,4 +46,20 @@
             false
         end
     end
+    # * Test for random seeds
+    @test begin
+        assert_results = []
+        ground_truth = zeros(30)
+        for k = 1:10
+            val = PSO(f_sphere, Population(30, 30, -10.0, 10.0), 20000)
+            push!(assert_results, ≈(val.x, ground_truth, atol = 1e-11))
+        end
+        # if at least 80% of the time converges, the test passes
+        if count(assert_results) >= 8
+            true
+        else
+            println(count(assert_results))
+            false
+        end
+    end
 end

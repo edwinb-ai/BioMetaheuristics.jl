@@ -4,7 +4,7 @@ EditURL = "<unknown>/docs/src/examples/examples.jl"
 
 # Examples
 
-Before we start, I will defined a seed to enable reproducibility of the
+Before we start, I will define a seed to enable reproducibility of the
 results presented here
 
 ```@example examples
@@ -12,10 +12,11 @@ RANDOM_SEED = 458012;
 nothing #hide
 ```
 
-## Nonlinear `n`-dimensional global optimization problem
+## Nonlinear ``d``-dimensional global optimization problem
 
-Using `Newtman.jl` is fairly straightforward, first you define your own
-function to minimize, in this case we will use a popular function, the
+Using `Newtman.jl` is fairly straightforward, we will start by defining
+an d-dimensional nonlinear function to minimize,
+in this case we will use a popular function, the
 [Griewank function](http://mathworld.wolfram.com/GriewankFunction.html)
 defined as
 
@@ -63,7 +64,7 @@ val = PSO(
 println(val)
 ```
 
-Within a certain tolerance of about `ϵ = 1e-6` we have found
+Within a certain tolerance of about ``\epsilon = 1 \times 10^{-6}`` we have found
 the _global_ minimum of the function. We can actually check the value with the
 evaluation, notice that it actually returns `0`, as expected.
 
@@ -77,8 +78,8 @@ Let us now tackle one of the most common optimization problems, which is
 finding the minimum of the [Rosenbrock function](https://en.wikipedia.org/wiki/Rosenbrock_function)
 which is a non-convex function, meaning that is does not have just one minimum
 or stationary point, it has several, so it is a difficult problem for classical
-optimization algorithms. In this examples we will try to solve it using
-[`SimulatedAnnealing`](@ref).
+optimization algorithms. In this example we will try to solve it using the
+[`SimulatedAnnealing`](@ref) implementation from `Newtman.jl`.
 
 First, we define the Rosenbrock function in `Julia`
 
@@ -115,6 +116,35 @@ statistically meaningful result.
 
 In this section we will implement a distributed solution in order to build
 a confidence interval around the solution for the [McCormick function](https://www.sfu.ca/~ssurjano/mccorm.html).
+
+First, we define the function
+
+```@example examples
+mcorm(x) = sin(x[1] + x[2]) + (x[1] + x[2]) ^ 2 - 1.5 * x[1] + 2.5 * x[2] + 1;
+nothing #hide
+```
+
+Now, in order for us to use `Newtman.jl` in a parallel fashion we must
+load it using the `Distributed` module from `Julia`
+
+```@example examples
+using Distributed
+@everywhere using Pkg
+@everywhere Pkg.activate("../../")
+@everywhere Pkg.instantiate()
+@everywhere using Newtman
+```
+
+Now we define a function where we can run multiple times the same algorithm,
+and store its results. For simplicity, we will be using the [`GeneralizedSimulatedAnnealing`](@ref) implementation from `Newtman.jl`.
+
+```@example examples
+@everywhere function run_distributed()
+    return nothing
+end
+
+run_distributed()
+```
 
 ---
 
