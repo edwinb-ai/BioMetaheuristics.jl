@@ -4,6 +4,14 @@ EditURL = "<unknown>/docs/src/examples/examples.jl"
 
 # Examples
 
+Before we start, I will defined a seed to enable reproducibility of the
+results presented here
+
+```@example examples
+RANDOM_SEED = 458012;
+nothing #hide
+```
+
 ## Nonlinear `n`-dimensional global optimization problem
 
 Using `Newtman.jl` is fairly straightforward, first you define your own
@@ -46,7 +54,12 @@ will run for 20000 maximum iterations until it stops, having _converged_.
 ```@example examples
 using Newtman
 
-val = PSO(griewank, Population(35, 10, -600.0, 600.0), 20000)
+val = PSO(
+    griewank,
+    Population(35, 10, -600.0, 600.0; seed = RANDOM_SEED),
+    20000;
+    seed = RANDOM_SEED
+)
 println(val)
 ```
 
@@ -77,7 +90,9 @@ nothing #hide
 We will apply the _Simulated Annealing_ algorithm to find the global optimum
 
 ```@example examples
-val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000)
+val = SimulatedAnnealing(
+    rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000, seed = RANDOM_SEED
+)
 println(val)
 ```
 

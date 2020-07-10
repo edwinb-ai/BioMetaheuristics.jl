@@ -3,7 +3,7 @@
 # Before we start, I will defined a seed to enable reproducibility of the
 # results presented here
 
-RANDOM_SEED = 458012
+RANDOM_SEED = 458012;
 
 #
 # ## Nonlinear `n`-dimensional global optimization problem
@@ -45,7 +45,12 @@ end
 
 using Newtman
 
-val = PSO(griewank, Population(35, 10, -600.0, 600.0), 20000; seed = RANDOM_SEED)
+val = PSO(
+    griewank,
+    Population(35, 10, -600.0, 600.0; seed = RANDOM_SEED),
+    20000;
+    seed = RANDOM_SEED
+)
 println(val)
 
 #md # Within a certain tolerance of about `ϵ = 1e-6` we have found

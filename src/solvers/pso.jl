@@ -201,17 +201,17 @@ RNGs.
 function _create_rng(;seed = nothing, num_rngs = 2)
     if isnothing(seed)
         # Create the RNG to create seeds
-        rng_master = PCG.PCGStateOneseq()
+        rng_master = PCGStateOneseq()
         # From this RNG, create two seeds
         seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
     else
         # From this RNG, create two seeds
-        rng_master = Xorshifts.Xoroshiro128Plus(seed)
+        rng_master = Xoroshiro128Plus(seed)
         seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
     end
 
     # With these seeds, seed two new RNG's
-    rng_list = map(Xorshifts.Xorshift1024Star, seed_list)
+    rng_list = map(Xorshift1024Star, seed_list)
 
     return rng_list
 end
