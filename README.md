@@ -23,3 +23,8 @@ julia>]     # Type ] to enter Pkg
 
 pkg> add https://github.com/edwinb-ai/Newtman.jl.git
 ```
+
+## Usage
+
+There used to be a _Demo_ section to showcase how this package works. Now a couple of examples
+can be read on the [documentation]((https://edwinb-ai.github.io/Newtman.jl/dev)).
