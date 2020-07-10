@@ -60,10 +60,16 @@ Particle(x::T, v::T, x_best::T, a::V, b::V) where {T <: AbstractArray,V <: Abstr
 p = Particle(-1.0, 1.0, 3)
 ```
 """
-function Particle(a::T, b::T, n::V) where {T <: AbstractFloat,V <: Int}
+function Particle(
+    a::T, b::T, n::V; seed = nothing
+) where {T <: AbstractFloat, V <: Int}
     @assert n > 0 "Dimension is always positive"
 
-    rng = Xorshift128Star()
+    if isnothing(seed)
+        rng = Xoroshiro128Plus()
+    else
+        rng = Xoroshiro128Plus(seed)
+    end
 
     x = a .+ (rand(rng, T, n) * (b - a))
     v = a .+ (rand(rng, T, n) * (b - a))
@@ -92,13 +98,15 @@ essentially a multi-dimensional array. It makes handling `Particle`s much easier
 pop = Population(35, 4, -1.0, 1.0)
 ```
 """
-function Population(num_particles::T, dim::T, a::V, b::V) where {T <: Int,V <: AbstractFloat}
+function Population(
+    num_particles::T, dim::T, a::V, b::V; seed = nothing
+) where {T <: Int,V <: AbstractFloat}
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
     container = Vector{Particle}(undef, num_particles)
     for idx in eachindex(container)
-        container[idx] = Particle(a, b, dim)
+        container[idx] = Particle(a, b, dim; seed = seed)
     end
 
     return container
@@ -124,7 +132,12 @@ range_b = SVector(-2.5, 2.0)
 pops = Population(2, 20, ranges_a, range_b)
 ```
 """
-function Population(num_particles::Integer, dim::Integer, x...)
+function Population(
+    num_particles::Integer,
+    dim::Integer,
+    x...;
+    seed = nothing
+)
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
@@ -133,7 +146,7 @@ function Population(num_particles::Integer, dim::Integer, x...)
     # Loop over each number of particles and dimension
     for (idx, jdx) in zip(eachindex(container), 1:dim)
         # Splat the ranges, considering they're AbstractArray's
-        container[idx] = Particle(x[jdx]..., dim)
+        container[idx] = Particle(x[jdx]..., dim; seed = seed)
     end
 
     return container
