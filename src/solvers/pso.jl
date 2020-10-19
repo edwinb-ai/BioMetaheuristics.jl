@@ -104,9 +104,6 @@ end
 function _pso!(f, population::AbstractArray, k_max::Int;
     w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
-    # Create the RNGs, statistically independent
-    rng_list = _create_rng(; seed = seed)
-
     # Obtain weight decay rate
     η = _weight_decay(w, k_max)
 
@@ -126,7 +123,7 @@ function _pso!(f, population::AbstractArray, k_max::Int;
 
     # PSO main loop
     for k in 1:k_max
-        _update!(f, population, w, c1, c2, dimension, x_best, y_best, rng_list)
+        _update!(f, population, w, c1, c2, dimension, x_best, y_best)
         # Make the inertia weight decay over time
         w -= η
     end
@@ -136,14 +133,13 @@ function _pso!(f, population::AbstractArray, k_max::Int;
     return population[1].x_best
 end
 
-function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
+function _update!(f, population, w, c1, c2, n, x_best, y_best)
 
     for P in population
-        r1 = rand(rng[1], n)
-        r2 = rand(rng[2], n)
+        rngs = rand(n, 2)
         # Evaluate velocity
-        P.v = (w * P.v) + (c1 * r1 .* (P.x_best - P.x)) +
-            (c2 * r2 .* (x_best - P.x))
+        P.v = (w * P.v) + (c1 * rngs[:, 1] .* (P.x_best - P.x)) +
+            (c2 * rngs[:, 2] .* (x_best - P.x))
         # Update position
         P.x += P.v
         # Apply boundary values to positions and velocities
@@ -160,10 +156,11 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
     end
 end
 
+
+function _weight_decay(initial, itr_max)
 """ Compute the corresponding weight decay depending the maximum
 number of iterations and the initial value for it.
 """
-function _weight_decay(initial, itr_max)
     # Following the references, the minimum is 0.4
     stop = 0.4
     step_size = (initial - stop) / itr_max
@@ -171,10 +168,11 @@ function _weight_decay(initial, itr_max)
     return step_size
 end
 
+
+function _clip_positions_velocities!(P)
 """ Apply boundary conditions to both position and velocity for
 every `Particle` type object `P`.
 """
-function _clip_positions_velocities!(P)
     # First the positions
     # upper bound
     broadcast!(x->x > P.max_dim ? P.max_dim : x, P.x, P.x)
@@ -188,30 +186,3 @@ function _clip_positions_velocities!(P)
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
 
-"""
-Returns `num_rngs` number of statistically independent pseudo-random
-number generators by creating a master RNG and drawing numbers from it,
-these numbers will serve as seeds for the number of RNG's returned in the form
-of an `AbstractArray`.
-
-If instead a `seed` is passed, that will be used as a seed for a single
-random number generator, which will then be used to create seed for more
-RNGs.
-"""
-function _create_rng(;seed = nothing, num_rngs = 2)
-    if isnothing(seed)
-        # Create the RNG to create seeds
-        rng_master = PCGStateOneseq()
-        # From this RNG, create two seeds
-        seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
-    else
-        # From this RNG, create two seeds
-        rng_master = Xoroshiro128Plus(seed)
-        seed_list = [rand(rng_master, UInt64) for i = 1:num_rngs]
-    end
-
-    # With these seeds, seed two new RNG's
-    rng_list = map(Xorshift1024Star, seed_list)
-
-    return rng_list
-end
