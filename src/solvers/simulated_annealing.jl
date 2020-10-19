@@ -298,13 +298,19 @@ function GeneralSimulatedAnnealing(
     return res
 end  # function GeneralSimulatedAnnealing
 
+
+function _general_visit(
+    x::AbstractArray,
+    xtmp::AbstractArray,
+    τ::AbstractFloat,
+    q::AbstractFloat,
+    rng
+)
 """
 This is the algorithm from Tsallis & Stariolo to sample the distribution
 shown in their paper, by approximating their probability distribution as a
 Lévy probability distribution.
 """
-function _general_visit(x::AbstractArray, xtmp::AbstractArray, τ::AbstractFloat, q::AbstractFloat, rng)
-
     factor_1 = exp(log(τ) / (q - 1.0))
     factor_2 = exp((4.0 - q) * log(q - 1.0))
     factor_3 = exp((2.0 - q) * ln2 / (q - 1.0))
@@ -356,13 +362,12 @@ function _general_annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xt
     end
 end  # function _general_annealing!
 
+function _general_temperature!(x::AbstractFloat, q::AbstractFloat)
 """
 A generalized cooling schedule that should work for every possible type
 of Simulated Annealing implementation. When `q` = 1, this reduces to the
 classical version.
 """
-function _general_temperature!(x::AbstractFloat, q::AbstractFloat)
-
     # Avoid evaluating the logarithm at zero
     @assert x > -1.0
 
@@ -372,12 +377,11 @@ function _general_temperature!(x::AbstractFloat, q::AbstractFloat)
     return factor_1 / factor_2
 end
 
+function _gammaln(x::AbstractFloat)
 """
 Compute the logarithm of the Gamma function as defined in the
 3rd edition of Numerical Recipes in C.
 """
-function _gammaln(x::AbstractFloat)
-
     @assert x > 0
 
     coeffs = @SVector [57.1562356658629235,-59.5979603554754912,

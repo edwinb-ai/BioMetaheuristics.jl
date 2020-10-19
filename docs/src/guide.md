@@ -32,7 +32,7 @@ On the other hand, if we only define the problem as
 
 we are talking about an **unconstrained optimization problem**.
 
-The goal of optimization is to find the _vector_ `\mathbf{x}` that gives the **lowest** possible value for `f` given all the constraints, if any. The classic way to achieve this is by using _derivatives_ and _derivative tests_, and throughout the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses _derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
+The goal of optimization is to find the _vector_ $\mathbf{x}$ that gives the **lowest** possible value for `f` given all the constraints, if any. The classic way to achieve this is by using _derivatives_ and _derivative tests_, and throughout the years mathematicians have developed very rigorous and robust algorithms to find these values. Almost every procedure uses _derivatives_ because Newton and Gauss taught us that these _converge_ faster and more precisely to the true values. But recently, _stochastic optimization_ algorithms, were randomness is used to guide the search for the best value, have been very popular and widely used within the scientific community.
 
 This is a very, very small space to talk about optimization, but the following references should get you started right away. [^1], [^2] and [^3].
 

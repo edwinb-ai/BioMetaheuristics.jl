@@ -104,6 +104,13 @@ end
 function _pso!(f, population::AbstractArray, k_max::Int;
     w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
+    # Create the RNG generator with the specified seed
+    if isnothing(seed)
+        rng = Xoroshiro128Plus()
+    else
+        rng = Xoroshiro128Plus(seed)
+    end
+
     # Obtain weight decay rate
     η = _weight_decay(w, k_max)
 
@@ -123,7 +130,7 @@ function _pso!(f, population::AbstractArray, k_max::Int;
 
     # PSO main loop
     for k in 1:k_max
-        _update!(f, population, w, c1, c2, dimension, x_best, y_best)
+        _update!(f, population, w, c1, c2, dimension, x_best, y_best, rng)
         # Make the inertia weight decay over time
         w -= η
     end
@@ -133,10 +140,10 @@ function _pso!(f, population::AbstractArray, k_max::Int;
     return population[1].x_best
 end
 
-function _update!(f, population, w, c1, c2, n, x_best, y_best)
+function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
 
     for P in population
-        rngs = rand(n, 2)
+        rngs = rand(rng, n, 2)
         # Evaluate velocity
         P.v = (w * P.v) + (c1 * rngs[:, 1] .* (P.x_best - P.x)) +
             (c2 * rngs[:, 2] .* (x_best - P.x))
