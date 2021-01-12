@@ -1,8 +1,7 @@
 module Newtman
 
-using RandomNumbers.Xorshifts
-using RandomNumbers.PCG
-using Printf
+import RandomNumbers.Xorshifts
+using Printf: @printf
 using StaticArrays
 
 include(joinpath("TestFunctions", "TestFunctions.jl"))

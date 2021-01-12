@@ -48,8 +48,8 @@ end
 
 function Base.show(io::IO, r::OptimizationResults)
     println("Results from Optimization")
-    Printf.@printf io "\tAlgorithm: %s\n" r.impl
-    Printf.@printf io "\tSolution: [%s]\n" join(r.x, ", ")
-    Printf.@printf io "\tMinimum: %.4f\n" r.min
-    Printf.@printf io "\tMaximum iterations: %d\n" r.iterations
+    @printf(io, "\tAlgorithm: %s\n", r.impl)
+    @printf(io, "\tSolution: [%s]\n", join(r.x, ", "))
+    @printf(io, "\tMinimum: %.4f\n", r.min)
+    @printf(io, "\tMaximum iterations: %d\n", r.iterations)
 end

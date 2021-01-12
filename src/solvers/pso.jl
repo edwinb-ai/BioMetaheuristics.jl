@@ -92,9 +92,9 @@ function _pso!(f, population::AbstractArray, k_max::Int;
 
     # Create the RNG generator with the specified seed
     if isnothing(seed)
-        rng = Xoroshiro128Plus()
+        rng = Xorshifts.Xoroshiro128Plus()
     else
-        rng = Xoroshiro128Plus(seed)
+        rng = Xorshifts.Xoroshiro128Plus(seed)
     end
 
     # Obtain weight decay rate

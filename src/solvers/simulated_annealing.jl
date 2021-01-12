@@ -58,9 +58,9 @@ function SimulatedAnnealing(
     a::T,
     b::T,
     dim::Integer;
-    t0 = 500.0,
-    low_temp = 5000,
-    seed = nothing,
+    t0=500.0,
+    low_temp=5000,
+    seed=nothing,
 ) where {T <: AbstractFloat}
 
     # Use a user specified seed if necessary
@@ -103,12 +103,12 @@ function SimulatedAnnealing(
     a::T,
     b::T,
     dim::Integer;
-    t0 = 500.0,
-    low_temp = 5000,
-    seed = nothing,
+    t0=500.0,
+    low_temp=5000,
+    seed=nothing,
 ) where {T <: AbstractFloat}
-    return SimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp, seed = seed)
+    return SimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
+        t0=t0, low_temp=low_temp, seed=seed)
 end
 
 @inline function _temperature!(x::AbstractFloat)
@@ -212,11 +212,11 @@ function GeneralSimulatedAnnealing(
     a::T,
     b::T,
     dim::Integer;
-    t0 = 500.0,
-    low_temp = 20000,
-    qv = 2.7,
-    qa = -5.0,
-    seed = nothing,
+    t0=500.0,
+    low_temp=20000,
+    qv=2.7,
+    qa=-5.0,
+    seed=nothing,
 ) where {T <: AbstractFloat}
 
     # Use a user defined seed
@@ -259,14 +259,14 @@ function GeneralSimulatedAnnealing(
     a::T,
     b::T,
     dim::Integer;
-    t0 = 500.0,
-    low_temp = 20000,
-    qv = 2.7,
-    qa = -5.0,
-    seed = nothing,
+    t0=500.0,
+    low_temp=20000,
+    qv=2.7,
+    qa=-5.0,
+    seed=nothing,
 ) where {T <: AbstractFloat}
-    return GeneralSimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp, qv = qv, qa = qa, seed = seed)
+    return GeneralSimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
+        t0=t0, low_temp=low_temp, qv=qv, qa=qa, seed=seed)
 end
 
 function _general_visit(
@@ -276,7 +276,7 @@ function _general_visit(
     q::AbstractFloat,
     rng
 )
-"""
+    """
 This is the algorithm from Tsallis & Stariolo to sample the distribution
 shown in their paper, by approximating their probability distribution as a
 Lévy probability distribution.
@@ -336,7 +336,7 @@ function _general_annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xt
 end  # function _general_annealing!
 
 function _general_temperature!(x::AbstractFloat, q::AbstractFloat)
-"""
+    """
 A generalized cooling schedule that should work for every possible type
 of Simulated Annealing implementation. When `q` = 1, this reduces to the
 classical version.
@@ -351,17 +351,28 @@ classical version.
 end
 
 function _gammaln(x)
-"""
+    """
 Compute the logarithm of the Gamma function as defined in the
 3rd edition of Numerical Recipes in C.
 """
     @assert x > 0
 
-    coeffs = @SVector [57.1562356658629235,-59.5979603554754912,
-    14.1360979747417471,-0.491913816097620199,0.339946499848118887e-4,
-    0.465236289270485756e-4,-0.983744753048795646e-4,0.158088703224912494e-3,
-    -0.210264441724104883e-3,0.217439618115212643e-3,-0.164318106536763890e-3,
-    0.844182239838527433e-4,-0.261908384015814087e-4,0.368991826595316234e-5]
+    coeffs = @SVector([
+        57.1562356658629235,
+        -59.5979603554754912,
+        14.1360979747417471,
+        -0.491913816097620199,
+        0.339946499848118887e-4,
+        0.465236289270485756e-4,
+        -0.983744753048795646e-4,
+        0.158088703224912494e-3,
+        -0.210264441724104883e-3,
+        0.217439618115212643e-3,
+        -0.164318106536763890e-3,
+        0.844182239838527433e-4,
+        -0.261908384015814087e-4,
+        0.368991826595316234e-5]
+    )
 
     y = copy(x)
     xx = copy(x)
