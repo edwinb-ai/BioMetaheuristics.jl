@@ -13,9 +13,12 @@ struct PSO <: PopulationBase end
     PSO(f::Function, population::AbstractArray, k_max::Int;
         w=0.9, c1=2.0, c2=2.0, seed = nothing
         ) -> OptimizationResults
+    PSO(f::Benchmark, population::AbstractArray, k_max::Int;
+        w=0.9, c1=2.0, c2=2.0, seed = nothing
+        ) -> OptimizationResults
 
-Method that implements `PSO` for a function `f` of type `Function`,
-or of type `TestFunctions`.
+Method that implements `PSO` for a function `f` of type `Function`
+or of type `Benchmark`.
 Returns an `OptimizationResults` type with information relevant to the
 run executed, see [`OptimizationResults`](@ref).
 
@@ -64,23 +67,6 @@ function PSO(f::Function, population::AbstractArray, k_max::Int;
     return optim_res
 end
 
-"""
-    PSO(f::Benchmark, population::AbstractArray, k_max::Int;
-        w=0.9, c1=2.0, c2=2.0, seed = nothing
-        ) -> OptimizationResults
-
-Method that implements `PSO` for a function `f` of type `Benchmark`.
-Same implementation as the one for `Function`'s.
-
-# Examples
-```julia
-using Newtman
-
-# Implement PSO for a 3-dimensional Sphere function, with
-# 10000 iterations and 25 particles in the population.
-val = PSO(Sphere(), Population(25, 3, -15.0, 15.0), 10000)
-```
-"""
 function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
     w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
 
@@ -192,4 +178,3 @@ every `Particle` type object `P`.
     # lower bound
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
 end
-

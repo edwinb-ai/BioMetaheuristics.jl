@@ -1,5 +1,6 @@
 import Newtman.TestFunctions: Benchmark, evaluate
 
+# Some useful constants
 const ln2 = log(2.0)
 const sqrtpi = √π
 
@@ -8,39 +9,11 @@ struct SimulatedAnnealing <: Metaheuristic end
 struct GeneralSimulatedAnnealing <: Metaheuristic end
 
 """
-    SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
-        t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat} -> OptimizationResults
-
-Same implementation as the one for [`SimulatedAnnealing`](@ref) except that this one
-can accept `Benchmark` functions implemented within `Newtman.TestFunctions`.
-
-# Examples
-
-```julia
-using Newtman
-
-# Implement Simulated Annealing for a 3-dimensional Rosenbrock function, with
-# 10000 iterations.
-val = SimulatedAnnealing(Rosenbrock(), -5.0, 5.0, 3; low_temp = 10000)
-```
-"""
-function SimulatedAnnealing(
-    f::Benchmark,
-    a::T,
-    b::T,
-    dim::Integer;
-    t0 = 500.0,
-    low_temp = 5000,
-    seed = nothing,
-) where {T <: AbstractFloat}
-    return SimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp, seed = seed)
-end
-
-"""
     SimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
         t0 = 500.0, low_temp = 5000, seed = nothing
         ) where {T <: AbstractFloat} -> OptimizationResults
+    SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
+        t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat} -> OptimizationResults
 
 Implementation of the *classical* version of simulated annealing. This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximate Boltzmann distribution,
 drawn as a normal distribution.
@@ -125,6 +98,19 @@ function SimulatedAnnealing(
     return res
 end  # function SimulatedAnnealing
 
+function SimulatedAnnealing(
+    f::Benchmark,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 5000,
+    seed = nothing,
+) where {T <: AbstractFloat}
+    return SimulatedAnnealing(x->evaluate(f, x), a, b, dim;
+        t0 = t0, low_temp = low_temp, seed = seed)
+end
+
 @inline function _temperature!(x::AbstractFloat)
 
     # Avoid evaluating the logarithm at zero
@@ -135,7 +121,7 @@ end  # function temperature
 
 function _classical_visit(x::AbstractArray, xtmp::AbstractArray, σ::AbstractFloat, rng)
 
-    @simd for i in eachindex(x)
+    for i in eachindex(x)
         @inbounds xtmp[i] = x[i] + randn(rng, Float64) * σ
     end
 end  # function _classical_visit!
@@ -161,45 +147,15 @@ function _annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xtmp::Abst
     end
 end  # function _annealing
 
-"""
-    GeneralSimulatedAnnealing(
-        f::Benchmark, a::T, b::T, dim::Integer;
-        t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0
-        ) where {T <: AbstractFloat} -> OptimizationResults
-
-Same implementation as the one for [`GeneralSimulatedAnnealing`](@ref) except that this one
-can accept `Benchmark` functions implemented within `Newtman.TestFunctions`.
-
-# Examples
-
-```julia
-using Newtman
-
-# Implement General Simulated Annealing for a 3-dimensional Rosenbrock function, with
-# 10000 iterations.
-val = GeneralSimulatedAnnealing(Rosenbrock(), -5.0, 5.0, 3; low_temp = 10000)
-```
-"""
-function GeneralSimulatedAnnealing(
-    f::Benchmark,
-    a::T,
-    b::T,
-    dim::Integer;
-    t0 = 500.0,
-    low_temp = 20000,
-    qv = 2.7,
-    qa = -5.0,
-    seed = nothing,
-) where {T <: AbstractFloat}
-    return GeneralSimulatedAnnealing(x->evaluate(f, x), a, b, dim;
-        t0 = t0, low_temp = low_temp, qv = qv, qa = qa, seed = seed)
-end
-
 @doc raw"""
     GeneralSimulatedAnnealing(
         f::Function, a::T, b::T, dim::Integer;
         t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0,
         seed = nothing
+        ) where {T <: AbstractFloat} -> OptimizationResults
+    GeneralSimulatedAnnealing(
+        f::Benchmark, a::T, b::T, dim::Integer;
+        t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0
         ) where {T <: AbstractFloat} -> OptimizationResults
 
 Implementation of the *generalized* version of simulated annealing. This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the
@@ -298,6 +254,20 @@ function GeneralSimulatedAnnealing(
     return res
 end  # function GeneralSimulatedAnnealing
 
+function GeneralSimulatedAnnealing(
+    f::Benchmark,
+    a::T,
+    b::T,
+    dim::Integer;
+    t0 = 500.0,
+    low_temp = 20000,
+    qv = 2.7,
+    qa = -5.0,
+    seed = nothing,
+) where {T <: AbstractFloat}
+    return GeneralSimulatedAnnealing(x->evaluate(f, x), a, b, dim;
+        t0 = t0, low_temp = low_temp, qv = qv, qa = qa, seed = seed)
+end
 
 function _general_visit(
     x::AbstractArray,
@@ -377,7 +347,7 @@ classical version.
     return factor_1 / factor_2
 end
 
-function _gammaln(x::AbstractFloat)
+function _gammaln(x)
 """
 Compute the logarithm of the Gamma function as defined in the
 3rd edition of Numerical Recipes in C.
