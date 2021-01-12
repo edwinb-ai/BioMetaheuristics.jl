@@ -280,6 +280,9 @@ function _general_visit(
 This is the algorithm from Tsallis & Stariolo to sample the distribution
 shown in their paper, by approximating their probability distribution as a
 Lévy probability distribution.
+
+See the appendix on the paper:
+Tsallis, C. and Stariolo, D. A. (1996) ‘Generalized simulated annealing’, Physica A: Statistical Mechanics and its Applications, 233(1), pp. 395–406. doi: 10.1016/S0378-4371(96)00271-3.
 """
     factor_1 = exp(log(τ) / (q - 1.0))
     factor_2 = exp((4.0 - q) * log(q - 1.0))
@@ -289,11 +292,11 @@ Lévy probability distribution.
     factor_6 = π * (1.0 - factor_5) / sin(π * (1.0 - factor_5)) / exp(_gammaln(2.0 - factor_5))
     sigmax = exp(-(q - 1.0) * log(factor_6 / factor_4)) / (3.0 - q)
 
-    for i in eachindex(x)
-        xx = sigmax .* randn(rng, Float64)
-        y = randn(rng, Float64)
+    @inbounds for i in eachindex(x)
+        xx = sigmax .* randn(rng, eltype(x))
+        y = randn(rng, eltype(x))
         den = exp((q - 1.0) * log(abs(y)) / (3.0 - q))
-        @inbounds xtmp[i] = x[i] + (xx / den)
+        xtmp[i] = x[i] + (xx / den)
     end
 end
 
@@ -368,9 +371,9 @@ Compute the logarithm of the Gamma function as defined in the
 
     ser = 0.999999999999997092
 
-    for i in 1:14
+    @inbounds for i in 1:14
         y += 1
-        @inbounds ser += coeffs[i] / y
+        ser += coeffs[i] / y
     end
 
     return tmp + log(2.5066282746310005 * ser / xx)
