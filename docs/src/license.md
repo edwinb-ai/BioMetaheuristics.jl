@@ -1,7 +1,7 @@
 `Newtman.jl` was created by [Edwin Bedolla](https://github.com/edwinb-ai)
 and the package can be used with the following license:
 
->Copyright (c) 2019 Edwin Bedolla
+>Copyright (c) 2019-2021 Edwin Bedolla
 >
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 >of this software and associated documentation files (the "Software"), to deal

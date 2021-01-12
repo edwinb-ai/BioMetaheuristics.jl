@@ -106,46 +106,6 @@ Again, within a certain tolerance we find the expected result which is
 and if we account for rounding errors and floating-point arithmetic, we
 can safely take this result as the best.
 
-## Multiple runs to ensure statistical significance
-
-Recall that most metaheuristics are actually stochastic optimization algorithms,
-but most importantly they only _estimate_ or _approximate_ a solution.
-These algorithms are not meant to be taken for _granted_, so multiple runs
-with different seeds and starting points are very useful in order to obtain a
-statistically meaningful result.
-
-In this section we will implement a distributed solution in order to build
-a confidence interval around the solution for the [McCormick function](https://www.sfu.ca/~ssurjano/mccorm.html).
-
-First, we define the function
-
-```@example examples
-mcorm(x) = sin(x[1] + x[2]) + (x[1] + x[2]) ^ 2 - 1.5 * x[1] + 2.5 * x[2] + 1;
-nothing #hide
-```
-
-Now, in order for us to use `Newtman.jl` in a parallel fashion we must
-load it using the `Distributed` module from `Julia`
-
-```@example examples
-using Distributed
-@everywhere using Pkg
-@everywhere Pkg.activate("../../")
-@everywhere Pkg.instantiate()
-@everywhere using Newtman
-```
-
-Now we define a function where we can run multiple times the same algorithm,
-and store its results. For simplicity, we will be using the [`GeneralizedSimulatedAnnealing`](@ref) implementation from `Newtman.jl`.
-
-```@example examples
-@everywhere function run_distributed()
-    return nothing
-end
-
-run_distributed()
-```
-
 ---
 
 *This page was generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl).*

@@ -66,9 +66,9 @@ function Particle(
     @assert n > 0 "Dimension is always positive"
 
     if isnothing(seed)
-        rng = Xoroshiro128Plus()
+        rng = Xorshifts.Xoroshiro128Plus()
     else
-        rng = Xoroshiro128Plus(seed)
+        rng = Xorshifts.Xoroshiro128Plus(seed)
     end
 
     x = a .+ (rand(rng, T, n) * (b - a))
