@@ -3,8 +3,8 @@
 ## Benchmarks
 ```@autodocs
 Modules = [Newtman.TestFunctions]
-Pages = ["TestFunctions.jl",
-        "implementations.jl"]
+Private = false
+Pages = ["TestFunctions.jl", "implementations.jl"]
 ```
 
 ## Algorithms
