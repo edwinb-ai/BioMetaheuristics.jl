@@ -41,6 +41,5 @@ makedocs(;
 
 deploydocs(
     repo="github.com/edwinb-ai/Newtman.jl.git",
-    devbranch="main",
     push_preview=true
 )

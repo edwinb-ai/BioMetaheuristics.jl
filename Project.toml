@@ -1,7 +1,7 @@
 name = "Newtman"
 uuid = "5da234d8-f532-44c9-a21d-453082011132"
 authors = ["Edwin Bedolla"]
-version = "0.6.8"
+version = "0.6.9"
 
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
