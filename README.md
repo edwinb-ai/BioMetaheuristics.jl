@@ -4,7 +4,7 @@ Nature-inspired and bio-inspired algorithms for unconstrained optimization.
 
 | Style | Documentation | Build Status | Coverage |
 |:-:|:-:|:-:|:-:|
-| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle) | [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev) | ![CI](https://github.com/edwinb-ai/Newtman.jl/workflows/CI/badge.svg) | [![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master) |
+| [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle) | [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://edwinb-ai.github.io/Newtman.jl/dev) | [![CI](https://github.com/edwinb-ai/Newtman.jl/workflows/CI/badge.svg)](https://github.com/edwinb-ai/Newtman.jl/actions?query=workflow%3ACI) | [![Coverage Status](https://coveralls.io/repos/github/edwinb-ai/Newtman.jl/badge.svg?branch=master)](https://coveralls.io/github/edwinb-ai/Newtman.jl?branch=master) |
 
 
 ## Installation
