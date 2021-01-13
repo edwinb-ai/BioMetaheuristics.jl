@@ -18,7 +18,6 @@ jobs:
           - windows-latest
         arch:
           - x64
-          - x86
         exclude:
           - version: "nightly"
           - os: macOS-latest
