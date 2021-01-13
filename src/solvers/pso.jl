@@ -12,10 +12,10 @@ struct PSO <: PopulationBase end
 """
     PSO(f::Function, population::AbstractArray, k_max::Int;
         w=0.9, c1=2.0, c2=2.0, seed = nothing
-        ) -> OptimizationResults
+    ) -> OptimizationResults
     PSO(f::Benchmark, population::AbstractArray, k_max::Int;
         w=0.9, c1=2.0, c2=2.0, seed = nothing
-        ) -> OptimizationResults
+    ) -> OptimizationResults
 
 Method that implements `PSO` for a function `f` of type `Function`
 or of type `Benchmark`.

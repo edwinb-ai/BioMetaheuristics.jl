@@ -22,7 +22,7 @@ makedocs(;
     modules=[Newtman, Newtman.TestFunctions],
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://edwinb-ai.github.io/Newtman.jl/stable/",
+        canonical="https://edwinb-ai.github.io/Newtman.jl/dev/",
         assets=String[]
     ),
     pages=[
