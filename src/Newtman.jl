@@ -7,10 +7,10 @@ using StaticArrays
 include(joinpath("TestFunctions", "TestFunctions.jl"))
 export TestFunctions
 
-include("population/types.jl")
+include("types/population.jl")
 export Particle, Population
 
-include("solvers/solvers.jl")
+include("types/solvers.jl")
 export Solver, OptimizationResults, PopulationBase, Metaheuristic
 
 include("solvers/pso.jl")

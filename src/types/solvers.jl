@@ -1,17 +1,10 @@
 """
-    Solver
-
-Abstract super-type for every algorithm implementation.
-"""
-abstract type Solver end
-
-"""
     Metaheuristic
 
 Abstract type for metaheuristic algorithms, this makes a clear
 distinction between different classifications of metaheuristic algorithms.
 """
-abstract type Metaheuristic <: Solver end
+abstract type Metaheuristic end
 
 """
     PopulationBase
@@ -22,10 +15,8 @@ An example of this type is [`PSO`](@ref).
 """
 abstract type PopulationBase <: Metaheuristic end
 
-abstract type Results end
-
 """
-    OptimizationResults{T, U, V, W}
+    OptimizationResults{T, U}
 
 Type that formats the output of [`Solver`](@ref) to get better information
 from it.
@@ -39,7 +30,7 @@ from it.
     optimization algorithm.
 - `iterations::Integer`: Stores the number of maximum iterations that the solver was run.
 """
-mutable struct OptimizationResults{T,U} <: Results
+mutable struct OptimizationResults{T,U}
     x::T
     min::U
     impl::AbstractString
