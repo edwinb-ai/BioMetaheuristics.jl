@@ -7,7 +7,7 @@ distinction between different classifications of metaheuristic algorithms.
 abstract type Metaheuristic end
 
 """
-    PopulationBase
+    PopulationBase <: Metaheuristic
 
 Type for population-based algorithms that employ [`Population`](@ref), i.e.
 subroutines that _mutate_ an array of possible candidates in-place.

@@ -16,30 +16,26 @@ struct GeneralSimulatedAnnealing <: Metaheuristic end
         t0 = 500.0, low_temp = 5000
     ) -> OptimizationResults
 
-Implementation of the *classical* version of simulated annealing. This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximate Boltzmann distribution,
-drawn as a normal distribution.
+Implementation of the *classical* version of simulated annealing.
+
+This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximated Boltzmann distribution, drawn as a normal distribution.
 
 Returns an `OptimizationResults` type with information relevant to the run executed, see [`OptimizationResults`](@ref).
 
 # Arguments
+
 - `f`: any user defined `Function` that can take `AbstractArray`'s.
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
 - `dim`: dimension of the optimization problem.
 
 # Keyword arguments
+
 _It is recommended to use the default values provided._
 
-- `t0`: initial value for the *temperature* that is used. The default is an okay
-value, but should be changed depending on the optimization problem.
-
-- `low_temp`: total number of iterations, short for *lowering temperature steps*.
-This also corresponds to the famous *Monte Carlo steps*, which are the total number
-of steps until the algorithm finishes.
-
-- `seed`: an integer to be used as the seed for the pseudo random number generators.
-If `nothing` is passed (the default), then a random seed will be taken from the
-system.
+- `t0`: initial value for the *temperature* that is used. The default is an okay value, but should be changed depending on the optimization problem.
+- `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
+- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
@@ -162,13 +158,15 @@ end  # function _annealing
         t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0
     ) -> OptimizationResults
 
-Implementation of the *generalized* version of simulated annealing. This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the
-neighbor solution search. See [`GeneralSimulatedAnnealing`](@ref) for the implementation
-details.
+Implementation of the *generalized* version of simulated annealing.
+
+This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the neighbor solution search.
+See [`GeneralSimulatedAnnealing`](@ref generalized-sm) for the implementation details.
 
 Returns an `OptimizationResults` type with information relevant to the run executed, see [`OptimizationResults`](@ref).
 
 # Arguments
+
 - `f`: any user defined `Function` that can take `AbstractArray`'s.
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
@@ -177,26 +175,11 @@ Returns an `OptimizationResults` type with information relevant to the run execu
 # Keyword arguments
 _It is recommended to use the default values provided._
 
-- `t0`: initial value for the *temperature* that is used. The default is an okay
-value, but should be changed depending on the optimization problem.
-
-- `low_temp`: total number of iterations, short for *lowering temperature steps*.
-This also corresponds to the famous *Monte Carlo steps*, which are the total number
-of steps until the algorithm finishes.
-
-- `qv`: This is known as the *Tsallis parameter*; particularly this parameter
-controls the cooling schedule convergence and neighbor search. Positive values
-in the interval ``[1,5/3)`` are best because for values larger than 5/3 the
-neighbor search diverges.
-
-- `qa`: Another *Tsallis parameter*; this particular parameter controls convergence
-for the Metropolis-Hastings algorithm and the acceptance probability involved.
-The more negative the value is, the better, but Tsallis & Stariolo report that the
-default value is best.
-
-- `seed`: an integer to be used as the seed for the pseudo random number generators.
-If `nothing` is passed (the default), then a random seed will be taken from the
-system.
+- `t0`: initial value for the *temperature* that is used. The default is an okay value, but should be changed depending on the optimization problem.
+- `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
+- `qv`: This is known as the *Tsallis parameter*; particularly this parameter controls the cooling schedule convergence and neighbor search. Positive values in the interval ``[1,5/3)`` are best because for values larger than 5/3 the neighbor search diverges.
+- `qa`: Another *Tsallis parameter*; this particular parameter controls convergence for the Metropolis-Hastings algorithm and the acceptance probability involved. The more negative the value is, the better, but Tsallis & Stariolo report that the default value is best.
+- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
@@ -350,7 +333,7 @@ function _general_annealing!(
 end  # function _general_annealing!
 
 function _general_temperature!(x, q)
-    """
+"""
 A generalized cooling schedule that should work for every possible type
 of Simulated Annealing implementation. When `q` = 1, this reduces to the
 classical version.
@@ -365,7 +348,7 @@ classical version.
 end
 
 function _gammaln(x)
-    """
+"""
 Compute the logarithm of the Gamma function as defined in the
 3rd edition of Numerical Recipes in C.
 """

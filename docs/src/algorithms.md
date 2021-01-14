@@ -3,6 +3,7 @@
 The following **algorithms** are implemented:
 
 ## Particle Swarm Optimization
+
 This implementation is the modified Particle Swarm Optimization [^1] where it employs an inertia weight ``\omega``
 that controls convergence. This implementation uses _linear decay_ for the inertia weight, which lowers the value of 
 ``\omega`` iteratively until it reaches the default minimum of ``\omega = 0.4``.
@@ -22,17 +23,20 @@ where ``\beta_1`` and ``\beta_2`` are uniformly distributed random numbers; ``\v
 ```math
 \eta = \frac{(0.9 - 0.4)}{n}
 ```
+
 where ``0.9`` is the original default value for ``\omega``, ``0.4`` is the default minimum as explained before and ``n`` is the
 total number of iterations the algorithm is run. This guarantees that the weight decays linearly.
 
 ## Simulated Annealing
 
 ### Classic version
+
 This implementation [^2] uses the following logarithmic cooling schedule
 
 ```math
 T_{new}(t) = T_0 \frac{\log{(2)}}{\log{1 + t}}
 ```
+
 to obtain a new temperature each iteration, starting from an initial temperature ``T_0``.
 
 This implementation searches possible candidate solutions by sampling from an approximate Boltzmann distribution,
@@ -57,7 +61,8 @@ P(x_{sol} \leftarrow x_{old}) = e^{(\Delta / T_{new}(t))} \qquad f(x_{sol}) \geq
 
 where ``\Delta = f(x_{old}) - f(x_{sol})``.
 
-### Generalized version
+### [Generalized version](@id generalized-sm)
+
 This is the implementation developed by Tsallis & Stariolo [^2] following Tsallis' theory on
 the generalization of the extensive entropy developed in Statistical Mechanics. This implementation
 has as special cases the classic version described above and the *fast* version developed by
@@ -90,6 +95,7 @@ T_{q_v}^V (t) = \frac{2^{q_v-1}-1}{(1+t)^{q_v-1}-1}
 ```math
 T_{new}(t) = T_0\ T_{q_v}^V (t)
 ```
+
 where ``T_0`` is the initial temperature.
 
 Then we have the neighbor sampling distribution defined as
