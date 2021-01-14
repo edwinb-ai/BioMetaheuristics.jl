@@ -51,43 +51,35 @@ f_sphere(x) = sum(x .^ 2)
 val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000)
 ```
 """
-function PSO(f::Function, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0, seed=nothing)
+function PSO(f::Function, population, k_max::Int, rng;
+    w=0.9, c1=2.0, c2=2.0)
 
-    val = _pso!(f, population, k_max; w=w, c1=c1, c2=c2, seed=seed)
+    val = _pso!(f, population, k_max, rng; w=w, c1=c1, c2=c2)
 
     optim_res = OptimizationResults(val, f(val), "PSO", k_max)
 
     return optim_res
 end
 
-function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0, seed=nothing)
+function PSO(f::Benchmark, population, k_max::Int, rng;
+    w=0.9, c1=2.0, c2=2.0)
 
     val = _pso!(
         x -> evaluate(f, x),
         population,
-        k_max;
+        k_max,
+        rng;
         w=w,
         c1=c1,
-        c2=c2,
-        seed=seed
+        c2=c2
     )
 
     optim_res = OptimizationResults(val, evaluate(f, val), "PSO", k_max)
     return optim_res
 end
 
-function _pso!(f, population::AbstractArray, k_max::Int;
-    w=0.9, c1=2.0, c2=2.0, seed=nothing)
-
-    # Create the RNG generator with the specified seed
-    if isnothing(seed)
-        rng = Xorshifts.Xoroshiro128Plus()
-    else
-        rng = Xorshifts.Xoroshiro128Plus(seed)
-    end
-
+function _pso!(f, population, k_max::Int, rng;
+    w=0.9, c1=2.0, c2=2.0)
     # Obtain weight decay rate
     η = _weight_decay(w, k_max)
 
@@ -140,7 +132,6 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
     end
 end
 
-
 """
     Compute the corresponding weight decay depending the maximum
 number of iterations and the initial value for it.
@@ -153,21 +144,7 @@ number of iterations and the initial value for it.
     return step_size
 end
 
-"""
-    Apply boundary conditions to both position and velocity for
-every `Particle` type object `P`.
-"""
-function _clip_positions_velocities!(P)
-    # min_val, max_val = extrema(P.x)
-    # First the positions
-    # Upper bound
-    broadcast!(x->x > P.max_dim ? P.max_dim : x, P.x, P.x)
-    # lower bound
-    broadcast!(x->x < P.min_dim ? P.min_dim : x, P.x, P.x)
-
-    # Then the velocities
-    # upper bound
-    broadcast!(x->x > P.max_dim ? P.max_dim : x, P.v, P.v)
-    # lower bound
-    broadcast!(x->x < P.min_dim ? P.min_dim : x, P.v, P.v)
+# To enable dispatch based on the type
+function optimize(f, population, k_max, rng, ::PSO; kwargs...)
+    return PSO(f, population, k_max, rng; kwargs...)
 end

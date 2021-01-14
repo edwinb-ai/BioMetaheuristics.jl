@@ -54,19 +54,11 @@ function SimulatedAnnealing(
     f::Function,
     a,
     b,
-    dim::Integer;
+    dim::Integer,
+    rng;
     t0=500.0,
-    low_temp=5000,
-    seed=nothing,
+    low_temp=5000
 )
-
-    # Use a user specified seed if necessary
-    if isnothing(seed)
-        rng = Xorshifts.Xoroshiro128Plus()
-    else
-        rng = Xorshifts.Xoroshiro128Plus(seed)
-    end
-
     # Enforce type stability
     a, b = promote(a, b)
 
@@ -102,13 +94,13 @@ function SimulatedAnnealing(
     f::Benchmark,
     a,
     b,
-    dim::Integer;
+    dim::Integer,
+    rng;
     t0=500.0,
-    low_temp=5000,
-    seed=nothing,
+    low_temp=5000
 )
-    return SimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
-        t0=t0, low_temp=low_temp, seed=seed)
+    return SimulatedAnnealing(x -> evaluate(f, x), a, b, dim, rng;
+        t0=t0, low_temp=low_temp)
 end
 
 @inline function _temperature!(x)
@@ -198,21 +190,13 @@ function GeneralSimulatedAnnealing(
     f::Function,
     a,
     b,
-    dim::Integer;
+    dim::Integer,
+    rng;
     t0=500.0,
     low_temp=20000,
     qv=2.7,
-    qa=-5.0,
-    seed=nothing,
+    qa=-5.0
 )
-
-    # Use a user defined seed
-    if isnothing(seed)
-        rng = Xorshifts.Xoroshiro128Plus()
-    else
-        rng = Xorshifts.Xoroshiro128Plus(seed)
-    end
-
     # Enforce type stability
     a, b = promote(a, b)
 
@@ -248,15 +232,15 @@ function GeneralSimulatedAnnealing(
     f::Benchmark,
     a,
     b,
-    dim::Integer;
+    dim::Integer,
+    rng;
     t0=500.0,
     low_temp=20000,
     qv=2.7,
-    qa=-5.0,
-    seed=nothing,
+    qa=-5.0
 )
-    return GeneralSimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
-        t0=t0, low_temp=low_temp, qv=qv, qa=qa, seed=seed)
+    return GeneralSimulatedAnnealing(x -> evaluate(f, x), a, b, dim, rng;
+        t0=t0, low_temp=low_temp, qv=qv, qa=qa)
 end
 
 function _general_visit(
@@ -346,43 +330,3 @@ classical version.
 
     return factor_1 / factor_2
 end
-
-function _gammaln(x)
-"""
-Compute the logarithm of the Gamma function as defined in the
-3rd edition of Numerical Recipes in C.
-"""
-    @assert x > 0
-
-    coeffs = @SVector([
-        57.1562356658629235,
-        -59.5979603554754912,
-        14.1360979747417471,
-        -0.491913816097620199,
-        0.339946499848118887e-4,
-        0.465236289270485756e-4,
-        -0.983744753048795646e-4,
-        0.158088703224912494e-3,
-        -0.210264441724104883e-3,
-        0.217439618115212643e-3,
-        -0.164318106536763890e-3,
-        0.844182239838527433e-4,
-        -0.261908384015814087e-4,
-        0.368991826595316234e-5]
-    )
-
-    y = copy(x)
-    xx = copy(x)
-
-    tmp = xx + 5.2421875 # Rational 671/128
-    tmp = (xx + 0.5) * log(tmp) - tmp
-
-    ser = 0.999999999999997092
-
-    @inbounds for i in 1:14
-        y += 1
-        ser += coeffs[i] / y
-    end
-
-    return tmp + log(2.5066282746310005 * ser / xx)
-end  # function _gammaln

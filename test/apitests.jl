@@ -1,21 +1,12 @@
-@testset "PSO" begin
+rng = MersenneTwister(912301)
 
-    RANDOM_SEED = 809230
-    rng = MersenneTwister(RANDOM_SEED)
-
-    f_sphere(x) = sum(x.^2)
-
+@testset "API" begin
     # * Single-run tests for TestFunctions, Easom
     @test begin
         assert_results = []
         ground_truth = @SVector [π, π]
         for k = 1:10
-            val = PSO(
-                Easom(),
-                Population(35, 2, -100.0, 100.0, rng),
-                25000,
-                rng
-            )
+            val = optimize(Easom(), zeros(2), [-100.0, 100], PSO(); rng=rng)
             result = isapprox(val.x, ground_truth, atol = 1e-8)
             push!(assert_results, result)
         end
@@ -27,18 +18,16 @@
             false
         end
     end
-    # * Single-run tests for user-defined functions
+
+    # * Change the keyword arguments
     @test begin
         assert_results = []
-        ground_truth = zeros(30)
+        ground_truth = @SVector [π, π]
+        args = Dict(:w => 0.8, :c1 => 1.5, :c2 => 1.0)
         for k = 1:10
-            val = PSO(
-                f_sphere,
-                Population(30, 30, -10.0, 10.0, rng),
-                20000,
-                rng
-            )
-            push!(assert_results, isapprox(val.x, ground_truth, atol = 1e-11))
+            val = optimize(Easom(), zeros(2), [-100.0, 100], PSO(); rng=rng, args...)
+            result = isapprox(val.x, ground_truth, atol = 1e-8)
+            push!(assert_results, result)
         end
         # if at least 80% of the time converges, the test passes
         if count(assert_results) >= 8
@@ -48,13 +37,15 @@
             false
         end
     end
-    # * Test for random seeds
+
+    # * Test random RNG
     @test begin
         assert_results = []
-        ground_truth = zeros(30)
+        ground_truth = @SVector [π, π]
         for k = 1:10
-            val = PSO(f_sphere, Population(30, 30, -10.0, 10.0, rng), 20000, rng)
-            push!(assert_results, isapprox(val.x, ground_truth, atol = 1e-11))
+            val = optimize(Easom(), zeros(2), [-100.0, 100], PSO())
+            result = isapprox(val.x, ground_truth, atol = 1e-8)
+            push!(assert_results, result)
         end
         # if at least 80% of the time converges, the test passes
         if count(assert_results) >= 8

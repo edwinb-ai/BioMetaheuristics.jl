@@ -68,14 +68,8 @@ Particle(
 p = Particle(-1.0, 1.0, 3)
 ```
 """
-function Particle(a, b, n::Int; seed=nothing)
+function Particle(a, b, n::Int, rng)
     @assert n > 0 "Dimension is always positive"
-
-    if isnothing(seed)
-        rng = Xorshifts.Xoroshiro128Plus()
-    else
-        rng = Xorshifts.Xoroshiro128Plus(seed)
-    end
 
     a, b = promote(a, b)
     x = a .+ (rand(rng, n) * (b - a))
@@ -105,13 +99,13 @@ essentially a multi-dimensional array. It makes handling `Particle`s much easier
 pop = Population(35, 4, -1.0, 1.0)
 ```
 """
-function Population(num_particles::T, dim::T, a, b; seed=nothing) where {T <: Int}
+function Population(num_particles::T, dim::T, a, b, rng) where {T <: Int}
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
 
     container = Vector{Particle}(undef, num_particles)
     for idx in 1:num_particles
-        container[idx] = Particle(a, b, dim; seed=seed)
+        container[idx] = Particle(a, b, dim, rng)
     end
 
     return container
@@ -137,16 +131,10 @@ range_b = SVector(-2.5, 2.0)
 pops = Population(2, 20, [ranges_a, range_b])
 ```
 """
-function Population(num_particles::Int, ranges; seed=nothing)
+function Population(num_particles::Int, ranges, rng)
     dim = length(ranges)
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
-
-    if isnothing(seed)
-        rng = Xorshifts.Xoroshiro128Plus()
-    else
-        rng = Xorshifts.Xoroshiro128Plus(seed)
-    end
 
     container = Vector{Particle}(undef, num_particles)
     element_type_range = eltype(ranges[1]) # Use the type from the first range's elements
