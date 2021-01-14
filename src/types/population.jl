@@ -1,11 +1,4 @@
-"""
-    Individual
-
-Abstract super-type for types that contain their own information.
-"""
-abstract type Individual end
-
-mutable struct Particle{T <: Real} <: Individual
+mutable struct Particle{T <: Real}
     x::AbstractArray{T}
     v::AbstractArray{T}
     x_best::AbstractArray{T}
@@ -48,7 +41,7 @@ The dimensions of the `Particle` are inferred from the length of the arrays.
 
 # Example
 ```julia
-p = Particle(zeros(3), rand(3), zeros(3))
+p = Particle(zeros(3), rand(3), zeros(3), 0.0, 1.0)
 ```
 """
 Particle(

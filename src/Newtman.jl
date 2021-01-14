@@ -8,16 +8,14 @@ using Random
 include(joinpath("TestFunctions", "TestFunctions.jl"))
 export TestFunctions
 
+# Types
 include("types/population.jl")
-export Particle, Population
-
 include("types/solvers.jl")
-export OptimizationResults, PopulationBase, Metaheuristic
+export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic
 
+# Solvers
 include("solvers/pso.jl")
-export PSO
-
 include("solvers/simulated_annealing.jl")
-export SimulatedAnnealing, GeneralSimulatedAnnealing
+export PSO, SimulatedAnnealing, GeneralSimulatedAnnealing
 
 end
