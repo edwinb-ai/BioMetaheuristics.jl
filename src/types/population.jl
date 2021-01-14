@@ -79,6 +79,8 @@ function Particle(a, b, n::Int, rng)
     return Particle(x, v, x_best, a, b)
 end
 
+isless(a::Particle{T}, b::Particle{T}) where {T<:Real} = isless(a.x_best, b.x_best)
+
 mutable struct Population end
 
 """

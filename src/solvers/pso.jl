@@ -79,20 +79,19 @@ function PSO(f::Benchmark, population, k_max::Int, rng;
 end
 
 function _pso!(f, population, k_max::Int, rng;
-    w=0.9, c1=2.0, c2=2.0)
+    w=0.9, c1=2.0, c2=2.0, ftol=1e-6)
     # Obtain weight decay rate
     η = _weight_decay(w, k_max)
 
     # Evaluate initial costs
     dimension = length(population[1].x)
 
-    # Initialize container variables
-    x_best = similar(population[1].x_best)
-    y_best = Inf
-    for P in population
-        y = f(P.x)
+    x_best = similar(population[1].x_best) # Best candidate
+    y_best = Inf # Best miminum
+    for particle in population
+        y = f(particle.x)
         if y < y_best
-            x_best[:] = P.x
+            copyto!(x_best, particle.x)
             y_best = y
         end
     end
@@ -104,18 +103,18 @@ function _pso!(f, population, k_max::Int, rng;
         w -= η
     end
 
-    # Always return the first position as it contains the best possible
-    # solution
+    # Sort the solutions and return the first one
+    sort!(population)
     return population[1].x_best
 end
 
 function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
 
     for P in population
-        rngs = rand(rng, n, 2)
+        rngs = rand(rng, 2, n)
         # Evaluate velocity
-        P.v = (w * P.v) + (c1 * rngs[:, 1] .* (P.x_best - P.x))
-        P.v .+= c2 * rngs[:, 2] .* (x_best - P.x)
+        P.v = (w * P.v) + (c1 * rngs[1, :] .* (P.x_best - P.x))
+        P.v .+= c2 * rngs[2, :] .* (x_best - P.x)
         # Update position
         P.x += P.v
         # Apply boundary values to positions and velocities
@@ -123,11 +122,11 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
         # Update values if they give lower cost
         y = f(P.x)
         if y < y_best
-            x_best[:] = P.x
+            copyto!(x_best, P.x)
             y_best = y
         end
         if y < f(P.x_best)
-            P.x_best[:] = P.x
+            copyto!(P.x_best, P.x)
         end
     end
 end

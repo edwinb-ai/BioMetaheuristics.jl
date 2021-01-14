@@ -4,6 +4,7 @@ import RandomNumbers.Xorshifts
 using Printf: @printf
 using StaticArrays
 using Random
+import Base: isless
 
 # Benchmark functions module
 export TestFunctions

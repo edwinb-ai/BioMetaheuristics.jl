@@ -5,7 +5,7 @@ function optimize(f, sol, range, method::PopulationBase;
     pop_size=35,
     kwargs...
 )
-    # Use a user specified seed if necessary
+    # If no RNG is passsed, create a randomly seeded one
     if isnothing(rng)
         rng = Xorshifts.Xoroshiro128Plus()
     end
@@ -14,6 +14,9 @@ function optimize(f, sol, range, method::PopulationBase;
     dim = length(sol)
     lower, upper = range
     pops = Population(pop_size, dim, lower, upper, rng)
+    for p in pops
+        p.x_best = copy(sol)
+    end
 
     # Send to the PopulationBase method
     val = optimize(f, pops, iters, rng, method; kwargs...)
