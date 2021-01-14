@@ -9,36 +9,33 @@ struct SimulatedAnnealing <: Metaheuristic end
 struct GeneralSimulatedAnnealing <: Metaheuristic end
 
 """
-    SimulatedAnnealing(f::Function, a::T, b::T, dim::Integer;
+    SimulatedAnnealing(f::Function, a, b, dim::Integer;
         t0 = 500.0, low_temp = 5000, seed = nothing
-        ) where {T <: AbstractFloat} -> OptimizationResults
-    SimulatedAnnealing(f::Benchmark, a::T, b::T, dim::Integer;
-        t0 = 500.0, low_temp = 5000) where {T <: AbstractFloat} -> OptimizationResults
+    ) -> OptimizationResults
+    SimulatedAnnealing(f::Benchmark, a, b, dim::Integer;
+        t0 = 500.0, low_temp = 5000
+    ) -> OptimizationResults
 
-Implementation of the *classical* version of simulated annealing. This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximate Boltzmann distribution,
-drawn as a normal distribution.
+Implementation of the *classical* version of simulated annealing.
+
+This implementation uses a logarithmic cooling schedule and searches possible candidate solutions by sampling from an approximated Boltzmann distribution, drawn as a normal distribution.
 
 Returns an `OptimizationResults` type with information relevant to the run executed, see [`OptimizationResults`](@ref).
 
 # Arguments
+
 - `f`: any user defined `Function` that can take `AbstractArray`'s.
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
 - `dim`: dimension of the optimization problem.
 
 # Keyword arguments
+
 _It is recommended to use the default values provided._
 
-- `t0`: initial value for the *temperature* that is used. The default is an okay
-value, but should be changed depending on the optimization problem.
-
-- `low_temp`: total number of iterations, short for *lowering temperature steps*.
-This also corresponds to the famous *Monte Carlo steps*, which are the total number
-of steps until the algorithm finishes.
-
-- `seed`: an integer to be used as the seed for the pseudo random number generators.
-If `nothing` is passed (the default), then a random seed will be taken from the
-system.
+- `t0`: initial value for the *temperature* that is used. The default is an okay value, but should be changed depending on the optimization problem.
+- `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
+- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
@@ -55,24 +52,27 @@ val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000)
 """
 function SimulatedAnnealing(
     f::Function,
-    a::T,
-    b::T,
+    a,
+    b,
     dim::Integer;
     t0=500.0,
     low_temp=5000,
     seed=nothing,
-) where {T <: AbstractFloat}
+)
 
     # Use a user specified seed if necessary
     if isnothing(seed)
-        rng = Xorshifts.Xorshift1024Star()
+        rng = Xorshifts.Xoroshiro128Plus()
     else
-        rng = Xorshifts.Xorshift1024Star(seed)
+        rng = Xorshifts.Xoroshiro128Plus(seed)
     end
+
+    # Enforce type stability
+    a, b = promote(a, b)
 
     # Create the solution with random initial values within the
     # search space bounds
-    x_solution = a .+ rand(rng, T, dim) * (b - a)
+    x_solution = a .+ rand(rng, typeof(a), dim) * (b - a)
 
     # We create a temporal array for copying values
     xtmp = similar(x_solution)
@@ -100,18 +100,18 @@ end  # function SimulatedAnnealing
 
 function SimulatedAnnealing(
     f::Benchmark,
-    a::T,
-    b::T,
+    a,
+    b,
     dim::Integer;
     t0=500.0,
     low_temp=5000,
     seed=nothing,
-) where {T <: AbstractFloat}
+)
     return SimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
         t0=t0, low_temp=low_temp, seed=seed)
 end
 
-@inline function _temperature!(x::AbstractFloat)
+@inline function _temperature!(x)
 
     # Avoid evaluating the logarithm at zero
     @assert x > -1.0
@@ -119,14 +119,14 @@ end
     return ln2 / log(1.0 + x)
 end  # function temperature
 
-function _classical_visit(x::AbstractArray, xtmp::AbstractArray, σ::AbstractFloat, rng)
+function _classical_visit(x, xtmp, σ, rng)
 
     for i in eachindex(x)
         @inbounds xtmp[i] = x[i] + randn(rng, Float64) * σ
     end
 end  # function _classical_visit!
 
-function _annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xtmp::AbstractArray, rng)
+function _annealing!(f::Function, t, x, xtmp, rng)
 
     # Evaluate the energies
     new_energy = f(xtmp)
@@ -149,22 +149,24 @@ end  # function _annealing
 
 @doc raw"""
     GeneralSimulatedAnnealing(
-        f::Function, a::T, b::T, dim::Integer;
+        f::Function, a, b, dim::Integer;
         t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0,
         seed = nothing
-        ) where {T <: AbstractFloat} -> OptimizationResults
+    ) -> OptimizationResults
     GeneralSimulatedAnnealing(
-        f::Benchmark, a::T, b::T, dim::Integer;
+        f::Benchmark, a, b, dim::Integer;
         t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0
-        ) where {T <: AbstractFloat} -> OptimizationResults
+    ) -> OptimizationResults
 
-Implementation of the *generalized* version of simulated annealing. This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the
-neighbor solution search. See [`GeneralSimulatedAnnealing`](@ref) for the implementation
-details.
+Implementation of the *generalized* version of simulated annealing.
+
+This implementation uses all the theory from Tsallis & Stariolo for the cooling schedule and the neighbor solution search.
+See [`GeneralSimulatedAnnealing`](@ref generalized-sm) for the implementation details.
 
 Returns an `OptimizationResults` type with information relevant to the run executed, see [`OptimizationResults`](@ref).
 
 # Arguments
+
 - `f`: any user defined `Function` that can take `AbstractArray`'s.
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
@@ -173,26 +175,11 @@ Returns an `OptimizationResults` type with information relevant to the run execu
 # Keyword arguments
 _It is recommended to use the default values provided._
 
-- `t0`: initial value for the *temperature* that is used. The default is an okay
-value, but should be changed depending on the optimization problem.
-
-- `low_temp`: total number of iterations, short for *lowering temperature steps*.
-This also corresponds to the famous *Monte Carlo steps*, which are the total number
-of steps until the algorithm finishes.
-
-- `qv`: This is known as the *Tsallis parameter*; particularly this parameter
-controls the cooling schedule convergence and neighbor search. Positive values
-in the interval ``[1,5/3)`` are best because for values larger than 5/3 the
-neighbor search diverges.
-
-- `qa`: Another *Tsallis parameter*; this particular parameter controls convergence
-for the Metropolis-Hastings algorithm and the acceptance probability involved.
-The more negative the value is, the better, but Tsallis & Stariolo report that the
-default value is best.
-
-- `seed`: an integer to be used as the seed for the pseudo random number generators.
-If `nothing` is passed (the default), then a random seed will be taken from the
-system.
+- `t0`: initial value for the *temperature* that is used. The default is an okay value, but should be changed depending on the optimization problem.
+- `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
+- `qv`: This is known as the *Tsallis parameter*; particularly this parameter controls the cooling schedule convergence and neighbor search. Positive values in the interval ``[1,5/3)`` are best because for values larger than 5/3 the neighbor search diverges.
+- `qa`: Another *Tsallis parameter*; this particular parameter controls convergence for the Metropolis-Hastings algorithm and the acceptance probability involved. The more negative the value is, the better, but Tsallis & Stariolo report that the default value is best.
+- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
@@ -209,15 +196,15 @@ val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 15000)
 """
 function GeneralSimulatedAnnealing(
     f::Function,
-    a::T,
-    b::T,
+    a,
+    b,
     dim::Integer;
     t0=500.0,
     low_temp=20000,
     qv=2.7,
     qa=-5.0,
     seed=nothing,
-) where {T <: AbstractFloat}
+)
 
     # Use a user defined seed
     if isnothing(seed)
@@ -226,9 +213,12 @@ function GeneralSimulatedAnnealing(
         rng = Xorshifts.Xoroshiro128Plus(seed)
     end
 
+    # Enforce type stability
+    a, b = promote(a, b)
+
     # Create the solution with random initial values within the
     # search space bounds
-    x_solution = a .+ rand(rng, T, dim) * (b - a)
+    x_solution = a .+ rand(rng, typeof(a), dim) * (b - a)
 
     # We create a temporal array for copying values
     xtmp = similar(x_solution)
@@ -256,26 +246,26 @@ end  # function GeneralSimulatedAnnealing
 
 function GeneralSimulatedAnnealing(
     f::Benchmark,
-    a::T,
-    b::T,
+    a,
+    b,
     dim::Integer;
     t0=500.0,
     low_temp=20000,
     qv=2.7,
     qa=-5.0,
     seed=nothing,
-) where {T <: AbstractFloat}
+)
     return GeneralSimulatedAnnealing(x -> evaluate(f, x), a, b, dim;
         t0=t0, low_temp=low_temp, qv=qv, qa=qa, seed=seed)
 end
 
 function _general_visit(
-    x::AbstractArray,
-    xtmp::AbstractArray,
-    τ::AbstractFloat,
-    q::AbstractFloat,
+    x::AbstractArray{T},
+    xtmp::AbstractArray{T},
+    τ::T,
+    q::T,
     rng
-)
+) where {T <: Real}
     """
 This is the algorithm from Tsallis & Stariolo to sample the distribution
 shown in their paper, by approximating their probability distribution as a
@@ -300,7 +290,14 @@ Tsallis, C. and Stariolo, D. A. (1996) ‘Generalized simulated annealing’, Ph
     end
 end
 
-function _general_annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xtmp::AbstractArray, q::AbstractFloat, rng)
+function _general_annealing!(
+    f::Function,
+    t::T,
+    x::AbstractArray{T},
+    xtmp::AbstractArray{T},
+    q::T,
+    rng
+) where {T <: Real}
 
     # Evaluate the energies
     new_energy = f(xtmp)
@@ -335,8 +332,8 @@ function _general_annealing!(f::Function, t::AbstractFloat, x::AbstractArray, xt
     end
 end  # function _general_annealing!
 
-function _general_temperature!(x::AbstractFloat, q::AbstractFloat)
-    """
+function _general_temperature!(x, q)
+"""
 A generalized cooling schedule that should work for every possible type
 of Simulated Annealing implementation. When `q` = 1, this reduces to the
 classical version.
@@ -351,7 +348,7 @@ classical version.
 end
 
 function _gammaln(x)
-    """
+"""
 Compute the logarithm of the Gamma function as defined in the
 3rd edition of Numerical Recipes in C.
 """

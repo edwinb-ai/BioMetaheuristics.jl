@@ -1,12 +1,13 @@
 name = "Newtman"
 uuid = "5da234d8-f532-44c9-a21d-453082011132"
 authors = ["Edwin Bedolla"]
-version = "0.6.10"
+version = "0.7.1"
 
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 RandomNumbers = "e6cf234a-135c-5ec9-84dd-332b85af5143"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
@@ -14,7 +15,6 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 julia = "^1.5"
 
 [extras]
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]

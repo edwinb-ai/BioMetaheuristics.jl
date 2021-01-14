@@ -3,20 +3,19 @@ module Newtman
 import RandomNumbers.Xorshifts
 using Printf: @printf
 using StaticArrays
+using Random
 
 include(joinpath("TestFunctions", "TestFunctions.jl"))
 export TestFunctions
 
-include("population/types.jl")
-export Particle, Population
+# Types
+include("types/population.jl")
+include("types/solvers.jl")
+export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic
 
-include("solvers/solvers.jl")
-export Solver, OptimizationResults, PopulationBase, Metaheuristic
-
+# Solvers
 include("solvers/pso.jl")
-export PSO
-
 include("solvers/simulated_annealing.jl")
-export SimulatedAnnealing, GeneralSimulatedAnnealing
+export PSO, SimulatedAnnealing, GeneralSimulatedAnnealing
 
 end
