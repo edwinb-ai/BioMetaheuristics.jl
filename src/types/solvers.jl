@@ -18,7 +18,7 @@ abstract type PopulationBase <: Metaheuristic end
 """
     OptimizationResults{T, U}
 
-Type that formats the output of [`Solver`](@ref) to get better information
+Type that formats the output of [`Metaheuristic`](@ref) to get better information
 from it.
 
 # Fields
@@ -26,7 +26,7 @@ from it.
     the cost function.
 - `min::U`: Stores the value obtained from evaluating the cost function with
     `x`, i.e. the minima found.
-- `impl::AbstractString`: Stores the name of the `Solver` used, i.e. the name or identifier of the
+- `impl::AbstractString`: Stores the name of the `Metaheuristic` used, i.e. the name or identifier of the
     optimization algorithm.
 - `iterations::Integer`: Stores the number of maximum iterations that the solver was run.
 """

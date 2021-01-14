@@ -12,7 +12,7 @@ include("types/population.jl")
 export Particle, Population
 
 include("types/solvers.jl")
-export Solver, OptimizationResults, PopulationBase, Metaheuristic
+export OptimizationResults, PopulationBase, Metaheuristic
 
 include("solvers/pso.jl")
 export PSO

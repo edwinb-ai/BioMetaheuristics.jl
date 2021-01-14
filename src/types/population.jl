@@ -129,19 +129,19 @@ end
         -> Vector{Particle}(undef, num_particles)
 
 An array of `Particle`'s where each of them are bounded and are given a dimension.
-`x` is an iterator of ranges for each *dimension* for the `Particle`'s specified.
+`x` is a collection of ranges for each *dimension* for the `Particle`'s specified.
 
 # Arguments
 - `num_particles`: Number of particles in the `Population`.
 - `dim`: Dimension for every `Particle`.
-- `x`: Whatever kind of iterator that will specify the ranges for each dimension.
+- `x`: Should be a collection of ranges, for instance a tuple or a vector.
 
 # Example
 ```julia
 # Two ranges, one for each dimension
 range_a = SVector(-10.0, 10.0)
 range_b = SVector(-2.5, 2.0)
-pops = Population(2, 20, ranges_a, range_b)
+pops = Population(2, 20, [ranges_a, range_b])
 ```
 """
 function Population(num_particles::Int, ranges; seed=nothing)
