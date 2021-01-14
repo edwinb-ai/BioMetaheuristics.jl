@@ -28,8 +28,8 @@
             total_iterations,
             rng
         )
-        @test isapprox(val.x, zeros(3), atol = 1e-15)
-        @test isapprox(val.min, 0.0, atol = 1e-60)
+        @test isapprox(val.x, zeros(3), atol=eps())
+        @test isapprox(val.min, 0.0, atol=eps())
         @test val.impl ≡ "PSO"
         @test val.iterations ≡ total_iterations
         optim_res = OptimizationResults(val.x,

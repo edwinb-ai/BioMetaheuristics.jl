@@ -1,13 +1,13 @@
 rng = MersenneTwister(912301)
 
 @testset "API" begin
-    # * Single-run tests for TestFunctions, Easom
+    # # * Single-run tests for TestFunctions, Easom
     @test begin
         assert_results = []
         ground_truth = @SVector [π, π]
         for k = 1:10
             val = optimize(Easom(), zeros(2), [-100.0, 100], PSO(); rng=rng)
-            result = isapprox(val.x, ground_truth, atol = 1e-8)
+            result = isapprox(val.x, ground_truth)
             push!(assert_results, result)
         end
         # if at least 80% of the time converges, the test passes
@@ -26,7 +26,7 @@ rng = MersenneTwister(912301)
         args = Dict(:w => 0.8, :c1 => 1.5, :c2 => 1.0)
         for k = 1:10
             val = optimize(Easom(), zeros(2), [-100.0, 100], PSO(); rng=rng, args...)
-            result = isapprox(val.x, ground_truth, atol = 1e-8)
+            result = isapprox(val.x, ground_truth)
             push!(assert_results, result)
         end
         # if at least 80% of the time converges, the test passes
@@ -43,8 +43,8 @@ rng = MersenneTwister(912301)
         assert_results = []
         ground_truth = @SVector [π, π]
         for k = 1:10
-            val = optimize(Easom(), zeros(2), [-100.0, 100], PSO())
-            result = isapprox(val.x, ground_truth, atol = 1e-8)
+            val = optimize(Easom(), zeros(2), [-100.0, 100], PSO(); iters=15_000)
+            result = isapprox(val.x, ground_truth)
             push!(assert_results, result)
         end
         # if at least 80% of the time converges, the test passes

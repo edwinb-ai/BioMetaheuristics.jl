@@ -79,8 +79,6 @@ function Particle(a, b, n::Int, rng)
     return Particle(x, v, x_best, a, b)
 end
 
-isless(a::Particle{T}, b::Particle{T}) where {T<:Real} = isless(a.x_best, b.x_best)
-
 mutable struct Population end
 
 """
@@ -104,6 +102,10 @@ pop = Population(35, 4, -1.0, 1.0)
 function Population(num_particles::T, dim::T, a, b, rng) where {T <: Int}
     @assert dim > 0 "Dimension is always positive"
     @assert num_particles > 0 "There must be at least 1 Particle in the Population"
+
+    # if isnothing(rng)
+    #     rng = Xorshifts.Xoroshiro128Plus()
+    # end
 
     container = Vector{Particle}(undef, num_particles)
     for idx in 1:num_particles

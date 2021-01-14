@@ -1,7 +1,6 @@
 function optimize(f, sol, range, method::PopulationBase;
     rng=nothing,
-    iters=1_000,
-    ftol=1e-6,
+    iters=2_000,
     pop_size=35,
     kwargs...
 )
@@ -18,7 +17,7 @@ function optimize(f, sol, range, method::PopulationBase;
         p.x_best = copy(sol)
     end
 
-    # Send to the PopulationBase method
+    # Dispatch to the PopulationBase method
     val = optimize(f, pops, iters, rng, method; kwargs...)
 
     return val
