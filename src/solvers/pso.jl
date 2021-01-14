@@ -141,10 +141,11 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
 end
 
 
-@inline function _weight_decay(initial, itr_max)
-    """ Compute the corresponding weight decay depending the maximum
+"""
+    Compute the corresponding weight decay depending the maximum
 number of iterations and the initial value for it.
 """
+@inline function _weight_decay(initial, itr_max)
     # Following the references, the minimum is 0.4
     stop = 0.4
     step_size = (initial - stop) / itr_max
@@ -152,11 +153,11 @@ number of iterations and the initial value for it.
     return step_size
 end
 
-
-function _clip_positions_velocities!(P)
-    """ Apply boundary conditions to both position and velocity for
+"""
+    Apply boundary conditions to both position and velocity for
 every `Particle` type object `P`.
 """
+function _clip_positions_velocities!(P)
     # min_val, max_val = extrema(P.x)
     # First the positions
     # Upper bound
