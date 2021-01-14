@@ -56,39 +56,34 @@ val = PSO(f_sphere, Population(30, 3, -15.0, 15.0), 10000)
 ```
 """
 function PSO(f::Function, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
+    w=0.9, c1=2.0, c2=2.0, seed=nothing)
 
-    val = _pso!(f, population, k_max; w = w, c1 = c1, c2 = c2, seed = seed)
+    val = _pso!(f, population, k_max; w=w, c1=c1, c2=c2, seed=seed)
 
-    optim_res = OptimizationResults(val,
-                f(val),
-                "PSO",
-                k_max)
+    optim_res = OptimizationResults(val, f(val), "PSO", k_max)
+
     return optim_res
 end
 
 function PSO(f::Benchmark, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
+    w=0.9, c1=2.0, c2=2.0, seed=nothing)
 
     val = _pso!(
-        x->evaluate(f, x),
+        x -> evaluate(f, x),
         population,
         k_max;
-        w = w,
-        c1 = c1,
-        c2 = c2,
-        seed = seed
+        w=w,
+        c1=c1,
+        c2=c2,
+        seed=seed
     )
 
-    optim_res = OptimizationResults(val,
-                evaluate(f, val),
-                "PSO",
-                k_max)
+    optim_res = OptimizationResults(val, evaluate(f, val), "PSO", k_max)
     return optim_res
 end
 
 function _pso!(f, population::AbstractArray, k_max::Int;
-    w = 0.9, c1 = 2.0, c2 = 2.0, seed = nothing)
+    w=0.9, c1=2.0, c2=2.0, seed=nothing)
 
     # Create the RNG generator with the specified seed
     if isnothing(seed)
@@ -131,8 +126,8 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
     for P in population
         rngs = rand(rng, n, 2)
         # Evaluate velocity
-        P.v = (w * P.v) + (c1 * rngs[:, 1] .* (P.x_best - P.x)) +
-            (c2 * rngs[:, 2] .* (x_best - P.x))
+        P.v = (w * P.v) + (c1 * rngs[:, 1] .* (P.x_best - P.x))
+        P.v .+= c2 * rngs[:, 2] .* (x_best - P.x)
         # Update position
         P.x += P.v
         # Apply boundary values to positions and velocities
@@ -150,8 +145,8 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
 end
 
 
-function _weight_decay(initial, itr_max)
-""" Compute the corresponding weight decay depending the maximum
+@inline function _weight_decay(initial, itr_max)
+    """ Compute the corresponding weight decay depending the maximum
 number of iterations and the initial value for it.
 """
     # Following the references, the minimum is 0.4
@@ -163,11 +158,12 @@ end
 
 
 function _clip_positions_velocities!(P)
-""" Apply boundary conditions to both position and velocity for
+    """ Apply boundary conditions to both position and velocity for
 every `Particle` type object `P`.
 """
+    # min_val, max_val = extrema(P.x)
     # First the positions
-    # upper bound
+    # Upper bound
     broadcast!(x->x > P.max_dim ? P.max_dim : x, P.x, P.x)
     # lower bound
     broadcast!(x->x < P.min_dim ? P.min_dim : x, P.x, P.x)

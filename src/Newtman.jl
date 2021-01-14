@@ -3,6 +3,7 @@ module Newtman
 import RandomNumbers.Xorshifts
 using Printf: @printf
 using StaticArrays
+using Random
 
 include(joinpath("TestFunctions", "TestFunctions.jl"))
 export TestFunctions
