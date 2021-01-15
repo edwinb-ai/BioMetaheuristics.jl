@@ -19,7 +19,6 @@ using Random
 
 RANDOM_SEED = 458012;
 rng = MersenneTwister(RANDOM_SEED);
-nothing #hide
 ```
 
 ## Nonlinear ``d``-dimensional global optimization problem
@@ -52,12 +51,9 @@ function griewank(x)
     end
 
     return first_term - second_term + 1.0
-end
+end;
 ```
 
-```
-griewank (generic function with 1 method)
-```
 
 Now, we wish to find the minimum of this function, and fortunately we know the
 true value so we can compare it later, we can use some of the implementations
@@ -113,7 +109,6 @@ First, we define the Rosenbrock function in `Julia`
 
 ```julia
 rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2;
-nothing #hide
 ```
 
 We will apply the _Simulated Annealing_ algorithm to find the global optimum
