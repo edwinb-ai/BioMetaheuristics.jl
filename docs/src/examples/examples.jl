@@ -6,7 +6,7 @@
 using Random
 
 RANDOM_SEED = 458012;
-rng = MersenneTwister(RANDOM_SEED)
+rng = MersenneTwister(RANDOM_SEED);
 
 #
 # ## Nonlinear ``d``-dimensional global optimization problem
@@ -52,8 +52,8 @@ using Newtman
 val = PSO(
     griewank,
     Population(35, 10, -600.0, 600.0, rng),
-    20000;
-    rng=rng
+    20_000,
+    rng
 )
 println(val)
 
@@ -78,7 +78,7 @@ rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
 val = SimulatedAnnealing(
-    rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=5_000
+    rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=10_000
 )
 println(val)
 

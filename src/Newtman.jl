@@ -11,7 +11,8 @@ export TestFunctions
 include(joinpath("TestFunctions", "TestFunctions.jl"))
 
 # Types
-export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic
+export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic,
+TrajectoryBase
 include(joinpath("types", "population.jl"))
 include(joinpath("types", "solvers.jl"))
 

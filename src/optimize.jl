@@ -19,10 +19,10 @@ In particular, this function dispatches over all `PopulationBase` implementation
 
 # Keyword arguments
 
-- `rng`: An `AbstractRNG` object. This will be used for creating the population of solutions as well as for the implementation itself. If you wish to enforce reproducibility of results, create an RNG object with a set seed. If you do not pass an RNG object, a `Xorshifts.Xoroshiro128Plus` RNG will be create, randomly seeded.
+- `rng`: An `AbstractRNG` object. This will be used for creating the population of solutions as well as for the implementation itself. If you wish to enforce reproducibility of results, create an RNG object with a set seed. If you do not pass an RNG object, a `Xorshifts.Xoroshiro128Plus` RNG will be created, using a truly random seed taken from the system.
 - `iters`: The total number of iterations for the main loop in the implementation.
 - `pop_size`: The total size of the population. The larger the population, the longer it will take to converge. A good population size is somewhere between 20-35.
-- `kwargs`: Are keyword arguments passed on to the particular implementation. Each implementation has its own keyword arguments so check the documentation for a specific implementation in order to modify these arguments.
+- `kwargs`: Keyword arguments passed on to the particular implementation. Each implementation has its own keyword arguments so check the documentation for a specific implementation in order to modify these arguments.
 """
 function optimize(f, sol, range, method::PopulationBase;
     rng=nothing,
@@ -70,9 +70,9 @@ In particular, this function dispatches over all `TrajectoryBase` implementation
 
 # Keyword arguments
 
-- `rng`: An `AbstractRNG` object. This will be used for creating the population of solutions as well as for the implementation itself. If you wish to enforce reproducibility of results, create an RNG object with a set seed. If you do not pass an RNG object, a `Xorshifts.Xoroshiro128Plus` RNG will be create, randomly seeded.
+- `rng`: An `AbstractRNG` object. This will be used for creating the population of solutions as well as for the implementation itself. If you wish to enforce reproducibility of results, create an RNG object with a set seed. If you do not pass an RNG object, a `Xorshifts.Xoroshiro128Plus` RNG will be created, using a truly random seed taken from the system.
 - `iters`: The total number of iterations for the main loop in the implementation.
-- `kwargs`: Are keyword arguments passed on to the particular implementation. Each implementation has its own keyword arguments so check the documentation for a specific implementation in order to modify these arguments.
+- `kwargs`: Keyword arguments passed on to the particular implementation. Each implementation has its own keyword arguments so check the documentation for a specific implementation in order to modify these arguments.
 """
 function optimize(f, sol, range, method::TrajectoryBase;
     rng=nothing,
