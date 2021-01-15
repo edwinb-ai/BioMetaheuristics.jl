@@ -2,13 +2,20 @@
 
 The following **benchmark functions** are implemented in the submodule `Newtman.TestFunctions`.
 Each function is defined in the survey by Jamil and Yang[^1].
+We explain them in detail here for quick reference purposes. No other information more than
+the solutions to each of the optimization problems is provided.
 
 The purpose of these functions is to check the **validity** of the implementations in this
 package. By solving these benchmark optimization problems we can trust that the implemenations
-are correct and they will give reasonable results in other similar problems.
+are correct and that they will give reasonable results in other similar problems.
+It is expected that _virtually all_ implementations can solve these functions, or at least
+a considerable subset of these.
 
-We explain them in detail here for quick reference purposes. No other information more than
-the solutions to each of the optimization problems are provided.
+The previous point is very important. Due to the No Free Lunch theorem[^2] and its extension
+to metaheuristics[^3], no single optimization algorithm is better than another for a set
+of optimization problems. This is a very important result, and one of the main reasons why
+most of the time some algorithms tend to perform better than other for a given optimization
+problem.
 
 ## [`Sphere`](@ref)
 
@@ -117,7 +124,11 @@ f(\mathbf{x}) = \sin^{2}{\pi w_1} + \sum_{i=1}^{d-1} (w_i-1)^2 [1+10\sin^{2}{\pi
 
 where
 
-``w_i = 1 + \frac{x_i-1}{4}`` and ``d`` is the dimension of the vector.
+```math
+w_i = 1 + \frac{x_i-1}{4}
+```
+
+and ``d`` is the dimension of the vector.
 
 !!! solution
     ```math
@@ -127,3 +138,5 @@ where
 ## References
 
 [^1]: Jamil, M., & Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150–194. https://doi.org/10.1504/IJMMNO.2013.055204
+[^2]: Wolpert, D. H. and Macready, W. G. (1997) ‘No free lunch theorems for optimization’, IEEE Transactions on Evolutionary Computation, 1(1), pp. 67–82. doi: 10.1109/4235.585893.
+[^3]: Joyce, T. and Herrmann, J. M. (2018) ‘A Review of No Free Lunch Theorems, and Their Implications for Metaheuristic Optimisation’, in Yang, X.-S. (ed.) Nature-Inspired Algorithms and Applied Optimization. Cham: Springer International Publishing (Studies in Computational Intelligence), pp. 27–51. doi: 10.1007/978-3-319-67669-2_2.

@@ -28,7 +28,7 @@ rng = MersenneTwister(RANDOM_SEED);
 #
 # We define the function in `Julia` like this
 
-function griewank(x::AbstractArray)
+function griewank(x)
     first_term = sum(x .^ 2) / 4000
     ## This variable will hold the result of the product,
     ## the second term in the function definition from above

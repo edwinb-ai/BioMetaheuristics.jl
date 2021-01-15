@@ -27,7 +27,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Guide" => "guide.md",
+        "Theory" => "theory.md",
         "Examples" => "examples.md",
         "Implementations" => "algorithms.md",
         "Benchmark functions" => "benchmarks.md",
