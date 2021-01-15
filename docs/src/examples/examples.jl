@@ -1,4 +1,11 @@
-# # Examples
+# # Implementations and proof of concept
+#
+# In this examples I want to show some of the implementations and how they are used
+# as a proof of concept. This means that we will use the "low-level API", i.e. calling
+# the methods directly instead of the `optimize` interface.
+#
+# Further, we wish to show that the implementations can at least solve some of the
+# most common benchmark optimization problems.
 #
 # Before we start, I will define a seed and an RNG to enable reproducibility of the
 # results presented here.

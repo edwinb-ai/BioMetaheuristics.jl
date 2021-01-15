@@ -2,7 +2,14 @@
 EditURL = "<unknown>/docs/src/examples/examples.jl"
 ```
 
-# Examples
+# Implementations and proof of concept
+
+In this examples I want to show some of the implementations and how they are used
+as a proof of concept. This means that we will use the "low-level API", i.e. calling
+the methods directly instead of the `optimize` interface.
+
+Further, we wish to show that the implementations can at least solve some of the
+most common benchmark optimization problems.
 
 Before we start, I will define a seed and an RNG to enable reproducibility of the
 results presented here.
@@ -35,7 +42,7 @@ boundaries ``-100 \leq x_i \leq 100``, and it has a **minimum** at ``\mathbf
 We define the function in `Julia` like this
 
 ```@example examples
-function griewank(x::AbstractArray)
+function griewank(x)
     first_term = sum(x .^ 2) / 4000
     # This variable will hold the result of the product,
     # the second term in the function definition from above

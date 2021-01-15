@@ -3,7 +3,7 @@ using Newtman, Newtman.TestFunctions
 using Literate
 
 # ! Convert scripts to markdown using Literate
-files = ["examples.jl"]
+files = ["examples.jl", "api.jl"]
 
 function lit_to_md(file)
     examples_path = joinpath("docs", "src", "examples")
@@ -28,7 +28,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Theory" => "theory.md",
-        "Examples" => "examples.md",
+        "Examples" => ["examples.md", "api.md"],
         "Implementations" => "algorithms.md",
         "Benchmark functions" => "benchmarks.md",
         "Reference" => "reference.md",
