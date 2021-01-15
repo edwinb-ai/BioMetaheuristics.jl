@@ -1,4 +1,11 @@
-# # Examples
+# # Implementations and proof of concept
+#
+# In this examples I want to show some of the implementations and how they are used
+# as a proof of concept. This means that we will use the "low-level API", i.e. calling
+# the methods directly instead of the `optimize` interface.
+#
+# Further, we wish to show that the implementations can at least solve some of the
+# most common benchmark optimization problems.
 #
 # Before we start, I will define a seed and an RNG to enable reproducibility of the
 # results presented here.
@@ -6,7 +13,7 @@
 using Random
 
 RANDOM_SEED = 458012;
-rng = MersenneTwister(RANDOM_SEED)
+rng = MersenneTwister(RANDOM_SEED);
 
 #
 # ## Nonlinear ``d``-dimensional global optimization problem
@@ -28,7 +35,7 @@ rng = MersenneTwister(RANDOM_SEED)
 #
 # We define the function in `Julia` like this
 
-function griewank(x::AbstractArray)
+function griewank(x)
     first_term = sum(x .^ 2) / 4000
     ## This variable will hold the result of the product,
     ## the second term in the function definition from above
@@ -52,8 +59,8 @@ using Newtman
 val = PSO(
     griewank,
     Population(35, 10, -600.0, 600.0, rng),
-    20000;
-    rng=rng
+    20_000,
+    rng
 )
 println(val)
 
@@ -78,7 +85,7 @@ rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
 val = SimulatedAnnealing(
-    rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=5_000
+    rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=10_000
 )
 println(val)
 
