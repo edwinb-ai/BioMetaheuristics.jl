@@ -4,16 +4,25 @@ import Newtman.TestFunctions: Benchmark, evaluate
 const ln2 = log(2.0)
 const sqrtpi = √π
 
-struct SimulatedAnnealing <: Metaheuristic end
+struct SimulatedAnnealing <: TrajectoryBase end
 
-struct GeneralSimulatedAnnealing <: Metaheuristic end
+struct GeneralSimulatedAnnealing <: TrajectoryBase end
+
+# To enable dispatch based on the type
+function optimize(f, range, dim, iters, rng, ::SimulatedAnnealing; kwargs...)
+    return SimulatedAnnealing(f, range..., dim, rng; low_temp=iters, kwargs...)
+end
+
+function optimize(f, range, dim, iters, rng, ::GeneralSimulatedAnnealing; kwargs...)
+    return GeneralSimulatedAnnealing(f, range..., dim, rng; low_temp=iters, kwargs...)
+end
 
 """
-    SimulatedAnnealing(f::Function, a, b, dim::Integer;
-        t0 = 500.0, low_temp = 5000, seed = nothing
+    SimulatedAnnealing(f::Function, a, b, dim::Integer, rng;
+        low_temp=5000, t0=500.0
     ) -> OptimizationResults
-    SimulatedAnnealing(f::Benchmark, a, b, dim::Integer;
-        t0 = 500.0, low_temp = 5000
+    SimulatedAnnealing(f::Benchmark, a, b, dim::Integer, rng;
+        low_temp=5000, t0=500.0
     ) -> OptimizationResults
 
 Implementation of the *classical* version of simulated annealing.
@@ -28,6 +37,7 @@ Returns an `OptimizationResults` type with information relevant to the run execu
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
 - `dim`: dimension of the optimization problem.
+- `rng`: an object of type `AbstractRNG`.
 
 # Keyword arguments
 
@@ -35,19 +45,21 @@ _It is recommended to use the default values provided._
 
 - `t0`: initial value for the *temperature* that is used. The default is an okay value, but should be changed depending on the optimization problem.
 - `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
-- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
 ```julia
 using Newtman
+using Random
+
+rng = MersenneTwister()
 
 # Define the 2D Rosenbrock function
 rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 
 # Implement Simulated Annealing for a 2-dimensional Rosenbrock function, with
 # 5000 iterations.
-val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000)
+val = SimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=5000)
 ```
 """
 function SimulatedAnnealing(
@@ -104,7 +116,6 @@ function SimulatedAnnealing(
 end
 
 @inline function _temperature!(x)
-
     # Avoid evaluating the logarithm at zero
     @assert x > -1.0
 
@@ -112,14 +123,12 @@ end
 end  # function temperature
 
 function _classical_visit(x, xtmp, σ, rng)
-
     for i in eachindex(x)
         @inbounds xtmp[i] = x[i] + randn(rng, Float64) * σ
     end
 end  # function _classical_visit!
 
 function _annealing!(f::Function, t, x, xtmp, rng)
-
     # Evaluate the energies
     new_energy = f(xtmp)
     old_energy = f(x)
@@ -140,14 +149,11 @@ function _annealing!(f::Function, t, x, xtmp, rng)
 end  # function _annealing
 
 @doc raw"""
-    GeneralSimulatedAnnealing(
-        f::Function, a, b, dim::Integer;
-        t0 = 500.0, low_temp = 5000, qv = 2.7, qa = -5.0,
-        seed = nothing
+    GeneralSimulatedAnnealing(f::Function, a, b, dim::Integer, rng;
+        low_temp=5_000, t0=500.0, qv=2.7, qa=-5.0
     ) -> OptimizationResults
-    GeneralSimulatedAnnealing(
-        f::Benchmark, a, b, dim::Integer;
-        t0 = 500.0, low_temp = 20000, qv = 2.7, qa = -5.0
+    GeneralSimulatedAnnealing(f::Benchmark, a, b, dim::Integer, rng;
+        low_temp=20_000, t0=500.0, qv=2.7, qa=-5.0
     ) -> OptimizationResults
 
 Implementation of the *generalized* version of simulated annealing.
@@ -163,6 +169,7 @@ Returns an `OptimizationResults` type with information relevant to the run execu
 - `a`: **lower** bound for the solution search space.
 - `b`: **upper** bound for the solution search space.
 - `dim`: dimension of the optimization problem.
+- `rng`: an object of type `AbstractRNG`.
 
 # Keyword arguments
 _It is recommended to use the default values provided._
@@ -171,19 +178,20 @@ _It is recommended to use the default values provided._
 - `low_temp`: total number of iterations, short for *lowering temperature steps*. This also corresponds to the famous *Monte Carlo steps*, which are the total number of steps until the algorithm finishes.
 - `qv`: This is known as the *Tsallis parameter*; particularly this parameter controls the cooling schedule convergence and neighbor search. Positive values in the interval ``[1,5/3)`` are best because for values larger than 5/3 the neighbor search diverges.
 - `qa`: Another *Tsallis parameter*; this particular parameter controls convergence for the Metropolis-Hastings algorithm and the acceptance probability involved. The more negative the value is, the better, but Tsallis & Stariolo report that the default value is best.
-- `seed`: an integer to be used as the seed for the pseudo random number generators. If `nothing` is passed (the default), then a random seed will be taken from the system.
 
 # Examples
 
 ```julia
 using Newtman
+using Random
 
+rng = MersenneTwister()
 # Define the 2D Rosenbrock function
 rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
 
 # Implement Simulated Annealing for a 2-dimensional Rosenbrock function, with
 # 15000 iterations and default values.
-val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2; low_temp = 15000)
+val = GeneralSimulatedAnnealing(rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=15_000)
 ```
 """
 function GeneralSimulatedAnnealing(
@@ -193,7 +201,7 @@ function GeneralSimulatedAnnealing(
     dim::Integer,
     rng;
     t0=500.0,
-    low_temp=20000,
+    low_temp=20_000,
     qv=2.7,
     qa=-5.0
 )
@@ -235,7 +243,7 @@ function GeneralSimulatedAnnealing(
     dim::Integer,
     rng;
     t0=500.0,
-    low_temp=20000,
+    low_temp=20_000,
     qv=2.7,
     qa=-5.0
 )
@@ -243,6 +251,14 @@ function GeneralSimulatedAnnealing(
         t0=t0, low_temp=low_temp, qv=qv, qa=qa)
 end
 
+"""
+    This is the algorithm from Tsallis & Stariolo to sample the distribution
+shown in their paper, by approximating their probability distribution as a
+Lévy probability distribution.
+
+See the appendix on the paper:
+Tsallis, C. and Stariolo, D. A. (1996) ‘Generalized simulated annealing’, Physica A: Statistical Mechanics and its Applications, 233(1), pp. 395–406. doi: 10.1016/S0378-4371(96)00271-3.
+"""
 function _general_visit(
     x::AbstractArray{T},
     xtmp::AbstractArray{T},
@@ -250,14 +266,6 @@ function _general_visit(
     q::T,
     rng
 ) where {T <: Real}
-    """
-This is the algorithm from Tsallis & Stariolo to sample the distribution
-shown in their paper, by approximating their probability distribution as a
-Lévy probability distribution.
-
-See the appendix on the paper:
-Tsallis, C. and Stariolo, D. A. (1996) ‘Generalized simulated annealing’, Physica A: Statistical Mechanics and its Applications, 233(1), pp. 395–406. doi: 10.1016/S0378-4371(96)00271-3.
-"""
     factor_1 = exp(log(τ) / (q - 1.0))
     factor_2 = exp((4.0 - q) * log(q - 1.0))
     factor_3 = exp((2.0 - q) * ln2 / (q - 1.0))
@@ -316,12 +324,12 @@ function _general_annealing!(
     end
 end  # function _general_annealing!
 
-function _general_temperature!(x, q)
 """
-A generalized cooling schedule that should work for every possible type
+    A generalized cooling schedule that should work for every possible type
 of Simulated Annealing implementation. When `q` = 1, this reduces to the
 classical version.
 """
+function _general_temperature!(x, q)
     # Avoid evaluating the logarithm at zero
     @assert x > -1.0
 

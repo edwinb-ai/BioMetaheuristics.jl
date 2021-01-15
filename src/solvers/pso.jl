@@ -9,6 +9,11 @@ for more information.
 """
 struct PSO <: PopulationBase end
 
+# To enable dispatch based on the type
+function optimize(f, population, k_max, rng, ::PSO; kwargs...)
+    return PSO(f, population, k_max, rng; kwargs...)
+end
+
 """
     PSO(f::Function, population, k_max::Int, rng;
         w=0.9, c1=2.0, c2=2.0
@@ -138,9 +143,4 @@ number of iterations and the initial value for it.
     step_size = (initial - stop) / itr_max
 
     return step_size
-end
-
-# To enable dispatch based on the type
-function optimize(f, population, k_max, rng, ::PSO; kwargs...)
-    return PSO(f, population, k_max, rng; kwargs...)
 end
