@@ -14,7 +14,7 @@ most common benchmark optimization problems.
 Before we start, I will define a seed and an RNG to enable reproducibility of the
 results presented here.
 
-```@example examples
+```julia
 using Random
 
 RANDOM_SEED = 458012;
@@ -41,9 +41,9 @@ boundaries ``-100 \leq x_i \leq 100``, and it has a **minimum** at ``\mathbf
 
 We define the function in `Julia` like this
 
-```@example examples
+```julia
 function griewank(x)
-    first_term = sum(x .^ 2) / 4000
+    first_term = sum(x.^2) / 4000
     # This variable will hold the result of the product,
     # the second term in the function definition from above
     second_term = 1.0
@@ -55,6 +55,10 @@ function griewank(x)
 end
 ```
 
+```
+griewank (generic function with 1 method)
+```
+
 Now, we wish to find the minimum of this function, and fortunately we know the
 true value so we can compare it later, we can use some of the implementations
 from `Newtman.jl`, for example, [`PSO`](@ref).
@@ -62,7 +66,7 @@ In this script we have chosen 30 particles within the population, `d` is equal
 to 20, next we define the boundaries and finally we declare that the algorithm
 will run for 20000 maximum iterations until it stops, having _converged_.
 
-```@example examples
+```julia
 using Newtman
 
 val = PSO(
@@ -74,12 +78,26 @@ val = PSO(
 println(val)
 ```
 
+```
+Results from Optimization
+	Algorithm: PSO
+	Solution: [-1.2951243253091765e-6, 4.103266843628412e-6, -1.9912163226147196e-6, 4.4936413741072556e-6, 2.813628268436206e-6, 1.1256507815651895e-5, 9.97929061647118e-7, -3.0759921634749986e-6, 2.394042272909523e-6, -5.820201386836871e-6]
+	Minimum: 0.0000
+	Maximum iterations: 20000
+
+
+```
+
 Within a certain tolerance of about ``\epsilon = 1 \times 10^{-6}`` we have found
 the _global_ minimum of the function. We can actually check the value with the
 evaluation, notice that it actually returns `0`, as expected.
 
-```@example examples
+```julia
 griewank(val.x)
+```
+
+```
+2.2315038705755796e-11
 ```
 
 ## Nonlinear 2-dimensional global optimization problem
@@ -93,18 +111,28 @@ optimization algorithms. In this example we will try to solve it using the
 
 First, we define the Rosenbrock function in `Julia`
 
-```@example examples
-rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
+```julia
+rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2;
 nothing #hide
 ```
 
 We will apply the _Simulated Annealing_ algorithm to find the global optimum
 
-```@example examples
+```julia
 val = SimulatedAnnealing(
     rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=10_000
 )
 println(val)
+```
+
+```
+Results from Optimization
+	Algorithm: SimulatedAnnealing
+	Solution: [1.028674409182762, 1.0597525306225808]
+	Minimum: 0.0011
+	Maximum iterations: 10000
+
+
 ```
 
 Again, within a certain tolerance we find the expected result which is
