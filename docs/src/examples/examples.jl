@@ -1,9 +1,12 @@
 # # Examples
 #
-# Before we start, I will define a seed to enable reproducibility of the
-# results presented here
+# Before we start, I will define a seed and an RNG to enable reproducibility of the
+# results presented here.
+
+using Random
 
 RANDOM_SEED = 458012;
+rng = MersenneTwister(RANDOM_SEED)
 
 #
 # ## Nonlinear ``d``-dimensional global optimization problem
@@ -48,9 +51,9 @@ using Newtman
 
 val = PSO(
     griewank,
-    Population(35, 10, -600.0, 600.0; seed = RANDOM_SEED),
+    Population(35, 10, -600.0, 600.0, rng),
     20000;
-    seed = RANDOM_SEED
+    rng=rng
 )
 println(val)
 
@@ -75,7 +78,7 @@ rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
 val = SimulatedAnnealing(
-    rosenbrock2d, -5.0, 5.0, 2; low_temp = 5000, seed = RANDOM_SEED
+    rosenbrock2d, -5.0, 5.0, 2, rng; low_temp=5_000
 )
 println(val)
 
