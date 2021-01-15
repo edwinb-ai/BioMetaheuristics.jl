@@ -133,15 +133,15 @@ end;
 
 # Here is the mean value
 
-μ
+μ'
 
 # Here is the median obtained
 
-med
+med'
 
 # And finally, the standard deviation of the solution
 
-σ
+σ'
 
 # Let us print the evaluation of the function on these results.
 # First, the mean value.

@@ -36,7 +36,7 @@ rng = MersenneTwister(RANDOM_SEED);
 # We define the function in `Julia` like this
 
 function griewank(x)
-    first_term = sum(x .^ 2) / 4000
+    first_term = sum(x.^2) / 4000
     ## This variable will hold the result of the product,
     ## the second term in the function definition from above
     second_term = 1.0
@@ -81,7 +81,7 @@ griewank(val.x)
 #
 # First, we define the Rosenbrock function in `Julia`
 
-rosenbrock2d(x) =  (1.0 - x[1]) ^ 2 + 100.0 * (x[2] - x[1] ^ 2) ^ 2;
+rosenbrock2d(x) =  (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2;
 
 # We will apply the _Simulated Annealing_ algorithm to find the global optimum
 val = SimulatedAnnealing(
