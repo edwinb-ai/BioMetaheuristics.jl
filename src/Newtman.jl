@@ -4,18 +4,28 @@ import RandomNumbers.Xorshifts
 using Printf: @printf
 using StaticArrays
 using Random
+import Base: isless
 
-include(joinpath("TestFunctions", "TestFunctions.jl"))
+# Benchmark functions module
 export TestFunctions
+include(joinpath("TestFunctions", "TestFunctions.jl"))
 
 # Types
-include("types/population.jl")
-include("types/solvers.jl")
-export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic
+export Particle, Population, OptimizationResults, PopulationBase, Metaheuristic,
+TrajectoryBase
+include(joinpath("types", "population.jl"))
+include(joinpath("types", "solvers.jl"))
+
+# Some utilities
+include("utils.jl")
 
 # Solvers
-include("solvers/pso.jl")
-include("solvers/simulated_annealing.jl")
 export PSO, SimulatedAnnealing, GeneralSimulatedAnnealing
+include(joinpath("solvers", "pso.jl"))
+include(joinpath("solvers", "simulated_annealing.jl"))
+
+# Common API
+export optimize
+include("optimize.jl")
 
 end

@@ -1,12 +1,22 @@
 # Reference
 
+## API
+
+```@autodocs
+Modules = [Newtman]
+Pages = ["optimize.jl"]
+Private = false
+```
+
 ## Benchmarks
+
 ```@autodocs
 Modules = [Newtman.TestFunctions]
 Pages = ["TestFunctions.jl", "implementations.jl"]
 ```
 
 ## Algorithms
+
 ```@autodocs
 Modules = [Newtman]
 Pages = [

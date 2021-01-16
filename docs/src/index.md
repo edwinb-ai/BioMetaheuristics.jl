@@ -3,6 +3,14 @@
 This is `Newtman.jl`, an stochastic optimization package that implements
 a number of metaheuristic algorithms, mostly nature-inspired and bio-inspired.
 
+## Reach
+
+This package should/could be used by:
+
+- **Practitioners**: people in need of a _black box optimization_ framework for when they know very little about the problem at hand.
+- **Students**: wanting to learn about nature-inspired algorithms, stochastic optimization or want a general survey of the current literature.
+- **Researchers**: who want to employ different algorithms at once, test them or use them as comparison for their own developed algorithms.
+
 ## On Metaheuristics
 
 The term _metaheuristic_ has some history behind it, and a large span of definitions
@@ -76,14 +84,15 @@ of the character by J.K. Rowling, **Newt**on Sca**man**der, whose purpose in lif
 a book or log of their nature.
 
 ## References
-[^1]: Sörensen, K. (2015). Metaheuristics-the metaphor exposed. International Transactions in Operational Research, 22(1), 3–18. https://doi.org/10.1111/itor.12001
 
-[^2]: Kar, A. K. (2016). Bio inspired computing - A review of algorithms and scope of applications. Expert Systems with Applications, 59, 20–32. https://doi.org/10.1016/j.eswa.2016.04.018
+[^1]: Sörensen, K. (2015). [Metaheuristics-the metaphor exposed. International Transactions in Operational Research, 22(1), 3–18.](https://doi.org/10.1111/itor.12001)
+
+[^2]: Kar, A. K. (2016). [Bio inspired computing - A review of algorithms and scope of applications. Expert Systems with Applications, 59, 20–32.](https://doi.org/10.1016/j.eswa.2016.04.018)
 
 [^3]: Dorigo, M., & Di Caro, G. (1999, July). Ant colony optimization: a new meta-heuristic. In Proceedings of the 1999 congress on evolutionary computation-CEC99 (Cat. No. 99TH8406) (Vol. 2, pp. 1470-1477). IEEE.
 
 [^4]: Eberhart, R., & Kennedy, J. (1995, November). Particle swarm optimization. In Proceedings of the IEEE international conference on neural networks (Vol. 4, pp. 1942-1948).
 
-[^5]: Luke, S. (2011). Essentials of metaheuristics. In Genetic Programming and Evolvable Machines (Vol. 12). https://doi.org/10.1007/s10710-011-9139-0
+[^5]: Luke, S. (2011). [Essentials of metaheuristics. In Genetic Programming and Evolvable Machines (Vol. 12).](https://doi.org/10.1007/s10710-011-9139-0)
 
-[^6]: Felipe Campelo, & Claus Aranha. (2018, June 20). EC Bestiary: A bestiary of evolutionary, swarm and other metaphor-based algorithms (Version v2.0.1). Zenodo. http://doi.org/10.5281/zenodo.1293352
+[^6]: Felipe Campelo, & Claus Aranha. (2018, June 20). [EC Bestiary: A bestiary of evolutionary, swarm and other metaphor-based algorithms (Version v2.0.1). Zenodo.](http://doi.org/10.5281/zenodo.1293352)

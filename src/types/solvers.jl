@@ -16,6 +16,15 @@ An example of this type is [`PSO`](@ref).
 abstract type PopulationBase <: Metaheuristic end
 
 """
+    TrajectoryBase <: Metaheuristic
+
+Type for trajectory-based algorithms that only uses specific heuristics to guide the
+solution to a global minimum.
+An example of this type is [`SimulatedAnnealing`](@ref).
+"""
+abstract type TrajectoryBase <: Metaheuristic end
+
+"""
     OptimizationResults{T, U}
 
 Type that formats the output of [`Metaheuristic`](@ref) to get better information

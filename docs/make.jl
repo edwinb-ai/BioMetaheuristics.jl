@@ -1,21 +1,5 @@
 using Documenter
 using Newtman, Newtman.TestFunctions
-using Literate
-
-# ! Convert scripts to markdown using Literate
-files = ["examples.jl"]
-
-function lit_to_md(file)
-    examples_path = joinpath("docs", "src", "examples")
-    out_md_path = joinpath("docs", "src")
-    Literate.markdown(
-        joinpath(examples_path, file),
-        out_md_path;
-        documenter=true
-    )
-end
-
-map(lit_to_md, files)
 
 # ! Build the full Documentation with Documenter
 makedocs(;
@@ -27,8 +11,8 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Guide" => "guide.md",
-        "Examples" => "examples.md",
+        "Theory" => "theory.md",
+        "Examples" => ["examples.md", "api.md"],
         "Implementations" => "algorithms.md",
         "Benchmark functions" => "benchmarks.md",
         "Reference" => "reference.md",
