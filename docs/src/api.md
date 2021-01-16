@@ -50,7 +50,7 @@ making sure that this matches the same number introduced with the variable
 You should replace the number of threads, in this case 8, with the number of threads
 that you wish.
 
-## Set up
+## Code set up
 
 First, let us import all the necessary modules we will need for this example.
 
