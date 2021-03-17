@@ -19,7 +19,7 @@ end # end _clip_positions_velocities!
 algorithm. It clips the solution to the bounds.
 """
 function _clip_trajectory!(y, a, b)
-    @assert a < b && "First argument should be the lower bound"
+    @assert a < b "First argument should be the lower bound"
 
     # Apply upper bound
     broadcast!(x -> x > b ? b : x, y, y)
