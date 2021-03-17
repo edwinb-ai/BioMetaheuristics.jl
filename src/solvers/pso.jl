@@ -80,6 +80,7 @@ function PSO(f::Benchmark, population, k_max::Int, rng; w=0.9, c1=2.0, c2=2.0)
     )
 
     optim_res = OptimizationResults(val, evaluate(f, val), "PSO", k_max)
+
     return optim_res
 end
 
@@ -131,6 +132,8 @@ function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
             copyto!(P.x_best, P.x)
         end
     end
+
+    return nothing
 end
 
 """

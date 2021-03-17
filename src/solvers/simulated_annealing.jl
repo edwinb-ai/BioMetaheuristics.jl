@@ -129,6 +129,8 @@ function _classical_visit(x, xtmp, σ, rng)
     for i in eachindex(x)
         @inbounds xtmp[i] = x[i] + randn(rng, Float64) * σ
     end
+
+    return nothing
 end  # function _classical_visit!
 
 function _annealing!(f::Function, t, x, xtmp, rng)
@@ -149,6 +151,8 @@ function _annealing!(f::Function, t, x, xtmp, rng)
             copyto!(x, xtmp)
         end
     end
+
+    return nothing
 end  # function _annealing
 
 @doc raw"""
@@ -286,6 +290,8 @@ function _general_visit(
         den = exp((q - 1.0) * log(abs(y)) / (3.0 - q))
         xtmp[i] = x[i] + (xx / den)
     end
+
+    return nothing
 end
 
 function _general_annealing!(
@@ -328,6 +334,8 @@ function _general_annealing!(
             end
         end
     end
+
+    return nothing
 end  # function _general_annealing!
 
 """
