@@ -90,6 +90,9 @@ function SimulatedAnnealing(
         # Create a neighbor solution
         _classical_visit(x_solution, xtmp, sqrt(x), rng)
 
+        # Clip the resulting solution to the bounds
+        _clip_trajectory!(x_solution, a, b)
+
         # Employ the Metropolis-Hastings algorithm
         _annealing!(f, x, x_solution, xtmp, rng)
 
@@ -223,6 +226,9 @@ function GeneralSimulatedAnnealing(
 
         # Create a neighbor solution
         _general_visit(x_solution, xtmp, x, qv, rng)
+
+        # Clip the resulting solution to the bounds
+        _clip_trajectory!(x_solution, a, b)
 
         # Employ the Metropolis-Hastings algorithm
         _general_annealing!(f, x, x_solution, xtmp, qa, rng)
