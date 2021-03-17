@@ -10,7 +10,24 @@ function _clip_positions_velocities!(P::Particle)
 
     # Then the velocities
     rand!(P.v, P.min_dim:P.max_dim)
+
+    return nothing
 end # end _clip_positions_velocities!
+
+"""
+    Apply boundary conditions to the solution vector of a `TrajectoryBase`
+algorithm. It clips the solution to the bounds.
+"""
+function _clip_trajectory!(y, a, b)
+    @assert a < b && "First argument should be the lower bound"
+
+    # Apply upper bound
+    broadcast!(x -> x > b ? b : x, y, y)
+    # Apply upper bound
+    broadcast!(x -> x < a ? a : x, y, y)
+
+    return nothing
+end # end _clip_trajectory!
 
 """
     Compute the logarithm of the Gamma function as defined in the
