@@ -1,6 +1,6 @@
 @testset "PSO" begin
 
-    RANDOM_SEED = 809231
+    RANDOM_SEED = 909231
     rng = MersenneTwister(RANDOM_SEED)
 
     f_sphere(x) = sum(x.^2)

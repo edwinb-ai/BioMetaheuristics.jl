@@ -1,15 +1,19 @@
 """
     Apply boundary conditions to both position and velocity for
-every `Particle` type object `P`. Instead of just returning the
-upper and lower bound, we return a new value within the search
-space.
+every `Particle` type object `P`. For the position, we clamp the
+position to the corresponding bounds.
+For the velocity, we extract the maximum velocity and then clamp it
+to [-v_max, v_max].
 """
 function _clip_positions_velocities!(P::Particle)
     # First the positions
-    rand!(P.x, P.min_dim:P.max_dim)
+    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.x, P.x)
+    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.x, P.x)
 
     # Then the velocities
-    rand!(P.v, P.min_dim:P.max_dim)
+    max_vel = maximum(P.v)
+    broadcast!(x -> x > max_vel ? max_vel : x, P.v, P.v)
+    broadcast!(x -> x < -max_vel ? -max_vel : x, P.v, P.v)
 
     return nothing
 end # end _clip_positions_velocities!

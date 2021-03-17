@@ -113,8 +113,11 @@ function _pso!(f, population, k_max::Int, rng; w=0.9, c1=2.0, c2=2.0)
 end
 
 function _update!(f, population, w, c1, c2, n, x_best, y_best, rng)
+    # Create container for random numbers
+    rngs = zeros(2, n)
+
     for P in population
-        rngs = rand(rng, 2, n)
+        rand!(rng, rngs)
         # Evaluate velocity
         P.v = (w * P.v) + (c1 * rngs[1, :] .* (P.x_best .- P.x))
         P.v .+= c2 * rngs[2, :] .* (x_best .- P.x)
