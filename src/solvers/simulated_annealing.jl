@@ -90,6 +90,9 @@ function SimulatedAnnealing(
         # Create a neighbor solution
         _classical_visit(x_solution, xtmp, sqrt(x), rng)
 
+        # Clip the resulting solution to the bounds
+        _clip_trajectory!(x_solution, a, b)
+
         # Employ the Metropolis-Hastings algorithm
         _annealing!(f, x, x_solution, xtmp, rng)
 
@@ -126,6 +129,8 @@ function _classical_visit(x, xtmp, σ, rng)
     for i in eachindex(x)
         @inbounds xtmp[i] = x[i] + randn(rng, Float64) * σ
     end
+
+    return nothing
 end  # function _classical_visit!
 
 function _annealing!(f::Function, t, x, xtmp, rng)
@@ -146,6 +151,8 @@ function _annealing!(f::Function, t, x, xtmp, rng)
             copyto!(x, xtmp)
         end
     end
+
+    return nothing
 end  # function _annealing
 
 @doc raw"""
@@ -224,6 +231,9 @@ function GeneralSimulatedAnnealing(
         # Create a neighbor solution
         _general_visit(x_solution, xtmp, x, qv, rng)
 
+        # Clip the resulting solution to the bounds
+        _clip_trajectory!(x_solution, a, b)
+
         # Employ the Metropolis-Hastings algorithm
         _general_annealing!(f, x, x_solution, xtmp, qa, rng)
 
@@ -280,6 +290,8 @@ function _general_visit(
         den = exp((q - 1.0) * log(abs(y)) / (3.0 - q))
         xtmp[i] = x[i] + (xx / den)
     end
+
+    return nothing
 end
 
 function _general_annealing!(
@@ -322,6 +334,8 @@ function _general_annealing!(
             end
         end
     end
+
+    return nothing
 end  # function _general_annealing!
 
 """

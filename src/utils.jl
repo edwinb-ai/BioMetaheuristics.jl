@@ -1,20 +1,37 @@
 """
     Apply boundary conditions to both position and velocity for
-every `Particle` type object `P`.
+every `Particle` type object `P`. For the position, we clamp the
+position to the corresponding bounds.
+For the velocity, we extract the maximum velocity and then clamp it
+to [-v_max, v_max].
 """
 function _clip_positions_velocities!(P::Particle)
     # First the positions
-    # Upper bound
     broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.x, P.x)
-    # lower bound
     broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.x, P.x)
 
     # Then the velocities
-    # upper bound
-    broadcast!(x -> x > P.max_dim ? P.max_dim : x, P.v, P.v)
-    # lower bound
-    broadcast!(x -> x < P.min_dim ? P.min_dim : x, P.v, P.v)
+    max_vel = maximum(P.v)
+    broadcast!(x -> x > max_vel ? max_vel : x, P.v, P.v)
+    broadcast!(x -> x < -max_vel ? -max_vel : x, P.v, P.v)
+
+    return nothing
 end # end _clip_positions_velocities!
+
+"""
+    Apply boundary conditions to the solution vector of a `TrajectoryBase`
+algorithm. It clips the solution to the bounds.
+"""
+function _clip_trajectory!(y, a, b)
+    @assert a < b "First argument should be the lower bound"
+
+    # Apply upper bound
+    broadcast!(x -> x > b ? b : x, y, y)
+    # Apply upper bound
+    broadcast!(x -> x < a ? a : x, y, y)
+
+    return nothing
+end # end _clip_trajectory!
 
 """
     Compute the logarithm of the Gamma function as defined in the
