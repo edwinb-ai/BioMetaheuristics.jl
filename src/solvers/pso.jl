@@ -1,4 +1,4 @@
-import Newtman.TestFunctions: Benchmark, evaluate
+import BioMetaheuristics.TestFunctions: Benchmark, evaluate
 
 """
     PSO <: PopulationBase
@@ -49,7 +49,7 @@ If `nothing` is passed (the default), then a random seed will be taken from the 
 
 # Examples
 ```julia
-using Newtman
+using BioMetaheuristics
 using Random
 
 rng = MersenneTwister(1261234)

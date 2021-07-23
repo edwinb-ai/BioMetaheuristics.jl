@@ -1,12 +1,12 @@
 using Documenter
-using Newtman, Newtman.TestFunctions
+using BioMetaheuristics, BioMetaheuristics.TestFunctions
 
 # ! Build the full Documentation with Documenter
 makedocs(;
-    modules=[Newtman, Newtman.TestFunctions],
+    modules=[BioMetaheuristics, BioMetaheuristics.TestFunctions],
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://edwinb-ai.github.io/Newtman.jl/stable/",
+        canonical="https://edwinb-ai.github.io/BioMetaheuristics.jl/stable/",
         assets=String[]
     ),
     pages=[
@@ -18,12 +18,12 @@ makedocs(;
         "Reference" => "reference.md",
         "License" => "license.md",
     ],
-    repo="https://github.com/edwinb-ai/Newtman.jl/blob/{commit}{path}#L{line}",
-    sitename="Newtman.jl",
+    repo="https://github.com/edwinb-ai/BioMetaheuristics.jl/blob/{commit}{path}#L{line}",
+    sitename="BioMetaheuristics.jl",
     authors="Edwin Bedolla"
 )
 
 deploydocs(
-    repo="github.com/edwinb-ai/Newtman.jl.git",
+    repo="github.com/edwinb-ai/BioMetaheuristics.jl.git",
     push_preview=true
 )

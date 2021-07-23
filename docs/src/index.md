@@ -1,6 +1,6 @@
-# Newtman.jl
+# BioMetaheuristics.jl
 
-This is `Newtman.jl`, an stochastic optimization package that implements
+This is `BioMetaheuristics.jl`, an stochastic optimization package that implements
 a number of metaheuristic algorithms, mostly nature-inspired and bio-inspired.
 
 ## Reach
@@ -14,17 +14,17 @@ This package should/could be used by:
 ## On Metaheuristics
 
 The term _metaheuristic_ has some history behind it, and a large span of definitions
-within the scientific community. In `Newtman.jl`, _metaheuristic_ is defined as follows
+within the scientific community. In `BioMetaheuristics.jl`, _metaheuristic_ is defined as follows
 
 >A _metaheuristic_ is a **black box** optimization framework that employs
 >heuristics to find a close-to optimal solution for a given optimization
 >problem.
 
-The definition is important in this context. `Newtman.jl` strives on implementations of
+The definition is important in this context. `BioMetaheuristics.jl` strives on implementations of
 already existent algorithms, but actually the term itself has not yet been acquired a formal
 definition, as Sörensen[^1] says in his paper.
 
-Because `Newtman.jl` employs _metaheuristics_ as actual _black box optimization_ frameworks,
+Because `BioMetaheuristics.jl` employs _metaheuristics_ as actual _black box optimization_ frameworks,
 this definition should be enough to provide the actual purpose of the package.
 
 ## Nature and bio-inspired algorithms
@@ -46,7 +46,7 @@ all based on nature, which were called **nature-inspired metaheuristics**.
 If one takes not only nature, but physics, chemistry and biology, one can create the so-called
 **bio-inspired metaheuristics**, based on ideas drawn from biological, chemical and physical processes.
 
-## The need for `Newtman.jl` and nature-inspired algorithms
+## The need for `BioMetaheuristics.jl` and nature-inspired algorithms
 
 Most _metaheuristic_ algorithms are _not_ very difficult to implement, and most of the time there
 is already a package for it (e.g. [NiaPy](https://github.com/NiaOrg/NiaPy) for Python).
@@ -73,13 +73,13 @@ implementations.
 
 ## The Evolutionary Computation Bestiary
 
-There is a _hidden_ goal for `Newtman.jl` and that is to implement _all_ of the algorithms proposed in the
+There is a _hidden_ goal for `BioMetaheuristics.jl` and that is to implement _all_ of the algorithms proposed in the
 [EC Bestiary](https://github.com/fcampelo/EC-Bestiary)[^6], which is a compilation of most of the nature and bio-inspired algorithms
 in the literature.
 
 ### On the name of the package
 
-Because of this _hidden_ goal, the name `Newtman` was chosen, which is a [pormanteau](https://www.merriam-webster.com/dictionary/portmanteau)
+Because of this _hidden_ goal, the name `BioMetaheuristics` was chosen, which is a [pormanteau](https://www.merriam-webster.com/dictionary/portmanteau)
 of the character by J.K. Rowling, **Newt**on Sca**man**der, whose purpose in life is to collect samples of _fantastic beasts_ and create
 a book or log of their nature.
 

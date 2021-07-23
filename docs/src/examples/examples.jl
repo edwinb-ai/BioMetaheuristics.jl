@@ -18,7 +18,7 @@ rng = MersenneTwister(RANDOM_SEED);
 #
 # ## Nonlinear ``d``-dimensional global optimization problem
 #
-# Using `Newtman.jl` is fairly straightforward, we will start by defining
+# Using `BioMetaheuristics.jl` is fairly straightforward, we will start by defining
 # an d-dimensional nonlinear function to minimize,
 # in this case we will use a popular function, the
 # [Griewank function](http://mathworld.wolfram.com/GriewankFunction.html)
@@ -49,12 +49,12 @@ end
 
 # Now, we wish to find the minimum of this function, and fortunately we know the
 # true value so we can compare it later, we can use some of the implementations
-# from `Newtman.jl`, for example, [`PSO`](@ref).
+# from `BioMetaheuristics.jl`, for example, [`PSO`](@ref).
 # In this script we have chosen 30 particles within the population, `d` is equal
 # to 20, next we define the boundaries and finally we declare that the algorithm
 # will run for 20000 maximum iterations until it stops, having _converged_.
 
-using Newtman
+using BioMetaheuristics
 
 val = PSO(
     griewank,
@@ -77,7 +77,7 @@ griewank(val.x)
 # which is a non-convex function, meaning that is does not have just one minimum
 # or stationary point, it has several, so it is a difficult problem for classical
 # optimization algorithms. In this example we will try to solve it using the
-# [`SimulatedAnnealing`](@ref) implementation from `Newtman.jl`.
+# [`SimulatedAnnealing`](@ref) implementation from `BioMetaheuristics.jl`.
 #
 # First, we define the Rosenbrock function in `Julia`
 

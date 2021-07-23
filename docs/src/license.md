@@ -1,4 +1,4 @@
-`Newtman.jl` was created by [Edwin Bedolla](https://github.com/edwinb-ai)
+`BioMetaheuristics.jl` was created by [Edwin Bedolla](https://github.com/edwinb-ai)
 and the package can be used with the following license:
 
 > Copyright (c) 2019-2021 Edwin Bedolla

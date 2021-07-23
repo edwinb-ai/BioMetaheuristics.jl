@@ -1,4 +1,4 @@
-import Newtman.TestFunctions: Benchmark, evaluate
+import BioMetaheuristics.TestFunctions: Benchmark, evaluate
 
 # Some useful constants
 const ln2 = log(2.0)
@@ -49,7 +49,7 @@ _It is recommended to use the default values provided._
 # Examples
 
 ```julia
-using Newtman
+using BioMetaheuristics
 using Random
 
 rng = MersenneTwister()
@@ -189,7 +189,7 @@ _It is recommended to use the default values provided._
 # Examples
 
 ```julia
-using Newtman
+using BioMetaheuristics
 using Random
 
 rng = MersenneTwister()

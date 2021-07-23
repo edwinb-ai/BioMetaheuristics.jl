@@ -1,6 +1,6 @@
 # Benchmark test functions
 
-The following **benchmark functions** are implemented in the submodule `Newtman.TestFunctions`.
+The following **benchmark functions** are implemented in the submodule `BioMetaheuristics.TestFunctions`.
 Each function is defined in the survey by Jamil and Yang[^1].
 We explain them in detail here for quick reference purposes. No other information more than
 the solutions to each of the optimization problems is provided.

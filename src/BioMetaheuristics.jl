@@ -1,4 +1,4 @@
-module Newtman
+module BioMetaheuristics
 
 import RandomNumbers.Xorshifts
 using Printf: @printf

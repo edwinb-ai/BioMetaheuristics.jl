@@ -3,7 +3,7 @@
 ## API
 
 ```@autodocs
-Modules = [Newtman]
+Modules = [BioMetaheuristics]
 Pages = ["optimize.jl"]
 Private = false
 ```
@@ -11,14 +11,14 @@ Private = false
 ## Benchmarks
 
 ```@autodocs
-Modules = [Newtman.TestFunctions]
+Modules = [BioMetaheuristics.TestFunctions]
 Pages = ["TestFunctions.jl", "implementations.jl"]
 ```
 
 ## Algorithms
 
 ```@autodocs
-Modules = [Newtman]
+Modules = [BioMetaheuristics]
 Pages = [
     "types/population.jl",
     "types/solvers.jl",
