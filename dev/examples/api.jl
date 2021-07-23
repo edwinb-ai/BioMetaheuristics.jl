@@ -50,8 +50,8 @@
 #
 # First, let us import all the necessary modules we will need for this example.
 
-using Newtman
-using Newtman.TestFunctions
+using BioMetaheuristics
+using BioMetaheuristics.TestFunctions
 using Base.Threads
 using Statistics
 using BenchmarkTools
